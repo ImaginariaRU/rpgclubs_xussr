@@ -1,0 +1,6 @@
+.idea
+.config/config.ini
+.config/db.ini
+.config/phpauth.ini
+composer.lock
+vendor

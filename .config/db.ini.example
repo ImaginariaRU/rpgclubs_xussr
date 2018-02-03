@@ -1,0 +1,29 @@
+; connection
+[connection]
+suffix  = 'local' 
+; local | production
+
+; -------------------------------------------------------------------------------
+; local
+; -------------------------------------------------------------------------------
+[database:local]
+driver   = ''
+hostname = ''
+username = ''
+password = ''
+database = ''
+port     = 3306
+table_prefix = ''
+
+; -------------------------------------------------------------------------------
+; PRODUCTION (release)
+; -------------------------------------------------------------------------------
+[database:production]
+driver   = ''
+hostname = ''
+username = ''
+password = ''
+database = ''
+port     = 3306
+table_prefix = ''
+

@@ -1,0 +1,18 @@
+[global]
+server  = 'towers'
+sitehref = ''
+
+; используется ли библиотека PHPAuth и, соотетственно, модули аутентификации
+[auth]
+phpauth_enabled         = true
+login_enabled           = false
+auto_activation         = false
+
+[cookies]
+filemanager_storage_path = 'rpgcxussr_filemanager_storagepath'
+filemanager_current_map  = 'rpgcxussr_filemanager_current_map'
+
+[copyright]
+title   = 'RPGClubs in Russia, v 0.0.1 "Day"'
+
+
