@@ -1,0 +1,21 @@
+{
+    "name": "karelwintersky/rpgclubs_xussr",
+    "description": "Каталог-атлас ролевых клубов (настольные игры и настольные ролевые игры) на территории РФ и xUSSR",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Karel Wintersky",
+            "email": "karel.wintersky@gmail.com"
+        }
+    ],
+    "require": {
+        "aura/autoload": "^2.0",
+        "pecee/simple-router": "3.4.10.1",
+        "monolog/monolog": "^1.23"
+    },
+    "autoload": {
+        "psr-4": {
+            "RPGCAtlas\\"      : "engine/"
+        }
+    }
+}
