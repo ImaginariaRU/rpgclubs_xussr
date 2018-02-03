@@ -1,0 +1,55 @@
+html, body, #map {
+    height:100%;
+    width:100%;
+    padding:0px;
+    margin:0px;
+}
+
+.invisible {
+    display: none;
+}
+
+/* === Section InfoBox === */
+.section-infobox-wrapper {
+    padding: 8px 8px;
+    background: rgba(255,255,255,1);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.section-infobox-button-toggle-visibility {
+    width: 100%;
+}
+.section-infobox-content {
+    margin: 10px 5px 10px 5px;
+    font-size: 140%;
+    text-align: left;
+    color: #000000;
+
+    min-width: 45vw;
+    max-height: 65vh;
+    max-width: 45vw;
+    overflow-y: auto;
+}
+
+
+/* === === */
+.section-about-wrapper {
+    padding: 8px 8px;
+    background: rgba(255,255,255,1);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.section-about-button-toggle-visibility {
+    width: 100%;
+}
+.section-about-content {
+    margin: 10px 5px 10px 5px;
+    font-size: 140%;
+    text-align: left;
+    color: #000000;
+
+    min-width: 45vw;
+    max-height: 65vh;
+    max-width: 45vw;
+    overflow-y: auto;
+}

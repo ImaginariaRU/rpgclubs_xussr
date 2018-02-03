@@ -16,22 +16,22 @@ class StaticConfig
     private static $config;
 
     public static function set_config(INIConfig $config) {
-        self::$config = $config;
+        self::$config = (array)$config;
+        self::$config = array_shift(self::$config);
     }
 
     public static function get_config():INIConfig {
         return self::$config;
     }
 
-
-    public function get($parents, $default_value = NULL)
+    public static function get($parents, $default_value = NULL)
     {
         if ($parents === '') {
             return $default_value;
         }
 
         if (!is_array($parents)) {
-            $parents = explode($this::GLUE, $parents);
+            $parents = explode(self::GLUE, $parents);
         }
 
         $ref = &self::$config;
@@ -47,10 +47,10 @@ class StaticConfig
     }
 
 
-    public function set($parents, $value)
+    public static function set($parents, $value)
     {
         if (!is_array($parents)) {
-            $parents = explode($this::GLUE, (string) $parents);
+            $parents = explode(self::GLUE, (string) $parents);
         }
 
         if (empty($parents)) return false;
