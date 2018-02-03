@@ -1,0 +1,158 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ролевые клубы на карте России</title>
+    <script type="text/javascript" src="/frontend/jquery/jquery.min.js"></script>
+    <script type="text/javascript" src="/frontend/leaflet/leaflet.js"></script>
+    <link rel="stylesheet" href="/frontend/leaflet/leaflet.css" />
+
+    <!-- danwild/leaflet-fa-markers -->
+    <script type="text/javascript" src="/frontend/leaflet/L.Icon.FontAwesome.js"></script>
+    <link rel="stylesheet" href="/frontend/leaflet/L.Icon.FontAwesome.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+
+    <!-- marker clusters -->
+    <link rel="stylesheet" href="/frontend/leaflet/MarkerCluster.css">
+    <link rel="stylesheet" href="/frontend/leaflet/MarkerCluster.Default.css">
+    <script type="text/javascript" src="/frontend/leaflet/leaflet.markercluster.js"></script>
+
+    <script type="text/javascript" src="/frontend/leaflet/L.Control.Zoomslider.js"></script>
+    <link rel="stylesheet" href="/frontend/leaflet/L.Control.Zoomslider.css" />
+
+    <style type="text/css" id="css-main">
+    </style>
+
+    <script type="text/javascript" id="data">
+        var ows_list = [];
+    </script>
+
+    <script type="text/javascript" id="main">
+        var center = { lat: 59.939031, lng: 30.315893 };
+        var __LanLng_center = new L.LatLng(center.lat, center.lng);
+
+        // добавим в L.Control свойство 'InfoBox', которое является расширением L.Control
+        L.Control.InfoBox = L.Control.extend({
+            is_content_visible: false,
+            options: {
+                position: $("#section-info").data('leaflet-control-position')
+            },
+            onAdd: function(map) {
+                var div = L.DomUtil.get('section-info');
+                L.DomUtil.removeClass(div, 'invisible');
+                L.DomUtil.enableTextSelection();
+                L.DomEvent.disableScrollPropagation(div);
+                L.DomEvent.disableClickPropagation(div);
+                return div;
+            },
+            onRemove: function(map) {}
+        });
+
+        // добавим кнопку с расширенными опциями
+        L.Control.AdvancedActions = L.Control.extend({
+            options: {
+                position: 'bottomleft'
+            },
+            onAdd: function(map) {
+                var div = L.DomUtil.get('section-advancedactions');
+                L.DomUtil.removeClass(div, 'invisible');
+                L.DomEvent.disableScrollPropagation(div);
+                L.DomEvent.disableClickPropagation(div);
+                return div;
+            },
+            onRemove: function(map){}
+        });
+
+        var __CreateMap = function(){
+            let map = new L.Map("map", {
+                center: __LanLng_center,
+                renderer: L.canvas(),
+                zoom: 17,
+                maxZoom: 18,
+                minZoom: 8,
+                zoomControl: false
+            });
+            map.addControl(new L.Control.Zoomslider({position: 'bottomright'}));
+            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map);
+
+            return map;
+        };
+
+        var load_poi_content = function(id) {
+            let url = '/api/get/poi:info/' + id;
+
+            $("#section-info-content").html('');
+            document.getElementById('section-info-content').scrollTop = 0;
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                async: false
+            }).done(function(data){
+                $("#section-info-content").html(data).show();
+            });
+
+            return {
+                type: 'poi',
+                id:   id
+            };
+        }
+
+        $(function(){
+            var map = __CreateMap();
+            // создаем на карте контрол ИНФОБОКСА
+            var __InfoBox = new L.Control.InfoBox();
+                map.addControl( __InfoBox );
+
+            // создаем на карте контрол доп.опций
+            map.addControl( new L.Control.AdvancedActions );
+            $("#actor-advancedactions-toggle").on('click', function (el){
+                var state = $(this).data('content-is-visible');
+                var text = (state == false) ? '&lt;Действия' : 'Действия&gt;';
+                $(this).html(text);
+
+                var data = $(this).data('content');
+                $('#' + data).toggle();
+                $(this).data('content-is-visible', !state);
+            });
+
+            // слой с сектором
+            var layer_sector = new L.LayerGroup();
+                layer_sector.addTo(map);
+
+
+            $.each(ows_list, function(index, data){
+                let marker = L.marker([data.lat, data.lng], {
+                    icon: L.icon.fontAwesome({
+                        iconClasses: 'fa fa-binoculars',
+                        markerColor: '#00a9ce',
+                        iconColor: '#FFF',
+                        iconXOffset: -2,
+                        iconYOffset: -1,
+                    }),
+                    id: data.id
+                }).on('click', function() {
+
+                    infobox_loaded_content = load_ows_content(this.options.id);
+
+                } );
+                layer_ows.addLayer(marker);
+            });
+
+
+        });
+
+    </script>
+
+</head>
+<body>
+
+<div tabindex="0" class="leaflet-container leaflet-fade-anim leaflet-grab leaflet-touch-drag" id="map"></div>
+
+
+
+
+
+
+</body>
+</html>
