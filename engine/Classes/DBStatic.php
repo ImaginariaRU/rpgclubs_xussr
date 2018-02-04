@@ -24,7 +24,7 @@ final class DBStatic
      */
     private static $_config;
 
-    private static $_table_prefix = '';
+    public static $_table_prefix = '';
 
     private static $is_connected = FALSE;
 

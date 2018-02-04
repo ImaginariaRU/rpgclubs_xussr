@@ -28,5 +28,5 @@ $main_config->append(PATH_CONFIG . 'db.ini');
 
 // dd( $dbi->getConnection()->query("SHOW TABLES;")->fetchAll(\PDO::FETCH_COLUMN) );
 
-// SimpleRouter::start();
+SimpleRouter::start();
 

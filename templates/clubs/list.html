@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<table border="1" width="100%">
+    <tr>
+        <td colspan="5" align="left"><button data-url="">Add new club</button></td>
+    </tr>
+    <tr>
+        <th>Control</th>
+        <th>Title</th>
+        <th>Coords</th>
+        <th>Address</th>
+        <th>URL</th>
+    </tr>
+    {%*dataset*}
+    <tr>
+        <td><button data-club-id="{*dataset:id*}">Edit</button></td>
+        <td>{*dataset:title*}</td>
+        <td><small>{*dataset:coords*}</small></td>
+        <td>{*dataset:address*}</td>
+        <td><a href="{*dataset:url*}" target="_blank">{*dataset:url*}</a></td>
+    </tr>
+    {%}
+</table>
+
+<ul>
+    <li><a href="{*href.profile*}">Back to profile</a></li>
+    <li><a href="{*href.frontpage*}">Back to frontpage</a></li>
+</ul>
+
+/*
+На самом деле табличка поменьше - EDIT, Название, первые 30 символов адреса, URL, кнопка фокуса
+
+Справа - карта. При нажатии на фокус - делается центровка карты. Это же карта - кусок фронтэндовой карты, но редактировать
+или показывать инфу нельзя, максимум всплывает айди.
+
+
+
+*/
+
+
+
+</body>
+</html>

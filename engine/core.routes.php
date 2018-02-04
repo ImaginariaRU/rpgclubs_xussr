@@ -24,23 +24,25 @@ SimpleRouter::get   ('/auth/login', 'Auth@login_form');
 SimpleRouter::post  ('/auth/login', 'Auth@login_callback')->name('auth_login_callback');
 
 SimpleRouter::get   ('/auth/logout', 'Auth@logout_form');
-SimpleRouter::post  ('/auth/logout', 'Auth@logout_callback');
+SimpleRouter::post  ('/auth/logout', 'Auth@logout_callback')->name('auth_logout_callback');
 
 /* === PROFILE === */
 
-SimpleRouter::group(['middleware' => \RPGCAtlas\Middleware\CheckAuth::class], function(){
-    SimpleRouter::get   ('/profile', 'Profile@view');
+SimpleRouter::group(['middleware' => \RPGCAtlas\Middleware\CheckAuth::class], function() {
+
+    SimpleRouter::get   ('/profile', 'Profile@view')->name('profile_view');
     SimpleRouter::get   ('/profile/edit', 'Profile@form_edit');
-    SimpleRouter::get   ('/profile/clubs', 'Profile@view_clubs');
 
-    SimpleRouter::get   ('/profile/clubs/add', 'Profile@form_club_add');
-    SimpleRouter::post  ('/profile/clubs/add', 'Profile@callback_club_add');
+    SimpleRouter::get   ('/profile/clubs', 'Clubs@view_clubs');
 
-    SimpleRouter::get   ('/profile/clubs/edit/{id}', 'Profile@form_club_edit');
-    SimpleRouter::post  ('/profile/clubs/edit/{id}', 'Profile@callback_club_edit');
+    SimpleRouter::get   ('/profile/clubs/add', 'Clubs@form_club_add')->name('club_add_form');
+    SimpleRouter::post  ('/profile/clubs/add', 'Clubs@callback_club_add');
 
-    SimpleRouter::post  ('/profile/clubs/delete/{id}', 'Profile@callback_club_delete');
-    SimpleRouter::get   ('/profile/clubs/visibilty_toggle/{id}', 'Profile@callback_club_visibility_toggle');
+    SimpleRouter::get   ('/profile/clubs/edit/{id}', 'Clubs@form_club_edit');
+    SimpleRouter::post  ('/profile/clubs/edit/{id}', 'Clubs@callback_club_edit');
+
+    SimpleRouter::post  ('/profile/clubs/delete/{id}', 'Clubs@callback_club_delete');
+    SimpleRouter::get   ('/profile/clubs/visibilty_toggle/{id}', 'Clubs@callback_club_visibility_toggle');
 });
 
 /* === 404 === */

@@ -30,7 +30,14 @@ class Auth
     }
 
     public function logout_form() {
-        return "Logout form";
+        $template = new Template('logout.html', '$/templates/auth');
+
+        $template->set('href', [
+            'logout_callback'    =>  url('auth_logout_callback'),
+            'frontpage'         =>  url('frontpage')
+        ]);
+
+        return $template->render();
     }
 
     public function logout_callback() {
