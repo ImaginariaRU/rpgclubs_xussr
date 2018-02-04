@@ -12,21 +12,30 @@ namespace RPGCAtlas\Middleware;
 
 use Pecee\Http\Middleware\IMiddleware;
 use Pecee\Http\Request;
+use RPGCAtlas\Classes\StaticConfig;
 
 class CheckAuth implements IMiddleware {
 
     public function handle(Request $request) {
 
+        // сейчас доступность закрытого раздела определяется на основе подключения к БД
+        if (StaticConfig::get('connection/suffix') == 'production') {
+            // $request->setRewriteUrl( url('auth_form_login') );
+            // return $request;
+            response()->redirect( url('auth_form_login') );
+        }
+
         // Authenticate user, will be available using request()->user
         // $request->user = User::authenticate();
 
-        return $request; //@todo: после появления аутентификации добавить обработку посредника
+        //@todo: после появления аутентификации добавить обработку посредника
+        // return $request;
 
         // If authentication failed, redirect request to user-login page.
-        if((!$flag) || ($request->user === null)) {
+        /*if((!$flag) || ($request->user === null)) {
             $request->setRewriteUrl( url('user.login') );
             return $request;
-        }
+        }*/
 
     }
 }

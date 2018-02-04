@@ -20,11 +20,14 @@ SimpleRouter::get   ('/ajax/feedback', 'Ajax@form_feedback');
 SimpleRouter::post  ('/ajax/feedback', 'Ajax@callback_feedback');
 
 /* === AUTH === */
-SimpleRouter::get   ('/auth/login', 'Auth@login_form');
-SimpleRouter::post  ('/auth/login', 'Auth@login_callback')->name('auth_login_callback');
+SimpleRouter::get   ('/auth/login', 'Auth@form_login')->name('auth_form_login');
+SimpleRouter::post  ('/auth/login', 'Auth@callback_login')->name('auth_callback_login');
 
-SimpleRouter::get   ('/auth/logout', 'Auth@logout_form');
-SimpleRouter::post  ('/auth/logout', 'Auth@logout_callback')->name('auth_logout_callback');
+SimpleRouter::get   ('/auth/logout', 'Auth@form_logout')->name('auth_form_logout');
+SimpleRouter::post  ('/auth/logout', 'Auth@callback_logout')->name('auth_callback_logout');
+
+SimpleRouter::get   ('/auth/registration', 'Auth@form_registration')->name('auth_form_registration');
+SimpleRouter::post  ('/auth/registration', 'Auth@callback_registration')->name('auth_callback_registration');
 
 /* === PROFILE === */
 
