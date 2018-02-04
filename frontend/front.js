@@ -70,9 +70,7 @@ var load_poi_content = function(id, container) {
         type: 'GET',
         async: false
     }).done(function(data){
-        // $target.html(data).show();
-        let content = clubs_list[id-1].title;
-        $target.html(content).show();
+        $target.html(data).show();
     });
 
     return {

@@ -13,7 +13,7 @@ SimpleRouter::setDefaultNamespace('RPGCAtlas\Units');
 SimpleRouter::get   ('/', 'Page@view_frontpage')->name('frontpage');
 
 /* === AJAX: GET POI */
-SimpleRouter::get   ('/ajax/poi/{id}', 'Ajax@get_poi_info')->name('get_poi_info');
+SimpleRouter::get   ('/ajax/poi/{id}', 'Ajax@get_info_poi')->name('ajax_info_poi');
 
 /* === AJAX: FEEDBACK === */
 SimpleRouter::get   ('/ajax/feedback', 'Ajax@form_feedback');
@@ -34,18 +34,18 @@ SimpleRouter::post  ('/auth/registration', 'Auth@callback_registration')->name('
 SimpleRouter::group(['middleware' => \RPGCAtlas\Middleware\CheckAuth::class], function() {
 
     SimpleRouter::get   ('/profile', 'Profile@view')->name('profile_view');
-    SimpleRouter::get   ('/profile/edit', 'Profile@form_edit')->name('profile_edit');
-    SimpleRouter::post  ('/profile/edit', 'Profile@callback_edit')->name('profile_callback');
+    SimpleRouter::get   ('/profile/edit', 'Profile@form_edit')->name('profile_form_edit');
+    SimpleRouter::post  ('/profile/edit', 'Profile@callback_edit')->name('profile_callback_edit');
 
     SimpleRouter::get   ('/profile/clubs', 'Clubs@view_clubs')->name('clubs_list');
 
-    SimpleRouter::get   ('/profile/clubs/add', 'Clubs@form_club_add')->name('club_add_form');
-    SimpleRouter::post  ('/profile/clubs/add', 'Clubs@callback_club_add')->name('club_add_callback');
+    SimpleRouter::get   ('/profile/clubs/add', 'Clubs@form_club_add')->name('club_form_add');
+    SimpleRouter::post  ('/profile/clubs/add', 'Clubs@callback_club_add')->name('club_callback_add');
 
-    SimpleRouter::get   ('/profile/clubs/edit/{id}', 'Clubs@form_club_edit')->name('club_edit_form');
-    SimpleRouter::post  ('/profile/clubs/edit/{id}', 'Clubs@callback_club_edit')->name('club_edit_callback');
+    SimpleRouter::get   ('/profile/clubs/edit/{id}', 'Clubs@form_club_edit')->name('club_form_edit');
+    SimpleRouter::post  ('/profile/clubs/edit/{id}', 'Clubs@callback_club_edit')->name('club_callback_edit');
 
-    SimpleRouter::get   ('/profile/clubs/delete/{id}', 'Clubs@callback_club_delete')->name('club_delete_callback');
+    SimpleRouter::get   ('/profile/clubs/delete/{id}', 'Clubs@callback_club_delete')->name('club_callback_delete');
     SimpleRouter::get   ('/profile/clubs/toggle/{id}', 'Clubs@callback_club_visibility_toggle')->name('club_toggle_callback');
 });
 

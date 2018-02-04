@@ -12,7 +12,7 @@ namespace RPGCAtlas\Units;
 
 class Ajax
 {
-    public function get_poi_info($id) {
+    public function get_info_poi($id) {
         return "AJAX return poi info {$id}";
     }
 

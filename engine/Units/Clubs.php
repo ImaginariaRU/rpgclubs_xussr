@@ -56,8 +56,8 @@ class Clubs
         ]);
 
         $template->set('href', [
-            'club_add'      =>  url('club_add_form'),
-            'club_edit'     =>  url('club_edit_form'),
+            'club_add'      =>  url('club_form_add'),
+            'club_edit'     =>  url('club_form_edit'),
             'profile'       =>  url('profile_view'),
             'frontpage'     =>  url('frontpage')
         ]);
@@ -78,7 +78,7 @@ class Clubs
         $template->set('href', [
             'profile'           =>  url('profile_view'),
             'frontpage'         =>  url('frontpage'),
-            'form_action_submit'=>  url('club_add_callback')
+            'form_action_submit'=>  url('club_callback_add')
         ]);
 
         return $template->render();
@@ -169,9 +169,9 @@ class Clubs
         $template->set('href', [
             'profile'           =>  url('profile_view'),
             'frontpage'         =>  url('frontpage'),
-            'form_action_submit'=>  url('club_edit_callback', ['id' => $id]),
-            'form_action_delete'=>  url('club_delete_callback', ['id' => $id]),
-            'form_action_toggle'=>  url('club_toggle_callback', ['id' => $id])
+            'form_action_submit'=>  url('club_callback_edit', ['id' => $id]),
+            'form_action_delete'=>  url('club_callback_delete', ['id' => $id]),
+            'form_action_toggle'=>  url('club_callback_toggle', ['id' => $id])
         ]);
 
         return $template->render();
