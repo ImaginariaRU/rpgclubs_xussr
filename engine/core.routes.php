@@ -41,8 +41,8 @@ SimpleRouter::group(['middleware' => \RPGCAtlas\Middleware\CheckAuth::class], fu
     SimpleRouter::get   ('/profile/clubs/edit/{id}', 'Clubs@form_club_edit')->name('club_edit_form');
     SimpleRouter::post  ('/profile/clubs/edit/{id}', 'Clubs@callback_club_edit')->name('club_edit_callback');
 
-    SimpleRouter::post  ('/profile/clubs/delete/{id}', 'Clubs@callback_club_delete');
-    SimpleRouter::get   ('/profile/clubs/visibilty_toggle/{id}', 'Clubs@callback_club_visibility_toggle');
+    SimpleRouter::get   ('/profile/clubs/delete/{id}', 'Clubs@callback_club_delete')->name('club_delete_callback');
+    SimpleRouter::get   ('/profile/clubs/toggle/{id}', 'Clubs@callback_club_visibility_toggle')->name('club_toggle_callback');
 });
 
 /* === 404 === */

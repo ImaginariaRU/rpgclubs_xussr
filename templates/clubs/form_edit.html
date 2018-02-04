@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{*html.title*}</title>
+    <script type="text/javascript" src="/frontend/jquery/jquery-3.2.1_min.js"></script>
     <style type="text/css">
         .required {
             font-size: larger;
@@ -19,53 +20,71 @@
 <body>
 <h2>{*html.title*}</h2>
 
-<form action="{*href.form_action*}" method="POST">
-    <table border="1" width="50%">
+<form action="{*href.form_action_submit*}" method="POST">
+    <input type="hidden" name="club:edit:id" value="{*dataset.id*}">
+    <table border="0" width="50%">
         <tr>
             <td>Is Public</td>
             <td>
-                <input type="checkbox" name="clubs:add:is_public" {?*dataset.is_public*}checked{?}>
-            </td>
-        </tr>
-        <tr>
-            <td>Title</td>
-            <td><input type="text" value="{*dataset.title*}" size="80" name="clubs:add:title" tabindex="1" required></td>
-        </tr>
-        <tr>
-            <td>Description</td>
-            <td>
-                <textarea cols="70" rows="7" name="clubs:add:desc" tabindex="2" required>{*dataset.desc*}</textarea>
-            </td>
-        </tr>
-        <tr>
-            <td>Address</td>
-            <td>
-                <textarea cols="70" rows="7" name="clubs:add:address" tabindex="3" required>{*dataset.address*}</textarea>
+                <input type="checkbox" name="club:edit:is_public" {?*dataset.is_public*}checked{?}>
             </td>
         </tr>
         <tr>
             <td>Coords</td>
             <td>
-                Lat: <input type="text" value="{*dataset.lat*}" size="20" name="clubs:add:lat" tabindex="4"><br/>
-                Lng: <input type="text" value="{*dataset.lng*}" size="20" name="clubs:add:lng" tabindex="5">
+                Lat: <input type="text" value="{*dataset.lat*}" size="20" name="club:edit:lat" tabindex="1"><br/>
+                Lng: <input type="text" value="{*dataset.lng*}" size="20" name="club:edit:lng" tabindex="2">
             </td>
         </tr>
         <tr>
+            <td>Title</td>
+            <td><input type="text" value="{*dataset.title*}" size="80" name="club:edit:title" tabindex="3" required></td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td>
+                <textarea cols="70" rows="7" name="club:edit:desc" tabindex="4" required>{*dataset.desc*}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td>
+                <textarea cols="70" rows="7" name="club:edit:address" tabindex="5" required>{*dataset.address*}</textarea>
+            </td>
+        </tr>
+
+        <tr>
             <td>Image</td>
             <td>
-                <input type="text" value="{*dataset.picture*}" size="80" name="clubs:add:image" tabindex="6">
+                <input type="text" value="{*dataset.picture*}" size="80" name="club:edit:image" tabindex="6">
             </td>
         </tr>
         <tr>
             <td>URL</td>
             <td>
-                <input type="text" value="{*dataset.url*}" size="80" name="clubs:add:url" tabindex="7" required>
+                <input type="text" value="{*dataset.url*}" size="80" name="club:edit:url" tabindex="7" required>
+            </td>
+        </tr>
+        <tr>
+            <td>Owner</td>
+            <td>
+                <input type="text" value="{*dataset.id_owner*}" name="club:edit:id_owner" style="float:left">
+                <span style="float:right">
+                    <button data-url="{*href.form_action_delete*}" id="action-delete-club">УДАЛИТЬ КЛУБ</button>
+                    <button data-url="{*href.form_action_toggle*}" id="action-visibility-toggle" disabled>{?*dataset.is_public*}УБРАТЬ С КАРТЫ{?}{?!*dataset.is_public*}ПОКАЗЫВАТЬ НА КАРТЕ{?}</button>
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="100">
+                <hr width="100%">
             </td>
         </tr>
         <tr>
             <td>&nbsp;</td>
             <td><button type="submit" tabindex="8">ОБНОВИТЬ ИНФОРМАЦИЮ</button></td>
         </tr>
+
     </table>
 </form>
 
@@ -75,6 +94,20 @@
     <li><a href="{*href.frontpage*}">Back to frontpage</a></li>
 </ul>
 
+<script type="text/javascript">
+    ;$(function(){
+    }).on('click', "#action-delete-club", function(event){
+        if (window.confirm("Действительно удалить клуб?")) {
+            document.location.href = $(this).data('url');
+        } else {
+            event.preventDefault();
+            event.stopPropagation();
+            return false;
+        }
+    }).on('click', '#action-visibility-toggle', function(){
+        console.log( $(this).data('url') )
+    });
+</script>
 
 </body>
 </html>

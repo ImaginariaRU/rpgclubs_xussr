@@ -66,9 +66,9 @@ class Clubs
         $template->set('html/title', "Добавление клуба");
 
         $template->set('href', [
-            'profile'    =>  url('profile_view'),
-            'frontpage'  =>  url('frontpage'),
-            'form_action'=>  url('club_add_callback')
+            'profile'           =>  url('profile_view'),
+            'frontpage'         =>  url('frontpage'),
+            'form_action_submit'=>  url('club_add_callback')
         ]);
 
         return $template->render();
@@ -114,14 +114,14 @@ class Clubs
 
         $dataset = [
             "id_owner"  =>  1,
-            "is_public" =>  input('clubs:add:is_public') ? 1 : 0,
-            "lat"       =>  input('clubs:add:lat'),
-            "lng"       =>  input('clubs:add:lng'),
-            "title"     =>  input('clubs:add:title'),
-            "desc"      =>  input('clubs:add:desc'),
-            "address"   =>  input('clubs:add:address'),
-            "picture"   =>  input('clubs:add:picture'),
-            "url"       =>  input('clubs:add:url')
+            "is_public" =>  input('club:add:is_public') ? 1 : 0,
+            "lat"       =>  input('club:add:lat'),
+            "lng"       =>  input('club:add:lng'),
+            "title"     =>  input('club:add:title'),
+            "desc"      =>  input('club:add:desc'),
+            "address"   =>  input('club:add:address'),
+            "picture"   =>  input('club:add:picture'),
+            "url"       =>  input('club:add:url')
 
         ];
 
@@ -153,37 +153,104 @@ class Clubs
 
         $template->set('dataset', $dataset);
 
-/*        $template->set('dataset', [
-            'is_public'     =>  $dataset['is_public'],
-            'title'         =>  htmlspecialchars($dataset['title'], ENT_QUOTES | ENT_HTML5),
-            'desc'          =>  $dataset['desc'],
-            'address'       =>  $dataset['address'],
-            'lat'           =>  $dataset['lat'],
-            'lng'           =>  $dataset['lng'],
-            'picture'       =>  $dataset['picture'],
-            'url'           =>  $dataset['url']
-        ]);*/
-
         $template->set('html/title', "Редактирование клуба");
         $template->set('href', [
-            'profile'    =>  url('profile_view'),
-            'frontpage'  =>  url('frontpage'),
-            'form_action'=>  url('club_edit_callback')
+            'profile'           =>  url('profile_view'),
+            'frontpage'         =>  url('frontpage'),
+            'form_action_submit'=>  url('club_edit_callback', ['id' => $id]),
+            'form_action_delete'=>  url('club_delete_callback', ['id' => $id]),
+            'form_action_toggle'=>  url('club_toggle_callback', ['id' => $id])
         ]);
 
         return $template->render();
     }
 
     public function callback_club_edit($id) {
-        return "Profile::clubs edit callback for {$id}" ;
+        $dbi = DBStatic::getInstance();
+        $table = $dbi::$_table_prefix . 'clubs';
+
+        $query = "
+        UPDATE {$table} SET
+        `id_owner` = :id_owner,
+        `is_public` = :is_public,
+        `lat` = :lat,
+        `lng` = :lng,
+        `title` = :title,
+        `desc` = :desc,
+        `address` = :address,
+        `picture` = :picture,
+        `url` = :url
+        WHERE `id` = :id
+        ";
+
+        $sth = $dbi->getConnection()->prepare($query);
+
+        $dataset = [
+            "id"        =>  input('club:edit:id'),
+            "id_owner"  =>  input('club:edit:id_owner'),
+            "is_public" =>  input('club:edit:is_public') ? 1 : 0,
+            "lat"       =>  input('club:edit:lat'),
+            "lng"       =>  input('club:edit:lng'),
+            "title"     =>  input('club:edit:title'),
+            "desc"      =>  input('club:edit:desc'),
+            "address"   =>  input('club:edit:editress'),
+            "picture"   =>  input('club:edit:picture'),
+            "url"       =>  input('club:edit:url')
+        ];
+
+        try {
+            $sth->execute($dataset);
+        } catch (\PDOException $e) {
+            dd($e->getMessage()); //@todo: MONOLOG
+        }
+
+        response()->redirect( url('clubs_list') );
     }
 
     public function callback_club_delete($id) {
-        return "Profile::clubs delete {$id} club" ;
+        $dbi = DBStatic::getInstance();
+        $table = $dbi::$_table_prefix . 'clubs';
+
+        $query = "
+        DELETE FROM {$table}
+        WHERE `id` = :id
+        ";
+
+        $sth = $dbi->getConnection()->prepare($query);
+
+        $dataset = [
+            "id" =>  $id,
+        ];
+
+        try {
+            $sth->execute($dataset);
+        } catch (\PDOException $e) {
+            dd($e->getMessage()); //@todo: MONOLOG
+        }
+
+        response()->redirect( url('clubs_list') );
     }
 
-    public function callback_club_visibility_toggle($id) {
-        return "Profile::clubs AJAX toggle visibility for {$id}" ;
+    public function callback_club_visibility_toggle($id)
+    {
+        $dbi = DBStatic::getInstance();
+        $table = $dbi::$_table_prefix . 'clubs';
+
+        $query = "";
+
+        $sth = $dbi->getConnection()->prepare($query);
+        $dataset = [
+            "id" =>  $id,
+        ];
+
+        try {
+            $sth->execute($dataset);
+        } catch (\PDOException $e) {
+            dd($e->getMessage()); //@todo: MONOLOG
+        }
+
+        // ajax result
+
     }
 
 }

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>{*html.title*}</title>
+    <script type="text/javascript" src="/frontend/jquery/jquery-3.2.1_min.js"></script>
     <style type="text/css">
         .required {
             font-size: larger;
@@ -19,47 +20,47 @@
 <body>
 <h2>{*html.title*}</h2>
 
-<form action="{*href.form_action*}" method="POST">
+<form action="{*href.form_action_submit*}" method="POST">
     <table border="1" width="50%">
         <tr>
             <td>Is Public</td>
             <td>
-                <input type="checkbox" name="clubs:add:is_public">
-            </td>
-        </tr>
-        <tr>
-            <td>Title</td>
-            <td><input type="text" value="" size="80" name="clubs:add:title" tabindex="1" required></td>
-        </tr>
-        <tr>
-            <td>Description</td>
-            <td>
-                <textarea cols="70" rows="7" name="clubs:add:desc" tabindex="2" required></textarea>
-            </td>
-        </tr>
-        <tr>
-            <td>Address</td>
-            <td>
-                <textarea cols="70" rows="7" name="clubs:add:address" tabindex="3" required></textarea>
+                <input type="checkbox" name="club:add:is_public">
             </td>
         </tr>
         <tr>
             <td>Coords</td>
             <td>
-                Lat: <input type="text" value="" size="20" name="clubs:add:lat" tabindex="4"><br/>
-                Lng: <input type="text" value="" size="20" name="clubs:add:lng" tabindex="5">
+                Lat: <input type="text" value="" size="20" name="club:add:lat" tabindex="1"><br/>
+                Lng: <input type="text" value="" size="20" name="club:add:lng" tabindex="2">
+            </td>
+        </tr>
+        <tr>
+            <td>Title</td>
+            <td><input type="text" value="" size="80" name="club:add:title" tabindex="3" required></td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td>
+                <textarea cols="70" rows="7" name="club:add:desc" tabindex="4" required></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td>
+                <textarea cols="70" rows="7" name="club:add:address" tabindex="5" required></textarea>
             </td>
         </tr>
         <tr>
             <td>Image</td>
             <td>
-                <input type="text" value="" size="80" name="clubs:add:image" tabindex="6">
+                <input type="text" value="" size="80" name="club:add:image" tabindex="6">
             </td>
         </tr>
         <tr>
             <td>URL</td>
             <td>
-                <input type="text" value="" size="80" name="clubs:add:url" tabindex="7" required>
+                <input type="text" value="" size="80" name="club:add:url" tabindex="7" required>
             </td>
         </tr>
         <tr>
