@@ -39,7 +39,8 @@ class Clubs
                 'title'     =>  $row['title'],
                 'address'   =>  $row['address'],
                 'url'       =>  $row['url'],
-                'coords'    =>  "{$row['lat']} / {$row['lng']}"
+                'coords'    =>  "{$row['lat']} / {$row['lng']}",
+                'picture'   =>  $row['picture']
             ];
         }
 
@@ -193,7 +194,7 @@ class Clubs
             "lng"       =>  input('club:edit:lng'),
             "title"     =>  input('club:edit:title'),
             "desc"      =>  input('club:edit:desc'),
-            "address"   =>  input('club:edit:editress'),
+            "address"   =>  input('club:edit:address'),
             "picture"   =>  input('club:edit:picture'),
             "url"       =>  input('club:edit:url')
         ];

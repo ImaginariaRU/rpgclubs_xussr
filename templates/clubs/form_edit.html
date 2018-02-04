@@ -56,7 +56,7 @@
         <tr>
             <td>Image</td>
             <td>
-                <input type="text" value="{*dataset.picture*}" size="80" name="club:edit:image" tabindex="6">
+                <input type="text" value="{*dataset.picture*}" size="80" name="club:edit:picture" tabindex="6">
             </td>
         </tr>
         <tr>
@@ -70,8 +70,7 @@
             <td>
                 <input type="text" value="{*dataset.id_owner*}" name="club:edit:id_owner" style="float:left">
                 <span style="float:right">
-                    <button data-url="{*href.form_action_delete*}" id="action-delete-club">УДАЛИТЬ КЛУБ</button>
-                    <button data-url="{*href.form_action_toggle*}" id="action-visibility-toggle" disabled>{?*dataset.is_public*}УБРАТЬ С КАРТЫ{?}{?!*dataset.is_public*}ПОКАЗЫВАТЬ НА КАРТЕ{?}</button>
+                    <button type="submit" tabindex="8">ОБНОВИТЬ ИНФОРМАЦИЮ</button>
                 </span>
             </td>
         </tr>
@@ -82,7 +81,10 @@
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td><button type="submit" tabindex="8">ОБНОВИТЬ ИНФОРМАЦИЮ</button></td>
+            <td>
+                <button data-url="{*href.form_action_delete*}" id="action-delete-club">УДАЛИТЬ КЛУБ</button>
+                <button data-url="{*href.form_action_toggle*}" id="action-visibility-toggle" disabled>{?*dataset.is_public*}УБРАТЬ С КАРТЫ{?}{?!*dataset.is_public*}ПОКАЗЫВАТЬ НА КАРТЕ{?}</button>
+            </td>
         </tr>
 
     </table>
@@ -96,6 +98,7 @@
 
 <script type="text/javascript">
     ;$(function(){
+        $("input[name='club:edit:lat']").focus();
     }).on('click', "#action-delete-club", function(event){
         if (window.confirm("Действительно удалить клуб?")) {
             document.location.href = $(this).data('url');

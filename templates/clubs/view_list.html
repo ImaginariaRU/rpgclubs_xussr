@@ -9,7 +9,9 @@
 
 <table border="1" width="100%">
     <tr>
-        <td colspan="100" align="left"><a href="{*href.club_add*}">ADD NEW CLUB</a></td>
+        <td colspan="100" align="left">
+            <button id="actor-add-club" data-url="{*href.club_add*}">ADD NEW CLUB</button>
+        </td>
     </tr>
     <tr>
         <th>Control</th>
@@ -17,6 +19,7 @@
         <th>Title</th>
         <th>Coords</th>
         <th>Address</th>
+        <th>Image</th>
         <th>URL</th>
     </tr>
     {%*dataset*}
@@ -26,6 +29,7 @@
         <td>{*dataset:title*}</td>
         <td><small>{*dataset:coords*}</small></td>
         <td>{*dataset:address*}</td>
+        <td><img src="{*dataset:picture*}" width="60"/></td>
         <td><a href="{*dataset:url*}" target="_blank">{*dataset:url*}</a></td>
     </tr>
     {%}
@@ -42,13 +46,13 @@
 Справа - карта. При нажатии на фокус - делается центровка карты. Это же карта - кусок фронтэндовой карты, но редактировать
 или показывать инфу нельзя, максимум всплывает айди.
 
-
-
 */
 
 <script type="text/javascript">
     ;$(function(){
     }).on('click', ".action-edit-club", function(){
+        document.location.href = $(this).data('url');
+    }).on('click', "#actor-add-club", function(){
         document.location.href = $(this).data('url');
     });
 </script>

@@ -54,13 +54,13 @@
         <tr>
             <td>Image</td>
             <td>
-                <input type="text" value="" size="80" name="club:add:image" tabindex="6">
+                <input type="text" value="" size="80" name="club:add:picture" tabindex="6">
             </td>
         </tr>
         <tr>
             <td>URL</td>
             <td>
-                <input type="text" value="" size="80" name="club:add:url" tabindex="7" required>
+                <input type="text" value="" size="80" name="club:add:url" tabindex="7">
             </td>
         </tr>
         <tr>
@@ -75,6 +75,12 @@
     <li><a href="{*href.profile*}">Back to profile</a></li>
     <li><a href="{*href.frontpage*}">Back to frontpage</a></li>
 </ul>
+
+<script type="text/javascript">
+    ;$(function(){
+        $("input[name='club:add:lat']").focus();
+    });
+</script>
 
 
 </body>
