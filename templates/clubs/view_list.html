@@ -2,16 +2,18 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>Список клубов</title>
+    <script type="text/javascript" src="/frontend/jquery/jquery-3.2.1_min.js"></script>
 </head>
 <body>
 
 <table border="1" width="100%">
     <tr>
-        <td colspan="5" align="left"><a href="{*href.add_new*}">ADD NEW CLUB</a></td>
+        <td colspan="100" align="left"><a href="{*href.club_add*}">ADD NEW CLUB</a></td>
     </tr>
     <tr>
         <th>Control</th>
+        <th>Own</th>
         <th>Title</th>
         <th>Coords</th>
         <th>Address</th>
@@ -19,7 +21,8 @@
     </tr>
     {%*dataset*}
     <tr>
-        <td><button data-club-id="{*dataset:id*}">Edit</button></td>
+        <td><button data-url="{*href.club_edit*}{*dataset:id*}" class="action-edit-club">Редактировать</button></td>
+        <td>{*dataset:owner*}</td>
         <td>{*dataset:title*}</td>
         <td><small>{*dataset:coords*}</small></td>
         <td>{*dataset:address*}</td>
@@ -43,6 +46,12 @@
 
 */
 
+<script type="text/javascript">
+    ;$(function(){
+    }).on('click', ".action-edit-club", function(){
+        document.location.href = $(this).data('url');
+    });
+</script>
 
 
 </body>

@@ -34,6 +34,7 @@ class Clubs
 
         foreach ($dbi->getConnection()->query($query)->fetchAll() as $row) {
             $dataset[ $row['id'] ] = [
+                'owner'     =>  '*',           //@todo: реальный владелец (для админа показывает логин владельца, для владельца - "Я"
                 'id'        =>  $row['id'],
                 'title'     =>  $row['title'],
                 'address'   =>  $row['address'],
@@ -45,9 +46,10 @@ class Clubs
         $template->set('dataset', $dataset);
 
         $template->set('href', [
-            'add_new'    => url('club_add_form'),
-            'profile'    => url('profile_view'),
-            'frontpage'  => url('frontpage')
+            'club_add'      =>  url('club_add_form'),
+            'club_edit'     =>  url('club_edit_form'),
+            'profile'       =>  url('profile_view'),
+            'frontpage'     =>  url('frontpage')
         ]);
 
         return $template->render();
@@ -59,17 +61,14 @@ class Clubs
      * @return string
      */
     public function form_club_add() {
-        $template = new Template('form_manage.html', '$/templates/clubs');
+        $template = new Template('form_add.html', '$/templates/clubs');
 
         $template->set('html/title', "Добавление клуба");
 
         $template->set('href', [
             'profile'    =>  url('profile_view'),
-            'frontpage'  =>  url('frontpage')
-        ]);
-
-        $template->set('form', [
-            'action'     => url('club_add_callback')
+            'frontpage'  =>  url('frontpage'),
+            'form_action'=>  url('club_add_callback')
         ]);
 
         return $template->render();
@@ -135,8 +134,36 @@ class Clubs
         response()->redirect( url('clubs_list') );
     }
 
-    public function form_club_edit($id, Request $request) {
-        return "Profile::clubs edit form for {$id}" ;
+    public function form_club_edit($id) {
+        $dbi = DBStatic::getInstance();
+        $table = $dbi::$_table_prefix . 'clubs';
+        $query = "SELECT * FROM {$table} WHERE `id` = :id";
+
+        $sth = $dbi->getConnection()->prepare($query);
+        $sth->execute([
+            'id'    =>  $id
+        ]);
+        $dataset = $sth->fetchAll(\PDO::FETCH_COLUMN);
+
+        dd($dataset);
+
+
+        $template = new Template('form_manage.html', '$/templates/clubs');
+
+        $template->set('html/title', "Редактирование клуба");
+
+        $template->set('href', [
+            'profile'    =>  url('profile_view'),
+            'frontpage'  =>  url('frontpage')
+        ]);
+
+        $template->set('form', [
+            'action'     => url('club_edit_callback')
+        ]);
+
+        return $template->render();
+
+
     }
 
     public function callback_club_edit($id) {
