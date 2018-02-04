@@ -9,7 +9,6 @@
         }
     ],
     "require": {
-        "aura/autoload": "^2.0",
         "pecee/simple-router": "3.4.10.1",
         "monolog/monolog": "^1.23"
     },

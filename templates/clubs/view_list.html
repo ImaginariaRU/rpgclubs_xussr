@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <title>Список клубов</title>
     <script type="text/javascript" src="/frontend/jquery/jquery-3.2.1_min.js"></script>
+    <style type="text/css">
+        button {
+            font-size: large;
+        }
+    </style>
 </head>
 <body>
 
@@ -15,22 +20,29 @@
     </tr>
     <tr>
         <th>Control</th>
-        <th>Own</th>
+        <th>Public</th>
         <th>Title</th>
-        <th>Coords</th>
         <th>Address</th>
         <th>Image</th>
         <th>URL</th>
+        <th>-</th>
     </tr>
     {%*dataset*}
     <tr>
-        <td><button data-url="{*href.club_edit*}{*dataset:id*}" class="action-edit-club">Редактировать</button></td>
-        <td>{*dataset:owner*}</td>
+        <td><button data-url="{*href.club_edit*}{*dataset:id*}" class="action-edit-club">EDIT</button></td>
+        <td align="center">{?*dataset:is_public*}<h1>+</h1>{?}{?!*dataset:is_public*}<h1>-</h1>{?}</td>
         <td>{*dataset:title*}</td>
-        <td><small>{*dataset:coords*}</small></td>
         <td>{*dataset:address*}</td>
-        <td><img src="{*dataset:picture*}" width="60"/></td>
-        <td><a href="{*dataset:url*}" target="_blank">{*dataset:url*}</a></td>
+        <td align="center">{?*dataset:picture*}<img src="{*dataset:picture*}" width="60"/>{?}
+            {?!*dataset:picture*}&mdash;{?}
+        </td>
+        <td>
+            {?*dataset:url*}<a href="{*dataset:url*}" target="_blank">{*dataset:url*}</a>{?}
+            {?!*dataset:url*}не указан{?}
+        </td>
+        <td>
+            <button data-lat="{*dataset:lat*}" data-lng="{*dataset:lng*}" class="action-focus-at-map">FOCUS</button>
+        </td>
     </tr>
     {%}
 </table>

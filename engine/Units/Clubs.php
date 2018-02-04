@@ -34,11 +34,14 @@ class Clubs
 
         foreach ($dbi->getConnection()->query($query)->fetchAll() as $row) {
             $dataset[ $row['id'] ] = [
-                'owner'     =>  '*',           //@todo: реальный владелец (для админа показывает логин владельца, для владельца - "Я"
+                'owner'     =>  1,              //@todo: реальный владелец (для админа показывает логин владельца, для владельца - "Я"
+                'is_public' =>  $row['is_public'],
                 'id'        =>  $row['id'],
                 'title'     =>  $row['title'],
                 'address'   =>  $row['address'],
                 'url'       =>  $row['url'],
+                'lat'       =>  $row['lat'],
+                'lng'       =>  $row['lng'],
                 'coords'    =>  "{$row['lat']} / {$row['lng']}",
                 'picture'   =>  $row['picture']
             ];

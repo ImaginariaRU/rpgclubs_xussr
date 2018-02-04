@@ -31,7 +31,8 @@ SimpleRouter::post  ('/auth/logout', 'Auth@logout_callback')->name('auth_logout_
 SimpleRouter::group(['middleware' => \RPGCAtlas\Middleware\CheckAuth::class], function() {
 
     SimpleRouter::get   ('/profile', 'Profile@view')->name('profile_view');
-    SimpleRouter::get   ('/profile/edit', 'Profile@form_edit');
+    SimpleRouter::get   ('/profile/edit', 'Profile@form_edit')->name('profile_edit');
+    SimpleRouter::post  ('/profile/edit', 'Profile@callback_edit')->name('profile_callback');
 
     SimpleRouter::get   ('/profile/clubs', 'Clubs@view_clubs')->name('clubs_list');
 

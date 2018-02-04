@@ -30,6 +30,9 @@ function getIp() {
  */
 function getCoordsByIP($ip) {
     $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"), true);
+
+    // на самом деле нам надо получить город, для города получить координаты центра и вернуть их
+
     $location = explode(',', $details['loc'], 2);
 
     return [

@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Ролевые клубы на карте России</title>
+
+    {?*head.assets="development"*}
     <script type="text/javascript" src="/frontend/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/frontend/leaflet/leaflet.js"></script>
     <link rel="stylesheet" href="/frontend/leaflet/leaflet.css" />
@@ -30,137 +32,20 @@
             padding:0px;
             margin:0px;
         }
-
-
     </style>
+    {?}
+    {?*head.assets="production"*}
+    <script type="text/javascript" src="/public/scripts.js"></script>
+    <link rel="stylesheet" href="/public/styles.css">
+    {?}
 
     <script type="text/javascript" id="data">
+        var center = { lat: '{*center.lat*}', lng: '{*center.lng*}' };
         var clubs_list = [
-            {
-                id: 1,
-                lat: 55.043289,
-                lng: 82.924198,
-                title: 'Умные игры',
-                desc: 'Клуб, магазин настольных и ролевых игр, варгеймов.',
-                address: 'Новосибирск, ул.Гоголя 15',
-                picture: 'http://rpg-news.ru/wp-content/uploads/2014/06/club_smartgames.jpg',
-                linkd: 'http://vk.com/mtgnsk',
-            },
-            {
-                id: 2,
-                lat: 56.843334,
-                lng: 60.626794,
-                title: 'Клуб «Лепрекон»',
-                desc: 'Клуб «Лепрекон» - место встречи для всех любителей, ценителей, профессионалов настольных игр, а также для тех, кто хочет научиться в них играть. Также в нём проходят игровые встречи «Восточных Земель» http://eastlands.pnprpg.ru',
-                address: 'Екатерингбург, Первомайская ул., 56',
-                picture: 'http://rpg-news.ru/wp-content/uploads/2014/07/4FqZ9tM0lb0.jpg',
-                linkd: 'https://vk.com/leprekon_club',
-            },
-            {
-                id: 3,
-                lat: 57.142287,
-                lng: 65.565139,
-                title: 'КНИ «Мультивселенная»',
-                desc: 'Добро пожаловать в КНИ «Мультивселенная». Вашему вниманию представлен широкий ассортимент различных игр, несколько ролевых мастеров, а так же - различные турниры и мероприятия.',
-                address: 'Тюмень, Холодильная ул, 71а',
-                picture: 'http://rpg-news.ru/wp-content/uploads/2014/07/Screenshot_2.jpg',
-                linkd: 'https://vk.com/club24302642',
-            },
-            {
-                id: 4,
-                lat: 43.096052,
-                lng: 131.95114,
-                title: 'Dungeons & Dragons Владивосток',
-                desc: 'Клуб настольных ролевых игр в Владивостоке.',
-                address: 'Владивосток, Сафонова 16',
-                picture: 'http://rpg-news.ru/wp-content/uploads/2014/07/FSCmKHFm8k0.jpg',
-                linkd: 'https://vk.com/dnd_vl',
-            },
-            {
-                id: 5,
-                lat: 55.0396326,
-                lng: 82.9452717,
-                title: 'Молодёжный центр «Витязь»',
-                desc: 'Духовный наследник дэнжен-клуба «Паутина Игры», обновивший состав, но оставивший за собой старое название.',
-                address: 'Новосибирск, ул. Фрунзе, 57а (вход с торца)',
-                picture: 'http://rpg-news.ru/wp-content/uploads/2014/07/S_8atROBJs8.jpg',
-                linkd: 'http://vk.com/club66279361',
-            },
-            {
-                            id: 6,
-                lat: 54.995016,
-                lng: 82.971867,
-                title: 'Молодёжный центр «Икар»',
-                desc: 'Площадка «Паутины Игры», действующая только по предварительной договорённости. +7-913-941-0150, +7-953-878-0388 Виктория',
-                address: 'Новосибирск, ул. Большевистская, 175/6',
-                picture: 'http://rpg-news.ru/wp-content/uploads/2014/07/S_8atROBJs8.jpg',
-                linkd: '',
-            },
-            {
-                id: 7,
-                lat: 55.10162,
-                lng: 36.602421,
-                title: 'НРИ-клуб в Обнинске',
-                desc: 'Клуб варгеймов, настольных и ролевых игр. Связь с координатором НРИ-секции: Берёзов Павел, 89109111227',
-                address: 'г. Обнинск, ул. Ленина, 84',
-                picture: 'http://rpg-news.ru/wp-content/uploads/2014/07/a_a223f92f.jpg',
-                linkd: 'http://vk.com/club21895839',
-            },
-            {
-                id: 8,
-                lat: 54.972383,
-                lng: 83.096608,
-                title: 'Перекресток миров',
-                desc: 'Перекрёсток Миров - это ролевой клуб, где всегда можно найти игру себе по душе. Отличное место чтобы провести свою игру или же поиграть самому.',
-                address: 'Новосибирск, ул Героев революции, 5/2',
-                picture: 'http://rpg-news.ru/wp-content/uploads/2014/07/gh9sacJGrCQ.jpg',
-                linkd: 'https://vk.com/club15391590',
-            },
-            {
-                id: 9,
-                lat: 56.007112,
-                lng: 92.858203,
-                title: 'Клуб «Empire»',
-                desc: 'Клуб варгеймов, настольных и ролевых игр в Красноярске. Новички приветствуются! Пятница с 18:00 до 21:00 Сб и Вс с 12:00 до 21:00',
-                address: 'Красноярск, ул. Бограда, 65',
-                picture: 'http://rpg-news.ru/wp-content/uploads/2014/07/Screenshot_1.jpg',
-                linkd: 'http://www.clubempire.ru/',
-            },
-            {
-                id: 10,
-                lat: 59.917221,
-                lng: 30.342155,
-                title: 'Чёрный Лес - Место приключений',
-                desc: 'Что и по чем: 2 руб. - минута. Стоп-чек для тех кто пришел поиграть в НРИ 350руб. с игрока (как по записи, так и если вы пришли своей собственной компанией). Стоп-чек для других целей 400руб. Чай, печеньки и wi-fi без ограничения.',
-                address: 'Большая Пушкарская улица, 19, город Санкт-Петербург, Санкт-Петербург, Россия',
-                picture: 'https://sun9-2.userapi.com/c840420/v840420816/4c1c/Co4KKwYNrAQ.jpg', // 795*200
-                linkd: 'https://vk.com/blackforrest',
-            },
-            {
-                id: 11,
-                lat: 56.2692365,
-                lng: 43.9766815,
-                title: '20 граней',
-                desc: '20 граней - это клуб-магазин настольных, ролевых и коллекционо-карточных игр. Вы можете взять интересующую игру в прокат или купить ее для домашних партий с друзьями, принять участие в ролевых играх по различным системам или сразиться в регулярных поединках по Magic: the Gathering. ',
-                address: 'Россия, Нижний Новгород, проспект Гагарина, 114',
-                picture: 'http://rpg-news.ru/wp-content/uploads/2015/12/Screenshot_1-150x150.png',
-                linkd: 'https://vk.com/20graney',
-            },
-            {
-                id: 12,
-                lat: 55.747469,
-                lng: 37.6086079,
-                title: '«Элскон»',
-                desc: '1 февраля начал свою полноценную работу клуб НРИ в Москве «Элскон». Казалось бы, что необычного? Игровые клубы открываются и закрываются каждые пол года, но... У этого клуба нет адреса и его не найти на картах. «Элскон» - клуб-путешественник. На сайте и в группе ресурса идет набор в актуальные партии по различным НРИ от московский мастеров, а сами игры проходят в антикафе Москвы. Наша команда создает комфортные условия не только для игроков, но и для мастера: мы берем на себя все организационные моменты, позволяя мастерам готовить непосредственно модуль. Помимо этого мы обучаем новичков, увеличивая аудиторию поклонников НРИ, и стараемся расшевелить тех игроков, что оживают разве что к Ролекону.',
-                address: 'Россия, Москва, Лебяжий переулок 8/4с',
-                picture: 'http://rpg-news.ru/wp-content/uploads/2016/02/Screenshot_1-150x150.png',
-                linkd: 'https://vk.com/elskon',
-            },
+            {%*clubs_list*}
+            { id: {*clubs_list:id*}, lat: {*clubs_list:lat*}, lng: {*clubs_list:lng*} },
+            {%}
         ];
-        var center = {
-            lat: '{*center.lat*}',
-            lng: '{*center.lng*}'
-        };
     </script>
 
 </head>
