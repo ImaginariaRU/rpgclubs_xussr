@@ -17,7 +17,8 @@
         "files": [
         ],
         "psr-4": {
-            "RPGCAtlas\\"      : "engine/"
+            "RPGCAtlas\\"   : "engine/",
+            "PHPAuth\\"     : "engine.phpauth/"
         }
     }
 }

@@ -10,10 +10,19 @@
 
 namespace RPGCAtlas\Units;
 
+use RPGCAtlas\Classes\Template;
+
 class Auth
 {
     public function login_form() {
-        return "Login form";
+        $template = new Template('login.html', '$/templates/auth');
+
+        $template->set('href', [
+            'login_callback'    =>  url('auth_login_callback'),
+            'frontpage'         =>  url('frontpage')
+        ]);
+
+        return $template->render();
     }
 
     public function login_callback() {

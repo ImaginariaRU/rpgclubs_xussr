@@ -21,7 +21,7 @@ SimpleRouter::post  ('/ajax/feedback', 'Ajax@callback_feedback');
 
 /* === AUTH === */
 SimpleRouter::get   ('/auth/login', 'Auth@login_form');
-SimpleRouter::post  ('/auth/login', 'Auth@login_callback');
+SimpleRouter::post  ('/auth/login', 'Auth@login_callback')->name('auth_login_callback');
 
 SimpleRouter::get   ('/auth/logout', 'Auth@logout_form');
 SimpleRouter::post  ('/auth/logout', 'Auth@logout_callback');
