@@ -31,7 +31,6 @@ class Clubs
         $query = "SELECT * FROM {$table} ORDER BY `id` DESC";
 
         $dataset = [];
-
         foreach ($dbi->getConnection()->query($query)->fetchAll() as $row) {
             $dataset[ $row['id'] ] = [
                 'owner'     =>  1,              //@todo: реальный владелец (для админа показывает логин владельца, для владельца - "Я"
@@ -48,6 +47,13 @@ class Clubs
         }
 
         $template->set('dataset', $dataset);
+
+        $template->set('summary', [
+            'clubs_total'   =>  count($dataset),
+
+            // кол-во клубов, у которых is_public = 1
+            'clubs_visible' =>  count(array_filter($dataset, function($data){ return !!$data['is_public']; }) )
+        ]);
 
         $template->set('href', [
             'club_add'      =>  url('club_add_form'),
