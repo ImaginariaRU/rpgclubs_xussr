@@ -28,7 +28,7 @@ class Clubs
 
         $table = $dbi::$_table_prefix . 'clubs';
 
-        $query = "SELECT * FROM {$table}";
+        $query = "SELECT * FROM {$table} ORDER BY `id` DESC";
 
         $dataset = [];
 
@@ -56,7 +56,7 @@ class Clubs
             'frontpage'     =>  url('frontpage')
         ]);
 
-        return $template->render();
+        return preg_replace('/^\h*\v+/m', '', $template->render());
     }
 
     /**
@@ -114,6 +114,9 @@ class Clubs
         )
         ";
 
+        //$geocode = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?latlng='.input('club:add:lat').','.input('club:add:lng').'&sensor=false');
+
+
         $sth = $dbi->getConnection()->prepare($query);
 
         $dataset = [
@@ -126,7 +129,6 @@ class Clubs
             "address"   =>  input('club:add:address'),
             "picture"   =>  input('club:add:picture'),
             "url"       =>  input('club:add:url')
-
         ];
 
         try {

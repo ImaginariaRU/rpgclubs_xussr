@@ -25,7 +25,11 @@ class Page
         // load clubs
         $dbi = DBStatic::getInstance();
         $table = $dbi::$_table_prefix . 'clubs';
-        $query = "SELECT `id`, `lat`, `lng` FROM {$table} WHERE `is_public` = 1 ORDER BY `id`";
+        $query = "
+SELECT `id`, `lat`, `lng`
+FROM {$table}
+WHERE `is_public` = 1 AND `lat` IS NOT NULL AND `lng` IS NOT NULL
+ORDER BY `id`";
 
         $dataset = $dbi->getConnection()->query($query)->fetchAll();
 
