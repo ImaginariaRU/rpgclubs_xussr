@@ -137,33 +137,41 @@ class Clubs
     public function form_club_edit($id) {
         $dbi = DBStatic::getInstance();
         $table = $dbi::$_table_prefix . 'clubs';
-        $query = "SELECT * FROM {$table} WHERE `id` = :id";
+        $query = "SELECT * FROM {$table} WHERE `id` = :id ORDER BY `id` DESC LIMIT 1";
 
         $sth = $dbi->getConnection()->prepare($query);
         $sth->execute([
             'id'    =>  $id
         ]);
-        $dataset = $sth->fetchAll(\PDO::FETCH_COLUMN);
+        $dataset = $sth->fetch();
 
-        dd($dataset);
+        //@todo: по $dataset['id_owner'] получаем владельца
 
+        $dataset['title'] = htmlspecialchars($dataset['title'], ENT_QUOTES | ENT_HTML5);
 
-        $template = new Template('form_manage.html', '$/templates/clubs');
+        $template = new Template('form_edit.html', '$/templates/clubs');
+
+        $template->set('dataset', $dataset);
+
+/*        $template->set('dataset', [
+            'is_public'     =>  $dataset['is_public'],
+            'title'         =>  htmlspecialchars($dataset['title'], ENT_QUOTES | ENT_HTML5),
+            'desc'          =>  $dataset['desc'],
+            'address'       =>  $dataset['address'],
+            'lat'           =>  $dataset['lat'],
+            'lng'           =>  $dataset['lng'],
+            'picture'       =>  $dataset['picture'],
+            'url'           =>  $dataset['url']
+        ]);*/
 
         $template->set('html/title', "Редактирование клуба");
-
         $template->set('href', [
             'profile'    =>  url('profile_view'),
-            'frontpage'  =>  url('frontpage')
-        ]);
-
-        $template->set('form', [
-            'action'     => url('club_edit_callback')
+            'frontpage'  =>  url('frontpage'),
+            'form_action'=>  url('club_edit_callback')
         ]);
 
         return $template->render();
-
-
     }
 
     public function callback_club_edit($id) {

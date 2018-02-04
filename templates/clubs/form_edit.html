@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{*html.title*}</title>
+    <style type="text/css">
+        .required {
+            font-size: larger;
+            color: red;
+        }
+        input[required] {
+            background-image: radial-gradient(#F00 15%, transparent 16%), radial-gradient(#F00 15%, transparent 16%);
+            background-size: 1em 1em;
+            background-position: right top;
+            background-repeat: no-repeat;
+        }
+    </style>
+</head>
+<body>
+<h2>{*html.title*}</h2>
+
+<form action="{*href.form_action*}" method="POST">
+    <table border="1" width="50%">
+        <tr>
+            <td>Is Public</td>
+            <td>
+                <input type="checkbox" name="clubs:add:is_public" {?*dataset.is_public*}checked{?}>
+            </td>
+        </tr>
+        <tr>
+            <td>Title</td>
+            <td><input type="text" value="{*dataset.title*}" size="80" name="clubs:add:title" tabindex="1" required></td>
+        </tr>
+        <tr>
+            <td>Description</td>
+            <td>
+                <textarea cols="70" rows="7" name="clubs:add:desc" tabindex="2" required>{*dataset.desc*}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>Address</td>
+            <td>
+                <textarea cols="70" rows="7" name="clubs:add:address" tabindex="3" required>{*dataset.address*}</textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>Coords</td>
+            <td>
+                Lat: <input type="text" value="{*dataset.lat*}" size="20" name="clubs:add:lat" tabindex="4"><br/>
+                Lng: <input type="text" value="{*dataset.lng*}" size="20" name="clubs:add:lng" tabindex="5">
+            </td>
+        </tr>
+        <tr>
+            <td>Image</td>
+            <td>
+                <input type="text" value="{*dataset.picture*}" size="80" name="clubs:add:image" tabindex="6">
+            </td>
+        </tr>
+        <tr>
+            <td>URL</td>
+            <td>
+                <input type="text" value="{*dataset.url*}" size="80" name="clubs:add:url" tabindex="7" required>
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td><button type="submit" tabindex="8">ОБНОВИТЬ ИНФОРМАЦИЮ</button></td>
+        </tr>
+    </table>
+</form>
+
+
+<ul>
+    <li><a href="{*href.profile*}">Back to profile</a></li>
+    <li><a href="{*href.frontpage*}">Back to frontpage</a></li>
+</ul>
+
+
+</body>
+</html>
