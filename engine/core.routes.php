@@ -3,7 +3,7 @@
  * User: Arris
  * Date: 01.02.2018, time: 0:02
  */
-// HINT: https://packagist.org/packages/pecee/simple-router
+// https://packagist.org/packages/pecee/simple-router
 
 use Pecee\SimpleRouter\SimpleRouter;
 
@@ -33,10 +33,10 @@ SimpleRouter::group(['middleware' => \RPGCAtlas\Middleware\CheckAuth::class], fu
     SimpleRouter::get   ('/profile', 'Profile@view')->name('profile_view');
     SimpleRouter::get   ('/profile/edit', 'Profile@form_edit');
 
-    SimpleRouter::get   ('/profile/clubs', 'Clubs@view_clubs');
+    SimpleRouter::get   ('/profile/clubs', 'Clubs@view_clubs')->name('clubs_list');
 
     SimpleRouter::get   ('/profile/clubs/add', 'Clubs@form_club_add')->name('club_add_form');
-    SimpleRouter::post  ('/profile/clubs/add', 'Clubs@callback_club_add');
+    SimpleRouter::post  ('/profile/clubs/add', 'Clubs@callback_club_add')->name('club_add_callback');
 
     SimpleRouter::get   ('/profile/clubs/edit/{id}', 'Clubs@form_club_edit');
     SimpleRouter::post  ('/profile/clubs/edit/{id}', 'Clubs@callback_club_edit');
