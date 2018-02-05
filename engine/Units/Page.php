@@ -20,7 +20,8 @@ class Page
         $template = new Template('frontpage.html', '$/templates/frontpage');
 
         $ip = (StaticConfig::get('global/server') == 'development') ? '188.143.207.215' : getIp();
-        $coords = getCoordsByIP($ip);
+        $coords_latlng = getCoordsByIP($ip);
+        $location = getCityByCoords($coords_latlng['lat'], $coords_latlng['lng']);
 
         // load clubs
         $dbi = DBStatic::getInstance();
@@ -33,9 +34,17 @@ ORDER BY `id`";
 
         $dataset = $dbi->getConnection()->query($query)->fetchAll();
 
+        $template->set('location', [
+            'ip_lat'    =>  $coords_latlng['lat'],
+            'ip_lng'    =>  $coords_latlng['lng'],
+            'city'      =>  $location['city']  ?? NULL,
+            'city_lat'  =>  $location['city_lat'] ?? NULL,
+            'city_lng'  =>  $location['city_lng'] ?? NULL
+        ]);
+        $template->set('center', $coords_latlng);
+
         $template->set('head/assets', StaticConfig::get('global/server'));
         $template->set('clubs_list', $dataset);
-        $template->set('center', $coords);
         $template->set('section/infobox_position', 'topleft');
         $template->set('section/about_position', 'topright');
 

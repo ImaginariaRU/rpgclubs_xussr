@@ -79,8 +79,13 @@ var load_poi_content = function(id, container) {
     };
 }
 
-var __CreateMap = function(target, center, zoom) {
-    var __LanLng_center = new L.LatLng(center.lat, center.lng);
+var __CreateMap = function(target, location, zoom) {
+    var __LatLngCenter
+        = !!(location.city_lat && location.city_lng)
+        ? new L.LatLng(location.city_lat, location.city_lng)
+        : new L.LatLng(location.ip_lat, location.ip_lng);
+
+    // var __LatLngCenter = new L.LatLng(center.lat, center.lng);
     let map = L.map(target, {
         // renderer: L.canvas(),
         // zoom: 16,
@@ -88,7 +93,7 @@ var __CreateMap = function(target, center, zoom) {
         minZoom: 4,
         zoomControl: false
     });
-    map.setView(__LanLng_center, zoom)
+    map.setView(__LatLngCenter, zoom)
     map.addControl(new L.Control.Zoomslider({position: 'bottomright'}));
 
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {

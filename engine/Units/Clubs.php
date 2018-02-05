@@ -137,7 +137,7 @@ class Clubs
             "banner_vertical"   =>  input('club:add:banner_vertical'),
             "url_site"       =>  input('club:add:url_site')
         ];
-        $dataset['address_city'] = getCityByCoords($dataset['lat'], $dataset['lng']);
+        $dataset['address_city'] = getCityByCoords($dataset['lat'], $dataset['lng'])['city'];
 
         try {
             $sth->execute($dataset);
@@ -216,7 +216,7 @@ class Clubs
             "banner_vertical"   =>  input('club:edit:banner_vertical'),
             "url_site"       =>  input('club:edit:url_site')
         ];
-        $dataset['address_city'] = getCityByCoords($dataset['lat'], $dataset['lng']);
+        $dataset['address_city'] = getCityByCoords($dataset['lat'], $dataset['lng'])['city'];
 
 
         try {

@@ -30,11 +30,7 @@ function getIp() {
  */
 function getCoordsByIP($ip) {
     $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"), true);
-
-    // на самом деле нам надо получить город, для города получить координаты центра и вернуть их
-
     $location = explode(',', $details['loc'], 2);
-
     return [
         'lat'   =>  $location[0],
         'lng'   =>  $location[1]
@@ -50,6 +46,8 @@ function dd($value) {
 function getCityByCoords($lat, $lng) {
     if (!($lat&&$lng)) return NULL;
 
+    //@todo: monolog - логгировать запросы
+
     $url = "https://geocode-maps.yandex.ru/1.x/?sco=latlong&kind=locality&format=json&geocode={$lat},{$lng}";
     $raw = file_get_contents($url);
 
@@ -62,5 +60,13 @@ function getCityByCoords($lat, $lng) {
 
     if (empty($feature_member)) return NULL;
 
-    return $feature_member[0]->GeoObject->metaDataProperty->GeocoderMetaData->Address->formatted;
+    $geo_object = $feature_member[0]->GeoObject;
+
+    $coords = explode(' ', $geo_object->Point->pos);
+
+    return [
+        'city'      =>  $geo_object->metaDataProperty->GeocoderMetaData->Address->formatted ?? NULL,
+        'city_lat'  =>  $coords[1] ?? NULL,
+        'city_lng'  =>  $coords[0] ?? NULL
+    ];
 }

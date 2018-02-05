@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <title>Ролевые клубы на карте России</title>
+    <meta charset="UTF-8">
+
 
     {?*head.assets="development"*}
     <script type="text/javascript" src="/frontend/jquery/jquery.min.js"></script>
@@ -24,15 +25,6 @@
 
     <script type="text/javascript" src="/frontend/front.js"></script>
     <link rel="stylesheet" href="/frontend/front.css">
-
-    <style type="text/css" id="css-main">
-        html, body, #map {
-            height:100%;
-            width:100%;
-            padding:0px;
-            margin:0px;
-        }
-    </style>
     {?}
     {?*head.assets="production"*}
     <script type="text/javascript" src="/public/scripts.js"></script>
@@ -40,12 +32,8 @@
     {?}
 
     <script type="text/javascript" id="data">
-        var center = { lat: '{*center.lat*}', lng: '{*center.lng*}' };
-        var clubs_list = [
-            {%*clubs_list*}
-            { id: {*clubs_list:id*}, lat: {*clubs_list:lat*}, lng: {*clubs_list:lng*} },
-            {%}
-        ];
+        var userlocation = { ip_lat: '{*location.ip_lat*}', ip_lng: '{*location.ip_lng*}', city: '{*location.city*}', city_lat: '{*location.city_lat*}', city_lng: '{*location.city_lng*}' };
+        var clubs_list = [ {%*clubs_list*} { id: {*clubs_list:id*}, lat: {*clubs_list:lat*}, lng: {*clubs_list:lng*} }, {%} ];
     </script>
 
 </head>
@@ -56,7 +44,7 @@
 
 <script type="text/javascript" id="main">
     $(function(){
-        var map = __CreateMap("map", center, 12);
+        var map = __CreateMap("map", userlocation, 12);
 
         createControl_AboutBox();
         createControl_InfoBox();
@@ -83,7 +71,17 @@
             layer_ows.addLayer(marker);
         });
 
+    }).on('click', '#actor-about-toggle', function() {
+        let state = $(this).data('content-is-visible');
+        $('#' + $(this).data('content')).toggle();
+        $(this).data('content-is-visible', !state);
+    }).escape(function(){
+        $("#section-infobox-content").hide();
     });
+
+    $(document.links).filter(function() {
+        return this.hostname != window.location.hostname;
+    }).attr('target', '_blank');
 
 </script>
 
@@ -92,21 +90,28 @@
     <div style="text-align: left">
         <button id="actor-section-infobox-toggle" class="section-infobox-button-toggle-visibility" data-content="section-info-content" data-content-visibility="false">Скрыть</button>
     </div> */
-    <div id="section-infobox-content" class="section-infobox-content">
-
-    </div>
+    <div id="section-infobox-content" class="section-infobox-content invisible"></div>
 </section>
 
 <section id="section-about" class="section-about-wrapper invisible" data-leaflet-control-position="{*section.about_position*}">
     <div style="text-align: right">
-        <button id="actor-about-toggle" class="action-toggle-div-visibility" data-content="section-about-wrapper" data-content-is-visible="false">Показать</button>
+        <button id="actor-about-toggle" class="action-toggle-div-visibility" data-content="section-about-content" data-content-is-visible="false">?</button>
     </div>
 
     <div id="section-about-content" class="invisible section-about-content">
-        ...
+        <h2>Ролевые клубы РФ на карте</h2>
+        <div>
+            Здравствуйте. Это совершенно некоммерческий проект<br/>
+            и создатель не извлекает из него абсолютно никакой прибыли<br>
+            (пока что одни только затраты).
+        </div>
+        <div>
+            Если вы хотите добавить свой клуб на карту, напишите сюда: <a href="mailto:rpgclubsrf@yandex.ru">rpgclubsrf@yandex.ru</a>
+        </div>
     </div>
 </section>
 
 
 </body>
 </html>
+<!-- copyright -->
