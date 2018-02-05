@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{*html.title*}</title>
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" />
+    <script type="text/javascript" src="/frontend/jquery/jquery-3.2.1_min.js"></script>
+    <script type="text/javascript" src="/frontend/colorbox/jquery.colorbox-min.js"></script>
+    <link rel="stylesheet" href="/frontend/colorbox/colorbox.css" />
+
+    <style type="text/css">
+        input[required] {
+            background-image: radial-gradient(#F00 15%, transparent 16%), radial-gradient(#F00 15%, transparent 16%);
+            background-size: 1em 1em;
+            background-position: right top;
+            background-repeat: no-repeat;
+        }
+        button {
+            font-size: large;
+        }
+        body {
+            font-family: 'PT Sans', sans-serif;
+        }
+        textarea {
+            resize: vertical;
+        }
+    </style>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+</head>
+<body>
+<h2>{*html.title*}</h2>
+
+<form action="{*href.form_action_submit*}" method="POST">
+    <table border="1" width="50%">
+        <tr>
+            <td>Email <br/> (для обратной связи)</td>
+            <td><input type="text" value="" size="80" name="club:unauthadd:owner_email" required></td>
+        </tr>
+        <tr>
+            <td>Кто вы</td>
+            <td>
+                Расскажите немного о себе. Кто вы? Кого вы представляете? Как с вами связаться кроме электронной почты?<br/>
+                <textarea cols="70" rows="7" name="club:unathadd:owner_about"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>Название клуба</td>
+            <td><input type="text" value="" size="80" name="club:unauthadd:title" required></td>
+        </tr>
+        <tr>
+            <td>Описание клуба</td>
+            <td>
+                <textarea cols="70" rows="7" name="club:unauthadd:desc" required></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>Координаты</td>
+            <td>
+                <small>Не знаете, где взять координаты?</small><br/>
+                Lat: <input type="text" value="" size="20" name="club:unauthadd:lat"><br/>
+                Lng: <input type="text" value="" size="20" name="club:unauthadd:lng">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button id="actor-resolve-city" data-target="club:unauthadd:address_city">Определить город по координатам</button>
+            </td>
+            <td>
+                <input type="text" value="" size="40" name="club:unauthadd:address_city">
+            </td>
+        </tr>
+        <tr>
+            <td>Адрес клуба:</td>
+            <td>
+                Напишите здесь адрес клуба, включая город. Если есть какие-то особенности адреса (домофон, охрана в бизнес-центре или
+                третий поворот направо во втором дворе в доме напротив памятника Радагасту) - тоже укажите. Это поможет людям найти вас!
+                <textarea cols="70" rows="7" name="club:unauthadd:address"></textarea>
+            </td>
+        </tr>
+        <tr>
+            <td>Баннер</td>
+            <td>
+                Горизонтальный баннер 795×200 пикселей, обычно из группы ВКонтакте (<a href="https://vk.com/blackforrest" target="_blank">пример</a>)<br/>
+                Если вы не знаете как указать ссылку на эту картинку - просто напишите сюда: "из группы ВК"<br/>
+                <input type="text" value="" size="80" name="club:unauthadd:banner_horizontal">
+            </td>
+        </tr>
+        <tr>
+            <td>Баннер (другой)</td>
+            <td>
+                Если у вас нет баннера для группы ВК - укажите хоть какой-нибудь. Мы подумаем, как его показать.<br/>
+                <input type="text" value="" size="80" name="club:unauthadd:banner_vertical">
+            </td>
+        </tr>
+        <tr>
+            <td>Формат <br>инфобокса</td>
+            <td>
+                <small>Тут всё просто. Если вы указали баннер из группы ВК - ничего не меняйте. На самом деле вы можете указать оба
+                баннера, а этой опцией позднее можно будет выбрать режим отображения информации о клубе.</small><br/>
+                <label>VK Style<input type="radio" name="club:unauthadd:infobox_layout" value="VKBanner" checked></label><br>
+                <label>Other<input type="radio" name="club:unauthadd:infobox_layout" value="Other"></label>
+            </td>
+        </tr>
+        <tr>
+            <td>Сайт клуба</td>
+            <td>
+                Пожалуйста, укажите здесь URL главного сайта вашего клуба. Дополнительные сайты нужно указывать в <strong>описании</strong>, выше. <br/>
+                <input type="text" value="" size="80" name="club:unauthadd:url_site">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Разумеется, капча:
+            </td>
+            <td>
+                <div class="g-recaptcha" data-sitekey="6Lf3akQUAAAAAOv7hXLAmkmj1OTDGElJ5yNlA5z9"></div>
+                Есть маленький нюанс. Это временная форма добавления данных, поэтому если вы не пройдете гуглокапчу, но
+                нажмете на "подать заявку на рассмотрение", скорее всего вы потеряете все данные, которые сейчас ввели. <br/>
+                Будьте внимательны!!!
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button data-url="{*href.frontpage*}" id="actor-quit">НА КАРТУ</button>
+            </td>
+            <td>
+                <span style="float: right">
+                    <button type="submit" tabindex="8">ПОДАТЬ ЗАЯВКУ НА РАССМОТРЕНИЕ</button>
+                </span>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<script type="text/javascript">
+    ;$(function(){
+        $("input[name='club:unauthadd:owner_email']").focus();
+    }).on('click', '#actor-quit', function(){
+        document.location.href = $(this).data('url');
+    }).on('click', '#actor-resolve-city', function(event){
+        event.preventDefault();
+        event.stopPropagation();
+
+        let url = "{*href.ajax_get_city*}";
+        let target = $(this).data('target');
+
+        $.get(url, {
+            lat: $("input[name='club:unauthadd:lat']").val(),
+            lng: $("input[name='club:unauthadd:lng']").val(),
+        }, function(data){
+            $("input[name='" + target +"']").val( data );
+        });
+    });
+</script>
+
+</body>
+</html>

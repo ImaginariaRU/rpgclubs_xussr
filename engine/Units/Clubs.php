@@ -148,6 +148,87 @@ class Clubs
         response()->redirect( url('clubs_list') );
     }
 
+    /* ==== анонимное добавление данных ==== */
+    public function form_unauthorized_add() {
+        $template = new Template('form_unauthorized_add.html', '$/templates/clubs');
+
+        $template->set('html/title', "Добавление клуба неавторизованным пользователем");
+
+        $template->set('href', [
+            'frontpage'         =>  url('frontpage'),
+            'form_action_submit'=>  url('club_callback_unauthorized_add'),
+            'ajax_get_city'     =>  url('ajax_get_city_by_coords')
+        ]);
+
+        return $template->render();
+    }
+
+    public function callback_unauthorized_add()
+    {
+        $dbi = DBStatic::getInstance();
+        $table = $dbi::$_table_prefix . 'clubs';
+
+        $query = "
+        INSERT INTO {$table}
+        (
+          `id_owner`,
+          `is_public`,
+          `lat`,
+          `lng`,
+          `title`,
+          `desc`,
+          `address`,
+          `address_city`,
+          `banner_horizontal`,
+          `banner_vertical`,
+          `url_site`
+        )
+        VALUES
+        (
+          0,
+          :is_public,
+          :lat,
+          :lng,
+          :title,
+          :desc,
+          :address,
+          :address_city,
+          :banner_horizontal,
+          :banner_vertical,
+          :url_site
+        )
+        ";
+
+        $sth = $dbi->getConnection()->prepare($query);
+
+        $dataset = [
+            "is_public" =>  0,
+            "lat"       =>  input('club:add:lat'),
+            "lng"       =>  input('club:add:lng'),
+            "title"     =>  input('club:add:title'),
+            "desc"      =>  input('club:add:desc'),
+            "address"   =>  input('club:add:address'),
+            "address_city" => input('club:add:address_city'),
+            "banner_horizontal" =>  input('club:add:banner_horizontal'),
+            "banner_vertical"   =>  input('club:add:banner_vertical'),
+            "url_site"       =>  input('club:add:url_site')
+        ];
+        $dataset['address_city'] = getCityByCoords($dataset['lat'], $dataset['lng'])['city'];
+
+        try {
+            $sth->execute($dataset);
+        } catch (\PDOException $e) {
+            dd($e->getMessage()); //@todo: MONOLOG
+        }
+
+        response()->redirect( url('clubs_list') );
+    }
+
+
+    /* ============ редактирование =============== */
+
+
+
     public function form_club_edit($id) {
         $dbi = DBStatic::getInstance();
         $table = $dbi::$_table_prefix . 'clubs';
