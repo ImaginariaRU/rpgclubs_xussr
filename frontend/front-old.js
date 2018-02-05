@@ -130,3 +130,44 @@ var __GetUserCoords = function() {
 }
 
 /* ================================ MAIN CODE ============================ */
+$(function(){
+    var map = __CreateMap("map", userlocation, 12);
+
+    createControl_AboutBox();
+    createControl_InfoBox();
+
+    map.addControl( new L.Control.AboutBox() );
+    map.addControl( new L.Control.InfoBox() );
+
+    var layer_ows = L.markerClusterGroup();
+    layer_ows.addTo(map);
+
+    $.each(clubs_list, function(index, data){
+        let marker = L.marker([data.lat, data.lng], {
+            icon: L.icon.fontAwesome({
+                iconClasses: 'fa fa-cubes', // cube, cubes, eyes, smile
+                markerColor: '#00a9ce',
+                iconColor: '#FFF',
+                iconXOffset: -4,
+                iconYOffset: -1,
+            }),
+            id: data.id
+        }).on('click', function() {
+            load_poi_content(this.options.id, "section-infobox-content");
+        } );
+        layer_ows.addLayer(marker);
+    });
+
+}).on('click', '#actor-about-toggle', function() {
+    let state = $(this).data('content-is-visible');
+    $('#' + $(this).data('content')).toggle();
+    $(this).data('content-is-visible', !state);
+}).escape(function(){
+    $("#section-infobox-content").hide();
+});
+
+$(document).on('click', 'a', function(){
+    if ($(this).attr('href') != window.location.hostname) {
+        $(this).attr('target', '_blank');
+    }
+});
