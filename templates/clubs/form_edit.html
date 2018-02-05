@@ -46,10 +46,10 @@
         </tr>
         <tr>
             <td>
-                <button id="actor-resolve-city" data-target="club:edit:address_city">Определить город</button>
+                <button id="actor-resolve-city" data-target="club:edit:address_city">Уточнить город</button>
             </td>
             <td>
-                <input type="text" value="" size="40" name="club:edit:address_city">
+                <input type="text" value="{*dataset.address_city*}" size="40" name="club:edit:address_city">
             </td>
         </tr>
         <tr>
@@ -111,28 +111,32 @@
 
 <ul>
     <li><a href="{*href.profile*}">Back to profile</a></li>
-    <li><a href="{*href.frontpage*}">Back to frontpage</a></li>
 </ul>
 
 <script type="text/javascript">
     ;$(function(){
         $("input[name='club:edit:lat']").focus();
     }).on('click', "#actor-delete-club", function(event){
+        event.preventDefault();
+        event.stopPropagation();
 
         if (window.confirm("Действительно удалить клуб?")) {
             document.location.href = $(this).data('url');
         } else {
-            event.preventDefault();
-            event.stopPropagation();
+
             return false;
         }
 
     }).on('click', '#actor-visibility-toggle', function(){
-        console.log( $(this).data('url') )
-    }).on('click', '.action-call-colorbox', function(event){
-        let url = $(this).data('url');
         event.preventDefault();
         event.stopPropagation();
+
+        console.log( $(this).data('url') )
+    }).on('click', '.action-call-colorbox', function(event){
+        event.preventDefault();
+        event.stopPropagation();
+
+        let url = $(this).data('url');
 
         if (url != '') {
             $.colorbox({href: url});
@@ -141,7 +145,10 @@
         }
 
         return false;
-    }).on('click', '#actor-back-to-clubs-list', function(){
+    }).on('click', '#actor-back-to-clubs-list', function(event){
+        event.preventDefault();
+        event.stopPropagation();
+
         document.location.href = $(this).data('url');
     }).on('click', '#actor-resolve-city', function(event){
         event.preventDefault();

@@ -73,9 +73,21 @@
             </td>
         </tr>
         <tr>
+            <td>Формат <br>инфобокса</td>
+            <td>
+                <label>VK Style<input type="radio" name="club:add:infobox_layout" value="VKBanner" checked></label><br>
+                <label>Other<input type="radio" name="club:add:infobox_layout" value="Other"></label>
+            </td>
+        </tr>
+        <tr>
             <td>URL</td>
             <td>
                 <input type="text" value="" size="80" name="club:add:url_site" tabindex="7">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="100">
+                <hr>
             </td>
         </tr>
         <tr>
@@ -101,14 +113,11 @@
     ;$(function(){
         $("input[name='club:add:lat']").focus();
     }).on('click', '.action-call-colorbox-onadd', function(event){
+        event.preventDefault();
+        event.stopPropagation();
 
         let container = $(this).data('url-container');
         let url = $("input[name='" + container + "']").val();
-
-        console.log("input[name='" + container + "']", url);
-
-        event.preventDefault();
-        event.stopPropagation();
 
         if (url != '') {
             $.colorbox({href: url});
@@ -117,7 +126,6 @@
         }
 
         return false;
-
     }).on('click', '#actor-back-to-clubs-list', function(){
         document.location.href = $(this).data('url');
     }).on('click', '#actor-resolve-city', function(event){
@@ -135,13 +143,6 @@
         });
     });
 </script>
-
-<div style="display:none">
-    <div id="colorboxed-view" style="padding:10px; background:#fff;">
-        <div id="colorboxed-view-content"></div>
-    </div>
-</div>
-
 
 </body>
 </html>
