@@ -29,17 +29,15 @@
     <link rel="stylesheet" href="/frontend/leaflet/MarkerCluster.Default.css">
     <script type="text/javascript" src="/frontend/leaflet/leaflet.markercluster.js"></script>
 
+    <!-- zoom slider -->
     <script type="text/javascript" src="/frontend/leaflet/L.Control.Zoomslider.js"></script>
     <link rel="stylesheet" href="/frontend/leaflet/L.Control.Zoomslider.css" />
 
-<!--
-    <script type="text/javascript" src="/frontend/front.js"></script>
--->
-
+    <!-- main CSS -->
     <link rel="stylesheet" href="/frontend/front.css">
     {?}
+
     {?*publish_options.assets_type="production"*}
-    <script type="text/javascript" src="/public/scripts.js"></script>
     <link rel="stylesheet" href="/public/styles.css">
     {?}
 
@@ -94,6 +92,14 @@
     </div>
 </section>
 
-<script type="text/javascript" src="/frontend/f.js"></script>
+/* JS Scripts */
+
+{?*publish_options.assets_type="development"*}
+<script type="text/javascript" src="/frontend/front.js"></script>
+{?}
+{?*publish_options.assets_type="production"*}
+<script type="text/javascript" src="/public/scripts.js"></script>
+{?}
+
 </body>
 </html>
