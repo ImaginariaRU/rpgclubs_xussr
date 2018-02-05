@@ -43,7 +43,17 @@ ORDER BY `id`";
         ]);
         $template->set('center', $coords_latlng);
 
+        $template->set('publish_options', [
+            'assets_type'   =>  StaticConfig::get('global/server'),
+            'allow_donate'  =>  StaticConfig::get('frontpage/allow_donate')
+        ]);
+
+        $template->set('href', [
+            'unauthorized_add'  => url('club_form_unauthorized_add')
+        ]);
+
         $template->set('head/assets', StaticConfig::get('global/server'));
+
         $template->set('clubs_list', $dataset);
         $template->set('section/infobox_position', 'topleft');
         $template->set('section/about_position', 'topright');

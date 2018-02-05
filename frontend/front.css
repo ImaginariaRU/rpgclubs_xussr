@@ -15,11 +15,6 @@ html, body, #map {
     font-size: large;
 }
 
-/* in-section content */
-.section-about-content div {
-    padding: 0.5vw 0 0.5vw 0;
-}
-
 /* === Section InfoBox === */
 .section-infobox-wrapper {
     padding: 8px 8px;
@@ -35,11 +30,26 @@ html, body, #map {
     font-size: 140%;
     text-align: left;
     color: #000000;
-
-    min-width: 45vw;
     max-height: 85vh;
-    max-width: 45vw;
+    /* min-width: 45vw; */
+    /* max-width: 45vw; */
+    width: 795px;
+    max-width: 795px;
     overflow-y: auto;
+}
+
+.section-infobox-content .infobox-desc {
+    text-align: justify;
+    margin-right: 2vw;
+}
+
+.section-infobox-content .infobox-address {
+    text-align: justify;
+    margin-right: 2vw;
+}
+
+.infobox-site {
+    text-align: center;
 }
 
 
@@ -63,4 +73,9 @@ html, body, #map {
     max-width: 35vw;
     max-height: 65vh;
     overflow-y: auto;
+}
+
+/* in-section content */
+.section-about-content div {
+    padding: 0.5vw 0 0.5vw 0;
 }

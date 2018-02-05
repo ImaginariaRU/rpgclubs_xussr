@@ -6,7 +6,7 @@
     <meta name="keywords" content="map, rpg, clubs, ролевые клубы, карта, настольные, ролевые, игры, поиграть, НРИ, антикафе, игротеки"/>
     <meta name="description" content="Ролевые клубы на карте России и ближайшего зарубежья"/>
     <meta name="subject" content="Ролевые клубы на карте России и ближайшего зарубежья" />
-    <meta name="copyright"content="Wombat, 2018" />
+    <meta name="copyright" content="Wombat, 2018" />
     <meta name="language" content="RU">
     <meta name="robots" content="index,follow" />
     <meta name="revised" content="Monday, February 05th, 2018" />
@@ -14,7 +14,7 @@
     <meta name="copyright" content="Wombat">
     <meta name="url" content="">
 
-    {?*head.assets="development"*}
+    {?*publish_options.assets_type="development"*}
     <script type="text/javascript" src="/frontend/jquery/jquery.min.js"></script>
     <script type="text/javascript" src="/frontend/leaflet/leaflet.js"></script>
     <link rel="stylesheet" href="/frontend/leaflet/leaflet.css" />
@@ -35,7 +35,7 @@
     <script type="text/javascript" src="/frontend/front.js"></script>
     <link rel="stylesheet" href="/frontend/front.css">
     {?}
-    {?*head.assets="production"*}
+    {?*publish_options.assets_type="production"*}
     <script type="text/javascript" src="/public/scripts.js"></script>
     <link rel="stylesheet" href="/public/styles.css">
     {?}
@@ -88,10 +88,11 @@
         $("#section-infobox-content").hide();
     });
 
-    $(document.links).filter(function() {
-        return this.hostname != window.location.hostname;
-    }).attr('target', '_blank');
-
+    $(document).on('click', 'a', function(){
+        if ($(this).attr('href') != window.location.hostname) {
+            $(this).attr('target', '_blank');
+        }
+    });
 </script>
 
 <section id="section-infobox" class="section-infobox-wrapper invisible" data-leaflet-control-position="{*section.infobox_position*}">
@@ -108,19 +109,20 @@
     </div>
 
     <div id="section-about-content" class="invisible section-about-content">
-        <h2>Ролевые клубы РФ на карте</h2>
+        <h2>Ролевые клубы на карте России</h2>
         <div>
-            Здравствуйте. Это совершенно некоммерческий проект<br/>
-            и создатель не извлекает из него абсолютно никакой прибыли<br>
-            (пока что одни только затраты).
+            Здравствуйте. Это совершенно некоммерческий проект и создатель не извлекает из него абсолютно никакой
+            прибыли <small>(пока что одни только затраты)</small>.
         </div>
         <div>
             Если вы хотите добавить свой клуб на карту, напишите сюда: <a href="mailto:rpgclubsrf@yandex.ru">rpgclubsrf@yandex.ru</a>
+            или <a href="{*href.unauthorized_add*}" target="_blank">подайте заявку сами через форму</a>.
         </div>
+        <hr>
+        {?*publish_options.allow_donate*}<iframe frameborder="0" allowtransparency="true" scrolling="no" src="https://money.yandex.ru/embed/donate.xml?account=41001445086806&quickpay=donate&payment-type-choice=on&mobile-payment-type-choice=on&default-sum=100&targets=%D0%9D%D0%B0+%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D0%B5+%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0+%D0%B0%D1%82%D0%BB%D0%B0%D1%81%D0%B0+%22%D0%A0%D0%BE%D0%BB%D0%B5%D0%B2%D1%8B%D0%B5+%D0%BA%D0%BB%D1%83%D0%B1%D1%8B+%D0%BD%D0%B0+%D0%BA%D0%B0%D1%80%D1%82%D0%B5+%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D0%B8%22&target-visibility=on&project-name=%D0%90%D1%82%D0%BB%D0%B0%D1%81%3A+%D0%A0%D0%BE%D0%BB%D0%B5%D0%B2%D1%8B%D0%B5+%D0%BA%D0%BB%D1%83%D0%B1%D1%8B+%D0%BD%D0%B0+%D0%BA%D0%B0%D1%80%D1%82%D0%B5+%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D0%B8&project-site=http%3A%2F%2F%D1%80%D0%BE%D0%BB%D0%B5%D0%B2%D1%8B%D0%B5%D0%BA%D0%BB%D1%83%D0%B1%D1%8B.%D1%80%D1%84&button-text=05&successURL=" width="508" height="120"></iframe>{?}
     </div>
 </section>
 
 
 </body>
 </html>
-<!-- copyright -->
