@@ -24,23 +24,30 @@
         textarea {
             resize: vertical;
         }
+        .g-recaptcha.error {
+            border: solid 2px #c64848;
+            padding: .2em;
+            width: 19em;
+        }
     </style>
     <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
 <h2>{*html.title*}</h2>
 
-<form action="{*href.form_action_submit*}" method="POST">
+<form action="{*href.form_action_submit*}" method="POST" id="form-unautharized-add-club">
     <table border="1" width="50%">
         <tr>
             <td>Email <br/> (для обратной связи)</td>
-            <td><input type="text" value="" size="80" name="club:unauthadd:owner_email" required></td>
+            <td>
+                <input type="email" value="" size="80" name="club:unauthadd:owner_email" required>
+            </td>
         </tr>
         <tr>
             <td>Кто вы</td>
             <td>
-                Расскажите немного о себе. Кто вы? Кого вы представляете? Как с вами связаться кроме электронной почты?<br/>
-                <textarea cols="70" rows="7" name="club:unathadd:owner_about"></textarea>
+                <small>Расскажите немного о себе. Кто вы? Кого вы представляете? Как с вами связаться кроме электронной почты?</small><br/>
+                <textarea cols="70" rows="7" name="club:unauthadd:owner_about"></textarea>
             </td>
         </tr>
         <tr>
@@ -63,32 +70,34 @@
         </tr>
         <tr>
             <td>
-                <button id="actor-resolve-city" data-target="club:unauthadd:address_city">Определить город по координатам</button>
+                <button id="actor-resolve-city" data-target="club:unauthadd:address_city">Угадать город</button>
             </td>
             <td>
+                <small>Если вы не знаете координаты и не смогли узнать по координатам город - не пишите сюда ничего.</small><br/>
                 <input type="text" value="" size="40" name="club:unauthadd:address_city">
             </td>
         </tr>
         <tr>
             <td>Адрес клуба:</td>
             <td>
-                Напишите здесь адрес клуба, включая город. Если есть какие-то особенности адреса (домофон, охрана в бизнес-центре или
-                третий поворот направо во втором дворе в доме напротив памятника Радагасту) - тоже укажите. Это поможет людям найти вас!
+                <small>Напишите здесь адрес клуба, включая город. Если есть какие-то особенности адреса (домофон, охрана в бизнес-центре или
+                третий поворот направо во втором дворе в доме напротив памятника Радагасту) - тоже укажите. Это поможет людям найти вас!</small>
+                <br/>
                 <textarea cols="70" rows="7" name="club:unauthadd:address"></textarea>
             </td>
         </tr>
         <tr>
             <td>Баннер</td>
             <td>
-                Горизонтальный баннер 795×200 пикселей, обычно из группы ВКонтакте (<a href="https://vk.com/blackforrest" target="_blank">пример</a>)<br/>
-                Если вы не знаете как указать ссылку на эту картинку - просто напишите сюда: "из группы ВК"<br/>
+                <small>Горизонтальный баннер 795×200 пикселей, обычно из группы ВКонтакте (<a href="https://vk.com/blackforrest" target="_blank">пример</a>)<br/>
+                Если вы не знаете как указать ссылку на эту картинку - просто напишите сюда: "из группы ВК"</small><br/>
                 <input type="text" value="" size="80" name="club:unauthadd:banner_horizontal">
             </td>
         </tr>
         <tr>
             <td>Баннер (другой)</td>
             <td>
-                Если у вас нет баннера для группы ВК - укажите хоть какой-нибудь. Мы подумаем, как его показать.<br/>
+                <small>Если у вас нет баннера для группы ВК - укажите хоть какой-нибудь. Мы подумаем, как его показать.</small><br/>
                 <input type="text" value="" size="80" name="club:unauthadd:banner_vertical">
             </td>
         </tr>
@@ -104,7 +113,7 @@
         <tr>
             <td>Сайт клуба</td>
             <td>
-                Пожалуйста, укажите здесь URL главного сайта вашего клуба. Дополнительные сайты нужно указывать в <strong>описании</strong>, выше. <br/>
+                <small>Пожалуйста, укажите здесь URL главного сайта вашего клуба. Дополнительные сайты нужно указывать в <strong>описании</strong>, выше.</small> <br/>
                 <input type="text" value="" size="80" name="club:unauthadd:url_site">
             </td>
         </tr>
@@ -113,19 +122,26 @@
                 Разумеется, капча:
             </td>
             <td>
-                <div class="g-recaptcha" data-sitekey="6Lf3akQUAAAAAOv7hXLAmkmj1OTDGElJ5yNlA5z9"></div>
-                Есть маленький нюанс. Это временная форма добавления данных, поэтому если вы не пройдете гуглокапчу, но
+                <div id="recaptcha" class="g-recaptcha" data-sitekey="6Lf3akQUAAAAAOv7hXLAmkmj1OTDGElJ5yNlA5z9"></div>
+                <small>Есть маленький нюанс. Это временная форма добавления данных, поэтому если вы не пройдете гуглокапчу, но
                 нажмете на "подать заявку на рассмотрение", скорее всего вы потеряете все данные, которые сейчас ввели. <br/>
-                Будьте внимательны!!!
+                Будьте внимательны!!!</small>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="100">
+                <span style="color: navy">Вы же понимаете, что я не могу сразу взять и показать ваш клуб на карте? К сожалению, нее все, кто придут на эту
+                страницу - уважаемые и доверенные пользователи и действительно хотят добавить клуб, а не просто развлекаются.
+                Поэтому мы свяжемся с вами, уточним информацию и после этого, скорее всего, ваш клуб появится на карте. Мы постараемся с вами связаться в течение суток.</span>
             </td>
         </tr>
         <tr>
             <td>
-                <button data-url="{*href.frontpage*}" id="actor-quit">НА КАРТУ</button>
+                <button data-url="{*href.frontpage*}" id="actor-quit">НАЗАД,<br/>НА КАРТУ</button>
             </td>
             <td>
                 <span style="float: right">
-                    <button type="submit" tabindex="8">ПОДАТЬ ЗАЯВКУ НА РАССМОТРЕНИЕ</button>
+                    <button type="submit" tabindex="8">ПОДАТЬ ЗАЯВКУ<br/> НА РАССМОТРЕНИЕ</button>
                 </span>
             </td>
         </tr>
@@ -150,6 +166,19 @@
         }, function(data){
             $("input[name='" + target +"']").val( data );
         });
+    }).on('submit', '#form-unautharized-add-club', function(){
+        let $captcha = $( '#recaptcha' );
+        let response = grecaptcha.getResponse();
+
+        if (response.length === 0) {
+            if( !$captcha.hasClass( "error" ) ){
+                $captcha.addClass( "error" );
+            }
+            return false;
+        } else {
+            $captcha.removeClass( "error" );
+            return true;
+        }
     });
 </script>
 

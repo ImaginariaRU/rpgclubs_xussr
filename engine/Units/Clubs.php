@@ -11,6 +11,7 @@
 namespace RPGCAtlas\Units;
 
 use Pecee\Http\Request;
+use ReCaptcha\ReCaptcha;
 use RPGCAtlas\Classes\Template;
 use RPGCAtlas\Classes\DBStatic;
 
@@ -104,7 +105,8 @@ class Clubs
           `address_city`,
           `banner_horizontal`,
           `banner_vertical`,
-          `url_site`
+          `url_site`,
+          `ipv4_add`
         )
         VALUES
         (
@@ -118,7 +120,8 @@ class Clubs
           :address_city,
           :banner_horizontal,
           :banner_vertical,
-          :url_site
+          :url_site,
+          INET_ATON(:ipv4_add)
         )
         ";
 
@@ -135,9 +138,12 @@ class Clubs
             "address_city" => input('club:add:address_city'),
             "banner_horizontal" =>  input('club:add:banner_horizontal'),
             "banner_vertical"   =>  input('club:add:banner_vertical'),
-            "url_site"       =>  input('club:add:url_site')
+            "url_site"       =>  input('club:add:url_site'),
+            "ipv4_add"  =>  getIp()
         ];
-        $dataset['address_city'] = getCityByCoords($dataset['lat'], $dataset['lng'])['city'];
+        if (!$dataset['address_city']) {
+            $dataset['address_city'] = getCityByCoords($dataset['lat'], $dataset['lng'])['city'];
+        }
 
         try {
             $sth->execute($dataset);
@@ -168,52 +174,77 @@ class Clubs
         $dbi = DBStatic::getInstance();
         $table = $dbi::$_table_prefix . 'clubs';
 
+        // проверяем капчу
+        $recaptcha = new ReCaptcha('6Lf3akQUAAAAAO3czhvEBEX0bda2NtwIJ8YorYHK');
+        $checkout = $recaptcha->verify(input('g-recaptcha-response'), getIp());
+
+        // неправильная капча?
+        if (!$checkout->isSuccess()) {
+            response()->redirect( url('club_form_unauthorized_add') ); // и как-то надо передать сообщение, что ошибка в капче. КАК?
+        }
+
         $query = "
         INSERT INTO {$table}
         (
           `id_owner`,
           `is_public`,
-          `lat`,
-          `lng`,
+          `owner_email`,
+          `owner_about`,
           `title`,
           `desc`,
-          `address`,
+          `lat`,
+          `lng`,
+          `zoom`,
           `address_city`,
+          `address`,
           `banner_horizontal`,
           `banner_vertical`,
-          `url_site`
+          `url_site`,
+          `ipv4_add`
         )
         VALUES
         (
-          0,
+          :id_owner,
           :is_public,
-          :lat,
-          :lng,
+          :owner_email,
+          :owner_about,
           :title,
           :desc,
-          :address,
+          :lat,
+          :lng,
+          :zoom,
           :address_city,
+          :address,
           :banner_horizontal,
           :banner_vertical,
-          :url_site
+          :url_site,
+          INET_ATON(:ipv4_add)
         )
         ";
 
         $sth = $dbi->getConnection()->prepare($query);
 
         $dataset = [
-            "is_public" =>  0,
-            "lat"       =>  input('club:add:lat'),
-            "lng"       =>  input('club:add:lng'),
-            "title"     =>  input('club:add:title'),
-            "desc"      =>  input('club:add:desc'),
-            "address"   =>  input('club:add:address'),
-            "address_city" => input('club:add:address_city'),
-            "banner_horizontal" =>  input('club:add:banner_horizontal'),
-            "banner_vertical"   =>  input('club:add:banner_vertical'),
-            "url_site"       =>  input('club:add:url_site')
+            "id_owner"      =>  0,
+            "is_public"     =>  0,
+            "owner_email"   =>  input('club:unauthadd:owner_email'),
+            "owner_about"   =>  input('club:unauthadd:owner_about'),
+            "title"         =>  input('club:unauthadd:title'),
+            "desc"          =>  input('club:unauthadd:desc'),
+            "lat"           =>  input('club:unauthadd:lat'),
+            "lng"           =>  input('club:unauthadd:lng'),
+            "zoom"          =>  12,                                     //@todo: фронтэнд-обработка (зум карты меняет значение в поле)
+            "address_city"  =>  input('club:unauthadd:address_city'),
+            "address"       =>  input('club:unauthadd:address'),
+            "banner_horizontal" =>  input('club:unauthadd:banner_horizontal'),
+            "banner_vertical"   =>  input('club:unauthadd:banner_vertical'),
+            "url_site"      =>  input('club:unauthadd:url_site'),
+            "ipv4_add"      =>  getIp()                                 //@todo: во все остальные формы
         ];
-        $dataset['address_city'] = getCityByCoords($dataset['lat'], $dataset['lng'])['city'];
+
+        if (!$dataset['address_city']) {
+            $dataset['address_city'] = getCityByCoords($dataset['lat'], $dataset['lng'])['city'];
+        }
 
         try {
             $sth->execute($dataset);
@@ -221,14 +252,10 @@ class Clubs
             dd($e->getMessage()); //@todo: MONOLOG
         }
 
-        response()->redirect( url('clubs_list') );
+        response()->redirect( url('frontpage') );
     }
 
-
     /* ============ редактирование =============== */
-
-
-
     public function form_club_edit($id) {
         $dbi = DBStatic::getInstance();
         $table = $dbi::$_table_prefix . 'clubs';
@@ -278,7 +305,8 @@ class Clubs
         `address_city` = :address_city,
         `banner_horizontal` = :banner_horizontal,
         `banner_vertical` = :banner_vertical,
-        `url_site` = :url_site
+        `url_site` = :url_site,
+        `ipv4_edit` = :ipv4_edit
         WHERE `id` = :id
         ";
 
@@ -295,10 +323,12 @@ class Clubs
             "address"   =>  input('club:edit:address'),
             "banner_horizontal" =>  input('club:edit:banner_horizontal'),
             "banner_vertical"   =>  input('club:edit:banner_vertical'),
-            "url_site"       =>  input('club:edit:url_site')
+            "url_site"       =>  input('club:edit:url_site'),
+            "ipv4_edit"     =>  getIp()
         ];
-        $dataset['address_city'] = getCityByCoords($dataset['lat'], $dataset['lng'])['city'];
-
+        if (!$dataset['address_city']) {
+            $dataset['address_city'] = getCityByCoords($dataset['lat'], $dataset['lng'])['city'];
+        }
 
         try {
             $sth->execute($dataset);
@@ -329,8 +359,6 @@ class Clubs
         } catch (\PDOException $e) {
             dd($e->getMessage()); //@todo: MONOLOG
         }
-
-        dd($dataset);
 
         response()->redirect( url('clubs_list') );
     }

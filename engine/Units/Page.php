@@ -49,7 +49,8 @@ ORDER BY `id`";
         ]);
 
         $template->set('href', [
-            'unauthorized_add'  => url('club_form_unauthorized_add')
+            'unauthorized_add'  =>  url('club_form_unauthorized_add'),
+            'clubs_list'        =>  url('clubs_list')
         ]);
 
         $template->set('head/assets', StaticConfig::get('global/server'));

@@ -29,11 +29,15 @@ function getIp() {
  * @return array
  */
 function getCoordsByIP($ip) {
-    $details = json_decode(file_get_contents("http://ipinfo.io/{$ip}/json"), true);
-    $location = explode(',', $details['loc'], 2);
+    $url = "http://ipinfo.io/{$ip}/json";
+    $raw = file_get_contents($url);
+    $json = json_decode($raw, TRUE);
+
+    $location = explode(',', $json['loc'], 2);
     return [
-        'lat'   =>  $location[0],
-        'lng'   =>  $location[1]
+        'lat'   =>  $location[0] ?? NULL,
+        'lng'   =>  $location[1] ?? NULL,
+        'city'  =>  $json->city ?? ''
     ];
 }
 
