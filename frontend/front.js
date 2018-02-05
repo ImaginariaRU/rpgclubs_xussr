@@ -1,3 +1,4 @@
+/* ====================================== FUNCTIONS DEFINE =================================== */
 $.fn.escape = function (callback) {
     return this.each(function () {
         $(document).on("keydown", this, function (e) {
@@ -127,3 +128,5 @@ var __GetUserCoords = function() {
         }
     });
 }
+
+/* ================================ MAIN CODE ============================ */
