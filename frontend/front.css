@@ -1,5 +1,6 @@
 /* Fonts */
-@import url('https://fonts.googleapis.com/css?family=PT+Sans');
+/* this import can't be parsed by css-min */
+/* @import url('https://fonts.googleapis.com/css?family=PT+Sans'); */
 
 .section-infobox-wrapper, .section-about-wrapper {
     font-family: 'PT Sans', sans-serif;

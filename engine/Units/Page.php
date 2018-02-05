@@ -19,7 +19,7 @@ class Page
     public function view_frontpage() {
         $template = new Template('frontpage.html', '$/templates/frontpage');
 
-        $ip = (StaticConfig::get('global/server') == 'development') ? '188.143.207.215' : getIp();
+        $ip = (StaticConfig::get('connection/suffix') == 'development') ? '188.143.207.215' : getIp();
         $coords_latlng = getCoordsByIP($ip);
         $location = getCityByCoords($coords_latlng['lat'], $coords_latlng['lng']);
 
@@ -55,8 +55,11 @@ ORDER BY `id`";
         $template->set('head/assets', StaticConfig::get('global/server'));
 
         $template->set('clubs_list', $dataset);
-        $template->set('section/infobox_position', 'topleft');
-        $template->set('section/about_position', 'topright');
+
+        $template->set('section', [
+            'infobox_position'  =>  'topleft',
+            'about_position'    =>  'topright'
+        ]);
 
         // $packer = new HtmlMin();
         // return $packer->minify($template->render());

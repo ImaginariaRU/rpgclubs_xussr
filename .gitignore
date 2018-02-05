@@ -5,3 +5,4 @@
 .config/phpauth.ini
 composer.lock
 vendor
+public
