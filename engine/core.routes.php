@@ -12,8 +12,9 @@ SimpleRouter::setDefaultNamespace('RPGCAtlas\Units');
 /* === FRONTPAGE === */
 SimpleRouter::get   ('/', 'Page@view_frontpage')->name('frontpage');
 
-/* === AJAX: GET POI */
+/* === AJAX */
 SimpleRouter::get   ('/ajax/poi/{id}', 'Ajax@get_info_poi')->name('ajax_info_poi');
+SimpleRouter::get   ('/ajax/city', 'Ajax@get_city_by_coords')->name('ajax_get_city_by_coords');
 
 /* === AJAX: FEEDBACK === */
 SimpleRouter::get   ('/ajax/feedback', 'Ajax@form_feedback');

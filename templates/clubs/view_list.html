@@ -35,8 +35,8 @@
         <th>Control</th>
         <th>Public</th>
         <th>Title</th>
+        <th>City</th>
         <th>Address</th>
-        <th>Image</th>
         <th>URL</th>
         <th>-</th>
     </tr>
@@ -45,13 +45,14 @@
         <td><button data-url="{*href.club_edit*}{*dataset:id*}" class="action-edit-club">EDIT</button></td>
         <td align="center">{?*dataset:is_public*}<h1>+</h1>{?}{?!*dataset:is_public*}<h1>-</h1>{?}</td>
         <td>{*dataset:title*}</td>
+        <td>{*dataset:address_city*}</td>
         <td>{*dataset:address*}</td>
-        <td align="center">{?*dataset:picture*}<img src="{*dataset:picture*}" width="60"/>{?}
-            {?!*dataset:picture*}&mdash;{?}
-        </td>
+        /* <td align="center">{?*dataset:banner_horizontal*}<img src="{*dataset:banner_horizontal*}" width="60"/>{?}
+            {?!*dataset:banner_horizontal*}&mdash;{?}
+        </td> */
         <td>
-            {?*dataset:url*}<a href="{*dataset:url*}" target="_blank">{*dataset:url*}</a>{?}
-            {?!*dataset:url*}не указан{?}
+            {?*dataset:url_site*}<a href="{*dataset:url_site*}" target="_blank">{*dataset:url_site*}</a>{?}
+            {?!*dataset:url_site*}не указан{?}
         </td>
         <td>
             <button data-lat="{*dataset:lat*}" data-lng="{*dataset:lng*}" class="action-focus-at-map">FOCUS</button>

@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <title>{*html.title*}</title>
     <script type="text/javascript" src="/frontend/jquery/jquery-3.2.1_min.js"></script>
+    <script type="text/javascript" src="/frontend/colorbox/jquery.colorbox-min.js"></script>
+    <link rel="stylesheet" href="/frontend/colorbox/colorbox.css" />
+
     <style type="text/css">
         input[required] {
             background-image: radial-gradient(#F00 15%, transparent 16%), radial-gradient(#F00 15%, transparent 16%);
@@ -25,13 +28,6 @@
             </td>
         </tr>
         <tr>
-            <td>Coords</td>
-            <td>
-                Lat: <input type="text" value="" size="20" name="club:add:lat" tabindex="1"><br/>
-                Lng: <input type="text" value="" size="20" name="club:add:lng" tabindex="2">
-            </td>
-        </tr>
-        <tr>
             <td>Title</td>
             <td><input type="text" value="" size="80" name="club:add:title" tabindex="3" required></td>
         </tr>
@@ -42,26 +38,55 @@
             </td>
         </tr>
         <tr>
+            <td>Coords</td>
+            <td>
+                Lat: <input type="text" value="" size="20" name="club:add:lat" tabindex="1"><br/>
+                Lng: <input type="text" value="" size="20" name="club:add:lng" tabindex="2">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button id="actor-resolve-city" data-target="club:add:address_city">Определить город</button>
+            </td>
+            <td>
+                <input type="text" value="" size="40" name="club:add:address_city">
+            </td>
+        </tr>
+        <tr>
             <td>Address</td>
             <td>
                 <textarea cols="70" rows="7" name="club:add:address" tabindex="5"></textarea>
             </td>
         </tr>
         <tr>
-            <td>Image</td>
+            <td>Banner (horizontal)</td>
             <td>
-                <input type="text" value="" size="80" name="club:add:picture" tabindex="6">
+                <input type="text" value="" size="80" name="club:add:banner_horizontal" tabindex="6">
+                <button class="action-call-colorbox-onadd" data-url-container="club:add:banner_horizontal">Показать</button>
+            </td>
+        </tr>
+        <tr>
+            <td>Banner (vertical)</td>
+            <td>
+                <input type="text" value="" size="80" name="club:add:banner_vertical" tabindex="6">
+                <button class="action-call-colorbox-onadd" data-url-container="club:add:banner_vertical">Показать</button>
             </td>
         </tr>
         <tr>
             <td>URL</td>
             <td>
-                <input type="text" value="" size="80" name="club:add:url" tabindex="7">
+                <input type="text" value="" size="80" name="club:add:url_site" tabindex="7">
             </td>
         </tr>
         <tr>
             <td>&nbsp;</td>
-            <td><button type="submit" tabindex="8">ДОБАВИТЬ</button></td>
+            <td>
+                <button type="submit" tabindex="8">ДОБАВИТЬ</button>
+
+                <span style="float: right">
+                    <button data-url="{*href.clubs_list*}" id="actor-back-to-clubs-list">К СПИСКУ КЛУБОВ</button>
+                </span>
+            </td>
         </tr>
     </table>
 </form>
@@ -75,8 +100,47 @@
 <script type="text/javascript">
     ;$(function(){
         $("input[name='club:add:lat']").focus();
+    }).on('click', '.action-call-colorbox-onadd', function(event){
+
+        let container = $(this).data('url-container');
+        let url = $("input[name='" + container + "']").val();
+
+        console.log("input[name='" + container + "']", url);
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (url != '') {
+            $.colorbox({href: url});
+        } else {
+            $.colorbox({html: "Image not exists", width: 300, height: 100});
+        }
+
+        return false;
+
+    }).on('click', '#actor-back-to-clubs-list', function(){
+        document.location.href = $(this).data('url');
+    }).on('click', '#actor-resolve-city', function(event){
+        event.preventDefault();
+        event.stopPropagation();
+
+        let url = "{*href.ajax_get_city*}";
+        let target = $(this).data('target');
+
+        $.get(url, {
+            lat: $("input[name='club:add:lat']").val(),
+            lng: $("input[name='club:add:lng']").val(),
+        }, function(data){
+            $("input[name='" + target +"']").val( data );
+        });
     });
 </script>
+
+<div style="display:none">
+    <div id="colorboxed-view" style="padding:10px; background:#fff;">
+        <div id="colorboxed-view-content"></div>
+    </div>
+</div>
 
 
 </body>

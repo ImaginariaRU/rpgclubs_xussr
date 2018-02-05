@@ -46,3 +46,21 @@ function dd($value) {
     var_dump($value);
     die;
 }
+
+function getCityByCoords($lat, $lng) {
+    if (!($lat&&$lng)) return NULL;
+
+    $url = "https://geocode-maps.yandex.ru/1.x/?sco=latlong&kind=locality&format=json&geocode={$lat},{$lng}";
+    $raw = file_get_contents($url);
+
+    if ($raw === false) return NULL;
+
+    $json = json_decode( $raw );
+    if (($json === NULL) || ($json === FALSE)) return NULL;
+
+    $feature_member = $json->response->GeoObjectCollection->featureMember;
+
+    if (empty($feature_member)) return NULL;
+
+    return $feature_member[0]->GeoObject->metaDataProperty->GeocoderMetaData->Address->formatted;
+}

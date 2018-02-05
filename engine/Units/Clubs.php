@@ -32,23 +32,19 @@ class Clubs
 
         $dataset = [];
         foreach ($dbi->getConnection()->query($query)->fetchAll() as $row) {
-            $dataset[ $row['id'] ] = [
-                'owner'     =>  1,              //@todo: реальный владелец (для админа показывает логин владельца, для владельца - "Я"
-                'is_public' =>  $row['is_public'],
-                'id'        =>  $row['id'],
-                'title'     =>  $row['title'],
-                'address'   =>  $row['address'],
-                'url'       =>  $row['url'],
-                'lat'       =>  $row['lat'],
-                'lng'       =>  $row['lng'],
-                'coords'    =>  "{$row['lat']} / {$row['lng']}",
-                'picture'   =>  $row['picture']
-            ];
+            $data = $row;
+            $data['coords'] = "{$row['lat']} / {$row['lng']}";
+
+            // еще нужно определить реального владельца по айди (id_owner)
+            //@todo: реальный владелец (для админа показывает логин владельца, для владельца - "Я"
+
+            $dataset[ $row['id'] ] = $data;
         }
 
         $template->set('dataset', $dataset);
 
         $template->set('summary', [
+            // клубов всего
             'clubs_total'   =>  count($dataset),
 
             // кол-во клубов, у которых is_public = 1
@@ -78,7 +74,9 @@ class Clubs
         $template->set('href', [
             'profile'           =>  url('profile_view'),
             'frontpage'         =>  url('frontpage'),
-            'form_action_submit'=>  url('club_callback_add')
+            'clubs_list'        =>  url('clubs_list'),
+            'form_action_submit'=>  url('club_callback_add'),
+            'ajax_get_city'     =>  url('ajax_get_city_by_coords')
         ]);
 
         return $template->render();
@@ -103,8 +101,10 @@ class Clubs
           `title`,
           `desc`,
           `address`,
-          `picture`,
-          `url`
+          `address_city`,
+          `banner_horizontal`,
+          `banner_vertical`,
+          `url_site`
         )
         VALUES
         (
@@ -115,13 +115,12 @@ class Clubs
           :title,
           :desc,
           :address,
-          :picture,
-          :url
+          :address_city,
+          :banner_horizontal,
+          :banner_vertical,
+          :url_site
         )
         ";
-
-        //$geocode = file_get_contents('http://maps.googleapis.com/maps/api/geocode/json?latlng='.input('club:add:lat').','.input('club:add:lng').'&sensor=false');
-
 
         $sth = $dbi->getConnection()->prepare($query);
 
@@ -133,9 +132,12 @@ class Clubs
             "title"     =>  input('club:add:title'),
             "desc"      =>  input('club:add:desc'),
             "address"   =>  input('club:add:address'),
-            "picture"   =>  input('club:add:picture'),
-            "url"       =>  input('club:add:url')
+            "address_city" => input('club:add:address_city'),
+            "banner_horizontal" =>  input('club:add:banner_horizontal'),
+            "banner_vertical"   =>  input('club:add:banner_vertical'),
+            "url_site"       =>  input('club:add:url_site')
         ];
+        $dataset['address_city'] = getCityByCoords($dataset['lat'], $dataset['lng']);
 
         try {
             $sth->execute($dataset);
@@ -169,9 +171,11 @@ class Clubs
         $template->set('href', [
             'profile'           =>  url('profile_view'),
             'frontpage'         =>  url('frontpage'),
+            'clubs_list'        =>  url('clubs_list'),
+            'ajax_get_city'     =>  url('ajax_get_city_by_coords'),
             'form_action_submit'=>  url('club_callback_edit', ['id' => $id]),
             'form_action_delete'=>  url('club_callback_delete', ['id' => $id]),
-            'form_action_toggle'=>  url('club_callback_toggle', ['id' => $id])
+            'form_action_toggle'=>  url('club_callback_toggle', ['id' => $id]),
         ]);
 
         return $template->render();
@@ -190,8 +194,10 @@ class Clubs
         `title` = :title,
         `desc` = :desc,
         `address` = :address,
-        `picture` = :picture,
-        `url` = :url
+        `address_city` = :address_city,
+        `banner_horizontal` = :banner_horizontal,
+        `banner_vertical` = :banner_vertical,
+        `url_site` = :url_site
         WHERE `id` = :id
         ";
 
@@ -206,9 +212,12 @@ class Clubs
             "title"     =>  input('club:edit:title'),
             "desc"      =>  input('club:edit:desc'),
             "address"   =>  input('club:edit:address'),
-            "picture"   =>  input('club:edit:picture'),
-            "url"       =>  input('club:edit:url')
+            "banner_horizontal" =>  input('club:edit:banner_horizontal'),
+            "banner_vertical"   =>  input('club:edit:banner_vertical'),
+            "url_site"       =>  input('club:edit:url_site')
         ];
+        $dataset['address_city'] = getCityByCoords($dataset['lat'], $dataset['lng']);
+
 
         try {
             $sth->execute($dataset);
@@ -239,6 +248,8 @@ class Clubs
         } catch (\PDOException $e) {
             dd($e->getMessage()); //@todo: MONOLOG
         }
+
+        dd($dataset);
 
         response()->redirect( url('clubs_list') );
     }
