@@ -14,27 +14,30 @@
     <meta name="copyright" content="Wombat">
     <meta name="url" content="">
 
+    /* always remote */
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
+
     {?*publish_options.assets_type="development"*}
-    <script type="text/javascript" src="/frontend/jquery/jquery.min.js"></script>
-    <script type="text/javascript" src="/frontend/leaflet/leaflet.js"></script>
-    <link rel="stylesheet" href="/frontend/leaflet/leaflet.css" />
+    <script src="/frontend/jquery/jquery.min.js" type="text/javascript"></script>
+    <script src="/frontend/leaflet/leaflet.js" type="text/javascript"></script>
+    <link href="/frontend/leaflet/leaflet.css" rel="stylesheet" />
 
     <!-- danwild/leaflet-fa-markers -->
-    <script type="text/javascript" src="/frontend/leaflet/L.Icon.FontAwesome.js"></script>
-    <link rel="stylesheet" href="/frontend/leaflet/L.Icon.FontAwesome.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" />
+    <script src="/frontend/leaflet/L.Icon.FontAwesome.js" type="text/javascript"></script>
+    <link href="/frontend/leaflet/L.Icon.FontAwesome.css" rel="stylesheet" />
 
     <!-- marker clusters -->
-    <link rel="stylesheet" href="/frontend/leaflet/MarkerCluster.css">
-    <link rel="stylesheet" href="/frontend/leaflet/MarkerCluster.Default.css">
-    <script type="text/javascript" src="/frontend/leaflet/leaflet.markercluster.js"></script>
+    <link href="/frontend/leaflet/MarkerCluster.css" rel="stylesheet" />
+    <link href="/frontend/leaflet/MarkerCluster.Default.css" rel="stylesheet" />
+    <script src="/frontend/leaflet/leaflet.markercluster.js" type="text/javascript"></script>
 
     <!-- zoom slider -->
-    <script type="text/javascript" src="/frontend/leaflet/L.Control.Zoomslider.js"></script>
-    <link rel="stylesheet" href="/frontend/leaflet/L.Control.Zoomslider.css" />
+    <script src="/frontend/leaflet/L.Control.Zoomslider.js" type="text/javascript"></script>
+    <link href="/frontend/leaflet/L.Control.Zoomslider.css" rel="stylesheet" />
 
     <!-- main CSS -->
-    <link rel="stylesheet" href="/frontend/front.css">
+    <link href="/frontend/front.css" rel="stylesheet" />
     {?}
 
     {?*publish_options.assets_type="production"*}
@@ -50,10 +53,6 @@
 <body>
 
 <div tabindex="0" class="leaflet-container leaflet-fade-anim leaflet-grab leaflet-touch-drag" id="map"></div>
-
-
-<script type="text/javascript" id="main">
-</script>
 
 <section id="section-infobox" class="section-infobox-wrapper invisible" data-leaflet-control-position="{*section.infobox_position*}">
     /*
@@ -95,10 +94,10 @@
 /* JS Scripts */
 
 {?*publish_options.assets_type="development"*}
-<script type="text/javascript" src="/frontend/front.js"></script>
+<script src="/frontend/front.js" type="text/javascript"></script>
 {?}
 {?*publish_options.assets_type="production"*}
-<script type="text/javascript" src="/public/scripts.js"></script>
+<script src="/public/scripts.js" type="text/javascript" ></script>
 {?}
 
 </body>

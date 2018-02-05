@@ -1,3 +1,10 @@
+/* Fonts */
+@import url('https://fonts.googleapis.com/css?family=PT+Sans');
+
+.section-infobox-wrapper, .section-about-wrapper {
+    font-family: 'PT Sans', sans-serif;
+}
+
 /* Map full */
 html, body, #map {
     height:100%;
@@ -38,14 +45,20 @@ html, body, #map {
     overflow-y: auto;
 }
 
+.section-infobox-content .infobox-title {
+    margin-left: 0.5vw;
+}
+
 .section-infobox-content .infobox-desc {
     text-align: justify;
     margin-right: 2vw;
+    margin-left: 0.5vw;
 }
 
 .section-infobox-content .infobox-address {
     text-align: justify;
     margin-right: 2vw;
+    margin-left: 0.5vw;
 }
 
 .infobox-site {
@@ -73,6 +86,8 @@ html, body, #map {
     max-width: 35vw;
     max-height: 65vh;
     overflow-y: auto;
+
+    padding-left: 0.5vw;
 }
 
 /* in-section content */
