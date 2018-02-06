@@ -10,7 +10,6 @@
 
 namespace RPGCAtlas\Units;
 
-use Pecee\Http\Request;
 use ReCaptcha\ReCaptcha;
 use RPGCAtlas\Classes\Template;
 use RPGCAtlas\Classes\DBStatic;
@@ -239,7 +238,7 @@ class Clubs
             "banner_horizontal" =>  input('club:unauthadd:banner_horizontal'),
             "banner_vertical"   =>  input('club:unauthadd:banner_vertical'),
             "url_site"      =>  input('club:unauthadd:url_site'),
-            "ipv4_add"      =>  getIp()                                 //@todo: во все остальные формы
+            "ipv4_add"      =>  getIp()
         ];
 
         if (!$dataset['address_city']) {
@@ -251,6 +250,8 @@ class Clubs
         } catch (\PDOException $e) {
             dd($e->getMessage()); //@todo: MONOLOG
         }
+
+        // сделать отправку письма на почту админу с датасетом
 
         response()->redirect( url('frontpage') );
     }
