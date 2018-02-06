@@ -155,7 +155,7 @@ class Clubs
 
     /* ==== анонимное добавление данных ==== */
     public function form_unauthorized_add() {
-        $template = new Template('form_unauthorized_add.html', '$/templates/clubs');
+        $template = new Template('form_add_anon_any.html', '$/templates/clubs');
 
         $template->set('html/title', "Добавление клуба неавторизованным пользователем");
 
@@ -220,26 +220,44 @@ class Clubs
           INET_ATON(:ipv4_add)
         )
         ";
-
         $sth = $dbi->getConnection()->prepare($query);
+
 
         $dataset = [
             "id_owner"      =>  0,
             "is_public"     =>  0,
-            "owner_email"   =>  input('club:unauthadd:owner_email'),
-            "owner_about"   =>  input('club:unauthadd:owner_about'),
-            "title"         =>  input('club:unauthadd:title'),
-            "desc"          =>  input('club:unauthadd:desc'),
-            "lat"           =>  input('club:unauthadd:lat'),
-            "lng"           =>  input('club:unauthadd:lng'),
+            "owner_email"   =>  input('club:anonadd:owner_email'),
+            "owner_about"   =>  input('club:anonadd:owner_about'),
+            "title"         =>  input('club:anonadd:title'),
+            "desc"          =>  input('club:anonadd:desc'),
+            "lat"           =>  input('club:anonadd:lat'),
+            "lng"           =>  input('club:anonadd:lng'),
+            "latlng"        =>  input('club:anonadd:latlng'),
             "zoom"          =>  12,                                     //@todo: фронтэнд-обработка (зум карты меняет значение в поле)
-            "address_city"  =>  input('club:unauthadd:address_city'),
-            "address"       =>  input('club:unauthadd:address'),
-            "banner_horizontal" =>  input('club:unauthadd:banner_horizontal'),
-            "banner_vertical"   =>  input('club:unauthadd:banner_vertical'),
-            "url_site"      =>  input('club:unauthadd:url_site'),
+            "address_city"  =>  input('club:anonadd:address_city'),
+            "address"       =>  input('club:anonadd:address'),
+            "banner_horizontal" =>  input('club:anonadd:banner_horizontal'),
+            "banner_vertical"   =>  input('club:anonadd:banner_vertical'),
+            "url_site"      =>  input('club:anonadd:url_site'),
             "ipv4_add"      =>  getIp()
         ];
+        /* горизонтальный (ВК) баннер можно попробовать получать по апи ВК
+
+        curl "https://vk.com/dev" --2.0
+        --data "act=a_run_method&al=1&hash=1517933163"%"3Ab1d85a0b2538101779&method=groups.getById&param_fields=cover&param_group_id=tavernamsk&param_v=5.71"
+
+
+        */
+
+
+        if (!($dataset['lat']&&$dataset['lng']) && ($dataset['latlng'])) {
+            // координаты заданы строкой с карты
+            // '59.925483, 30.259649'
+            // trim, explode by ', '
+            $set = explode(', ', trim($dataset['latlng']));
+            $dataset['lat'] = $set[0];
+            $dataset['lng'] = $set[1];
+        }
 
         if (!$dataset['address_city']) {
             $dataset['address_city'] = getCityByCoords($dataset['lat'], $dataset['lng'])['city'];

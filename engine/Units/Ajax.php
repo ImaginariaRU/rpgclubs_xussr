@@ -42,6 +42,13 @@ class Ajax
     {
         $lat = input('lat');
         $lng = input('lng');
+        $latlng = input('latlng');
+
+        if (!($lat&&$lng) && ($latlng)) {
+            $set = explode(', ', trim($latlng));
+            $lat = $set[0];
+            $lng = $set[1];
+        }
 
         $city = getCityByCoords($lat, $lng)['city'];
         return $city;

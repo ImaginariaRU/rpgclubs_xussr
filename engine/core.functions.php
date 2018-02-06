@@ -4,7 +4,32 @@
  * Date: 03.02.2018, time: 22:20
  */
 
+/**
+ *
+ * Аналог list($dataset['a'], $dataset['b']) = explode(',', 'AAAAAA,BBBBBB'); только с учетом размерной массивов и дефолтными значениями
+ * Example: array_fill_like_list($dataset, ['a', 'b', 'c'], explode(',', 'AAAAAA,BBBBBB'), 'ZZZZZ' );
+ *
+ * @package KarelWintersky/CoreFunctions
+ *
+ * @param array $target_array
+ * @param array $indexes
+ * @param array $source_array
+ * @param null $default_value
+ */
+function array_fill_like_list(array &$target_array, array $indexes, array $source_array, $default_value = NULL)
+{
+    foreach ($indexes as $i => $index) {
+        $target_array[ $index ] = array_key_exists($i, $source_array) ? $source_array[ $i ] : $default_value;
+    }
+}
 
+
+
+/**
+ * @package KarelWintersky/CoreFunctions
+ *
+ * @return null|string
+ */
 function getIp() {
     if (!isset ($_SERVER['REMOTE_ADDR'])) {
         return NULL;
@@ -25,13 +50,25 @@ function getIp() {
  *
  * https://stackoverflow.com/a/17864552/5127037
  *
+ * @package KarelWintersky/NetFunctions
+ *
  * @param $ip
  * @return array
  */
 function getCoordsByIP($ip) {
+    $coords_nowhere = [
+        'lat'   =>  NULL,
+        'lng'   =>  NULL,
+        'city'  =>  NULL
+    ];
+
     $url = "http://ipinfo.io/{$ip}/json";
+
     $raw = file_get_contents($url);
+    if ($raw === FALSE) return $coords_nowhere;
+
     $json = json_decode($raw, TRUE);
+    if (($json === NULL) || ($json === FALSE)) return $coords_nowhere;
 
     $location = explode(',', $json['loc'], 2);
     return [
@@ -41,11 +78,43 @@ function getCoordsByIP($ip) {
     ];
 }
 
-function dd($value) {
-    echo '<pre>';
-    var_dump($value);
-    die;
+
+/**
+ *
+ * @package KarelWintersky/NetFunctions
+ *
+ * @param $name
+ * @return mixed|null
+ */
+function getVKGroupInfo($name) {
+    // https://vk.com/dev/groups.getById
+    // https://vk.com/dev/objects/group - возвращаемые данные
+
+
+    $url = 'https://api.vk.com/method/groups.getById?';
+    $request_params = [
+        'group_ids' =>  $name,
+        'fields'    =>  'id,name,screen_name,type,city,country,cover,description',
+        'v'         =>  '5.71'
+    ];
+
+    $raw = file_get_contents($url . http_build_query($request_params));
+    if ($raw === FALSE) return NULL;
+
+    $json = json_decode($raw, TRUE);
+    if (($json === NULL) || ($json === FALSE)) return NULL;
+
+    return $json;
 }
+
+if (!function_exists('dd')) {
+    function dd($value) {
+        echo '<pre>';
+        var_dump($value);
+        die;
+    }
+}
+
 
 function getCityByCoords($lat, $lng) {
     if (!($lat&&$lng)) return NULL;
