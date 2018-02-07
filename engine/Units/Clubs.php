@@ -11,6 +11,7 @@
 namespace RPGCAtlas\Units;
 
 use ReCaptcha\ReCaptcha;
+use RPGCAtlas\Classes\StaticConfig;
 use RPGCAtlas\Classes\Template;
 use RPGCAtlas\Classes\DBStatic;
 
@@ -77,6 +78,10 @@ class Clubs
             'clubs_list'        =>  url('clubs_list'),
             'form_action_submit'=>  url('club_callback_add'),
             'ajax_get_city'     =>  url('ajax_get_city_by_coords')
+        ]);
+        $template->set('options', [
+            'captcha_enabled'   =>  StaticConfig::get('google_recaptcha/enabled'),
+            'captcha_sitekey'   =>  StaticConfig::get('google_recaptch/site_key')
         ]);
 
         return $template->render();
@@ -164,6 +169,10 @@ class Clubs
             'form_action_submit'=>  url('club_callback_unauthorized_add'),
             'ajax_get_city'     =>  url('ajax_get_city_by_coords')
         ]);
+        $template->set('options', [
+            'captcha_enabled'   =>  StaticConfig::get('google_recaptcha/enable'),
+            'captcha_sitekey'   =>  StaticConfig::get('google_recaptcha/site_key')
+        ]);
 
         return $template->render();
     }
@@ -173,13 +182,15 @@ class Clubs
         $dbi = DBStatic::getInstance();
         $table = $dbi::$_table_prefix . 'clubs';
 
-        // проверяем капчу
-        $recaptcha = new ReCaptcha('6Lf3akQUAAAAAO3czhvEBEX0bda2NtwIJ8YorYHK');
-        $checkout = $recaptcha->verify(input('g-recaptcha-response'), getIp());
+        if (StaticConfig::get('google_recaptcha/enable') == 1) {
+            // проверяем капчу
+            $recaptcha = new ReCaptcha('6Lf3akQUAAAAAO3czhvEBEX0bda2NtwIJ8YorYHK');
+            $checkout = $recaptcha->verify(input('g-recaptcha-response'), getIp());
 
-        // неправильная капча?
-        if (!$checkout->isSuccess()) {
-            response()->redirect( url('club_form_unauthorized_add') ); // и как-то надо передать сообщение, что ошибка в капче. КАК?
+            // неправильная капча?
+            if (!$checkout->isSuccess()) {
+                response()->redirect( url('club_form_unauthorized_add') ); // и как-то надо передать сообщение, что ошибка в капче. КАК?
+            }
         }
 
         $query = "
@@ -303,6 +314,10 @@ class Clubs
             'form_action_submit'=>  url('club_callback_edit', ['id' => $id]),
             'form_action_delete'=>  url('club_callback_delete', ['id' => $id]),
             'form_action_toggle'=>  url('club_callback_toggle', ['id' => $id]),
+        ]);
+        $template->set('options', [
+            'captcha_enabled'   =>  StaticConfig::get('google_recaptcha/enabled'),
+            'captcha_sitekey'   =>  StaticConfig::get('google_recaptch/site_key')
         ]);
 
         return $template->render();
