@@ -233,7 +233,6 @@ class Clubs
         ";
         $sth = $dbi->getConnection()->prepare($query);
 
-
         $dataset = [
             "id_owner"      =>  0,
             "is_public"     =>  0,
@@ -241,9 +240,6 @@ class Clubs
             "owner_about"   =>  input('club:anonadd:owner_about'),
             "title"         =>  input('club:anonadd:title'),
             "desc"          =>  input('club:anonadd:desc'),
-            "lat"           =>  input('club:anonadd:lat'),
-            "lng"           =>  input('club:anonadd:lng'),
-            "latlng"        =>  input('club:anonadd:latlng'),
             "zoom"          =>  12,                                     //@todo: фронтэнд-обработка (зум карты меняет значение в поле)
             "address_city"  =>  input('club:anonadd:address_city'),
             "address"       =>  input('club:anonadd:address'),
@@ -252,6 +248,17 @@ class Clubs
             "url_site"      =>  input('club:anonadd:url_site'),
             "ipv4_add"      =>  getIp()
         ];
+        if (!(input('club:anonadd:lat')&&input('club:anonadd:lng')) && (input('club:anonadd:latlng'))) {
+            // координаты заданы строкой с карты
+            // '59.925483, 30.259649'
+            // trim, explode by ', '
+            $set = explode(', ', trim(input('club:anonadd:latlng')));
+            $dataset['lat'] = $set[0];
+            $dataset['lng'] = $set[1];
+        } else {
+            $dataset['lat'] = input('club:anonadd:lat');
+            $dataset['lng'] = input('club:anonadd:lng');
+        }
         /* горизонтальный (ВК) баннер можно попробовать получать по апи ВК
 
         curl "https://vk.com/dev" --2.0
@@ -261,14 +268,7 @@ class Clubs
         */
 
 
-        if (!($dataset['lat']&&$dataset['lng']) && ($dataset['latlng'])) {
-            // координаты заданы строкой с карты
-            // '59.925483, 30.259649'
-            // trim, explode by ', '
-            $set = explode(', ', trim($dataset['latlng']));
-            $dataset['lat'] = $set[0];
-            $dataset['lng'] = $set[1];
-        }
+
 
         if (!$dataset['address_city']) {
             $dataset['address_city'] = getCityByCoords($dataset['lat'], $dataset['lng'])['city'];
