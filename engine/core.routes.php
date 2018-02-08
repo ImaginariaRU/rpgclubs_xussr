@@ -13,16 +13,21 @@ SimpleRouter::setDefaultNamespace('RPGCAtlas\Units');
 SimpleRouter::get   ('/', 'Page@view_frontpage')->name('frontpage');
 
 /* === AJAX */
-SimpleRouter::get   ('/ajax/poi/{id}', 'Ajax@get_info_poi')->name('ajax_info_poi');
-SimpleRouter::get   ('/ajax/city', 'Ajax@get_city_by_coords')->name('ajax_get_city_by_coords');
+SimpleRouter::get   ('/ajax/get:poi/{id}', 'Ajax@get_info_poi')->name('ajax_info_poi');
+SimpleRouter::get   ('/ajax/get:city:by:coords', 'Ajax@get_city_by_coords')->name('ajax_get_city_by_coords');
+SimpleRouter::get   ('/ajax/get:vk:club:info', 'Ajax@get_vk_club_info')->name('ajax_get_vk_club_info');
+SimpleRouter::get   ('/ajax/get:coords:by:address', 'Ajax@get_coords_by_address')->name('ajax_get_coords_by_address');
 
 /* === FEEDBACK AJAX === */
 SimpleRouter::get   ('/ajax/feedback', 'Ajax@form_feedback');
 SimpleRouter::post  ('/ajax/feedback', 'Ajax@callback_feedback');
 
 /* Форма добавления клуба анонимусом */
-SimpleRouter::get   ('/unauthorized/add_club', 'Clubs@form_unauthorized_add')->name('club_form_unauthorized_add');
-SimpleRouter::post  ('/unauthorized/add_club', 'Clubs@callback_unauthorized_add')->name('club_callback_unauthorized_add');
+SimpleRouter::get   ('/unauth_add_any_club', 'Clubs@form_unauth_add_any_club')->name('club_form_unauth_add_any_club');
+SimpleRouter::post  ('/unauth_add_any_club', 'Clubs@callback_unauth_add_any_club')->name('club_callback_unauth_add_any_club');
+
+SimpleRouter::get   ('/unauth_add_vk_club', 'Clubs@form_unauth_add_vk_club')->name('club_form_unauth_add_vk_club');
+SimpleRouter::post  ('/unauth_add_vk_club', 'Clubs@callback_unauth_add_vk_club')->name('club_callback_unauth_add_vk_club');
 
 /* === AUTH === */
 SimpleRouter::get   ('/auth/login', 'Auth@form_login')->name('auth_form_login');

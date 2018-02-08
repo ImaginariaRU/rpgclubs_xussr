@@ -48,7 +48,7 @@
 
     <script type="text/javascript" id="data">
         var userlocation = { ip_lat: '{*location.ip_lat*}', ip_lng: '{*location.ip_lng*}', city: '{*location.city*}', city_lat: '{*location.city_lat*}', city_lng: '{*location.city_lng*}' };
-        var clubs_list = [ {%*clubs_list*} { id: {*clubs_list:id*}, lat: {*clubs_list:lat*}, lng: {*clubs_list:lng*} }, {%} ];
+        var clubs_list = [ {%*dataset_clubs_list*} { id: {*dataset_clubs_list:id*}, lat: {*dataset_clubs_list:lat*}, lng: {*dataset_clubs_list:lng*} }, {%} ];
     </script>
 
 </head>
@@ -73,8 +73,12 @@
         </div>
         <div>
             Если вы хотите добавить свой клуб на карту, напишите сюда: <a href="mailto:rpgclubsrf@yandex.ru">rpgclubsrf@yandex.ru</a>
-            или <a href="{*href.unauthorized_add*}" target="_blank">подайте заявку сами через форму</a>. На ту же почту можно отправлять
+            или <a href="{*href.unauth_add_any_club*}">подайте заявку сами через форму</a>. На ту же почту можно отправлять
             все комментарии, жалобы и предложения.
+
+            {?*publish_options.assets_type="development"*}
+            <a href="{*href.unauth_add_vk_club*}">Тестовая форма</a>
+            {?}
         </div>
         {?*publish_options.allow_donate*}
         <hr>

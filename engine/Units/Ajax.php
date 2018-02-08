@@ -63,4 +63,20 @@ class Ajax
     }
 
 
+    public function get_vk_club_info()
+    {
+        $club_id = input('club_id');
+
+        $info = getVKGroupInfo( $club_id );
+
+        return json_encode($info);
+    }
+
+    public function get_coords_by_address()
+    {
+        $address = input('club_address');
+
+
+    }
+
 }

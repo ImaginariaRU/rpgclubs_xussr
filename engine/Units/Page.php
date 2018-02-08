@@ -50,13 +50,13 @@ ORDER BY `id`";
         ]);
 
         $template->set('href', [
-            'unauthorized_add'  =>  url('club_form_unauthorized_add'),
-            'clubs_list'        =>  url('clubs_list')
+            'unauth_add_any_club'   =>  url('club_form_unauth_add_any_club'),
+            'unauth_add_vk_club'    =>  url('club_form_unauth_add_vk_club'),
+
+            'clubs_list'            =>  url('clubs_list')
         ]);
 
-        $template->set('head/assets', StaticConfig::get('global/server'));
-
-        $template->set('clubs_list', $dataset);
+        $template->set('dataset_clubs_list', $dataset);
 
         $template->set('section', [
             'infobox_position'  =>  'topleft',

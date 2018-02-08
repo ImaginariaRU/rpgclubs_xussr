@@ -158,15 +158,17 @@ class Clubs
         response()->redirect( url('clubs_list') );
     }
 
-    /* ==== анонимное добавление данных ==== */
-    public function form_unauthorized_add() {
-        $template = new Template('form_add_anon_any.html', '$/templates/clubs');
+    /* ===================================================== */
+    /* ============   анонимное добавление данных ========== */
+    /* ===================================================== */
+    public function form_unauth_add_any_club() {
+        $template = new Template('form_unauth_add_any_club.html', '$/templates/clubs');
 
         $template->set('html/title', "Добавление клуба неавторизованным пользователем");
 
         $template->set('href', [
             'frontpage'         =>  url('frontpage'),
-            'form_action_submit'=>  url('club_callback_unauthorized_add'),
+            'form_action_submit'=>  url('club_callback_unauth_add_any_club'),
             'ajax_get_city'     =>  url('ajax_get_city_by_coords')
         ]);
         $template->set('options', [
@@ -177,7 +179,7 @@ class Clubs
         return $template->render();
     }
 
-    public function callback_unauthorized_add()
+    public function callback_unauth_add_any_club()
     {
         $dbi = DBStatic::getInstance();
         $table = $dbi::$_table_prefix . 'clubs';
@@ -259,16 +261,6 @@ class Clubs
             $dataset['lat'] = input('club:anonadd:lat');
             $dataset['lng'] = input('club:anonadd:lng');
         }
-        /* горизонтальный (ВК) баннер можно попробовать получать по апи ВК
-
-        curl "https://vk.com/dev" --2.0
-        --data "act=a_run_method&al=1&hash=1517933163"%"3Ab1d85a0b2538101779&method=groups.getById&param_fields=cover&param_group_id=tavernamsk&param_v=5.71"
-
-
-        */
-
-
-
 
         if (!$dataset['address_city']) {
             $dataset['address_city'] = getCityByCoords($dataset['lat'], $dataset['lng'])['city'];
@@ -284,6 +276,41 @@ class Clubs
 
         response()->redirect( url('frontpage') );
     }
+
+
+    /* ===================================================== */
+    /* ============   VK Club Add  ========================= */
+    /* ===================================================== */
+    public function form_unauth_add_vk_club()
+    {
+        $template = new Template('form_unauth_add_vk_club.html', '$/templates/clubs');
+
+        $template->set('html/title', "Добавление клуба неавторизованным пользователем");
+
+        $template->set('href', [
+            'frontpage'             =>  url('frontpage'),
+            'form_action_submit'    =>  url('club_callback_unauth_add_vk_club'),
+
+            'ajax_get_vk_club_info'     =>  url('ajax_get_vk_club_info'),
+            'ajax_get_city_by_coords'   =>  url('ajax_get_city_by_coords'),
+            'ajax_get_coords_by_address'=>  url('ajax_get_coords_by_address')
+        ]);
+        $template->set('options', [
+            'captcha_enabled'   =>  StaticConfig::get('google_recaptcha/enable'),
+            'captcha_sitekey'   =>  StaticConfig::get('google_recaptcha/site_key')
+        ]);
+
+        return $template->render();
+
+
+
+    }
+
+    public function callback_unauth_add_vk_club()
+    {
+
+    }
+
 
     /* ============ редактирование =============== */
     public function form_club_edit($id) {

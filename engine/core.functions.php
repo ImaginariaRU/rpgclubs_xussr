@@ -98,6 +98,9 @@ function getCoordsByIP($ip) {
  * @return object
  */
 function getVKGroupInfo($group_name) {
+    $dataset = [
+        'state'     =>  'error'
+    ];
     /**
      * @var stdClass $response
      */
@@ -105,19 +108,61 @@ function getVKGroupInfo($group_name) {
     $url = 'https://api.vk.com/method/groups.getById';
     $request_params = [
         'group_ids' =>  $group_name,
-        'fields'    =>  'id,name,screen_name,type,city,country,cover,description',
+        'fields'    =>  'id,name,screen_name,type,city,country,cover,place,description,site,verified',
         'v'         =>  '5.71'
     ];
     $curl = new Curl();
 
     $curl->get($url, $request_params);
-    if ($curl->error) return NULL;
+    if ($curl->error) return $dataset;
 
     $response = $curl->response;
-    if (!$response) return NULL;
+    if (!$response) return $dataset;
     $curl->close();
 
-    return $response->response[0];
+    if (property_exists($response, 'error')) {
+        return $dataset;
+    } elseif (property_exists($response, 'response')) {
+        $dataset['state'] = 'valid';
+    }
+
+    $data = $response->response[0];
+
+    // чистая магия: массив адреса будет содержать только те элементы исходного массива, которые не NULL (соотв. поля $data существуют)
+    $address_array = array_filter([
+        $data->country->title ?? NULL,
+        $data->city->title ?? NULL,
+        $data->place->address ?? NULL
+    ], function($item){
+        return !!($item);
+    });
+
+    // теперь надо найти изображение
+    // для этого мы перебираем массив $data->cover->images (если $data->cover->enabled == 1)
+    // и у каждого элемента проверяем
+    $image_url = '';
+    if ($data->cover->enabled) {
+        $image = array_filter($data->cover->images, function($i){
+            return ($i->height > 194 || $i->height < 206);
+        });
+
+        $image_url = $image[0]->url ?? NULL;
+    }
+
+    $dataset += [
+        'name'          =>  $data->name ?? NULL,
+        'address'       =>  implode(', ', $address_array),
+        'description'   =>  $data->description ?? NULL,
+        'city'          =>  $data->city->title ?? NULL,
+        'lat'           =>  $data->place->latitude ?? NULL,
+        'lon'           =>  $data->place->longitude ?? NULL,
+        'site'          =>  $data->site,
+        'picture'       =>  $image_url,
+        'group_type'    =>  $data->type
+    ];
+
+    return $dataset;
+
 }
 
 /**
