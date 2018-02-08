@@ -15,16 +15,16 @@ html, body, #map {
 }
 
 /* === Section InfoBox === */
+/*.section-infobox-wrapper > *{
+    outline: 1px solid red;
+}*/
+
 .section-infobox-wrapper {
     padding: 8px 8px;
     background: rgba(255,255,255,1);
     box-shadow: 0 0 15px rgba(0,0,0,0.2);
     border-radius: 5px;
 }
-
-/*.section-infobox-wrapper > *{
-    outline: 1px solid red;
-}*/
 
 .section-infobox-wrapper .section-infobox-header > * {
     display: inline-block;
@@ -59,6 +59,10 @@ html, body, #map {
 
     overflow-y: auto;
     padding-right: 0.25vw;
+}
+
+.section-infobox-content img {
+    max-width: 100%;
 }
 
 .infobox-site {
