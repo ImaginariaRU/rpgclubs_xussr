@@ -7,12 +7,11 @@
     <meta name="keywords" content="map, rpg, clubs, ролевые клубы, карта, настольные, ролевые, игры, поиграть, НРИ, антикафе, игротеки"/>
     <meta name="description" content="Ролевые клубы на карте России и ближайшего зарубежья"/>
     <meta name="subject" content="Ролевые клубы на карте России и ближайшего зарубежья" />
-    <meta name="copyright" content="Wombat, 2018" />
+    <meta name="copyright" content="Karel Wintersky, 2018" />
     <meta name="language" content="RU">
     <meta name="robots" content="index,follow" />
-    <meta name="revised" content="Monday, February 05th, 2018" />
-    <meta name="author" content="Wombat, rpgclubsrf@yandex.ru">
-    <meta name="copyright" content="Wombat">
+    <meta name="revised" content="February 08th, 2018" />
+    <meta name="author" content="Karel Wintersky, rpgclubsrf@yandex.ru">
     <meta name="url" content="">
 
     /* always remote */
@@ -57,17 +56,11 @@
 
 <div tabindex="0" class="leaflet-container leaflet-fade-anim leaflet-grab leaflet-touch-drag" id="map"></div>
 
-<section id="section-infobox" class="section-infobox-wrapper invisible" data-leaflet-control-position="{*section.infobox_position*}">
-    /*
-    <div style="text-align: left">
-        <button id="actor-section-infobox-toggle" class="section-infobox-button-toggle-visibility" data-content="section-info-content" data-content-visibility="false">Скрыть</button>
-    </div> */
-    <div id="section-infobox-content" class="section-infobox-content invisible"></div>
-</section>
+<section id="section-infobox" class="section-infobox-wrapper invisible" data-leaflet-control-position="{*section.infobox_position*}"></section>
 
 <section id="section-about" class="section-about-wrapper invisible" data-leaflet-control-position="{*section.about_position*}">
     <div style="text-align: right">
-        <button id="actor-about-toggle" class="action-toggle-div-visibility" data-content="section-about-content" data-content-is-visible="false">?</button>
+        <button id="actor-about-toggle" class="section-about-button-toggle" data-content="section-about-content" data-content-is-visible="false">?</button>
     </div>
     <div id="section-about-content" class="invisible section-about-content">
         <h2>Ролевые клубы на карте России</h2>
@@ -91,7 +84,7 @@
         </div>
         {?}
         <span style="font-size: small">
-            <a href="{*href.clubs_list*}" style="text-decoration: none; color: black;">©</a> Копирайты: Leaflet, OpenSteetMaps
+            <a href="{*href.clubs_list*}" style="text-decoration: none; color: black;">©</a> Копирайты: Leaflet, OpenSteetMaps, Yandex Geocoder, ORDI
         </span>
     </div>
 </section>

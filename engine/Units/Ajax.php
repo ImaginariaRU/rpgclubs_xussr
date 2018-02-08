@@ -28,12 +28,12 @@ class Ajax
         $dataset = $sth->fetch();
         $dataset['title'] = htmlspecialchars($dataset['title'], ENT_QUOTES | ENT_HTML5);
 
-        $template_name = $dataset['infobox_layout'] == 'VKBanner' ? 'img_horizontal.html' : 'img_vertical.html';
+        // $template_name = $dataset['infobox_layout'] == 'VKBanner' ? 'img_horizontal.html' : 'img_vertical.html';
+        $template_name = 'info_banner_horizontal.html';
 
         $template = new Template($template_name, '$/templates/info');
 
         $template->set('dataset', $dataset);
-
 
         return $template->render();
     }

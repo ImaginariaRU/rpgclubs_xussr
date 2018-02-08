@@ -10,6 +10,8 @@
 };
 
 ;(function(userlocation, clubs_list){
+    let is_infobox_present = false;
+
     createControl_InfoBox = function(){
         L.Control.InfoBox = L.Control.extend({
             is_content_visible: false,
@@ -18,7 +20,7 @@
             },
             onAdd: function(map) {
                 var div = L.DomUtil.get('section-infobox');
-                L.DomUtil.removeClass(div, 'invisible');
+                // L.DomUtil.removeClass(div, 'invisible');  // don't show infobox by default
                 L.DomUtil.enableTextSelection();
                 L.DomEvent.disableScrollPropagation(div);
                 L.DomEvent.disableClickPropagation(div);
@@ -90,30 +92,7 @@
         return map;
     };
 
-    __GetUserCoordsIPInfo = function() {
-        $.ajax({
-            async: false,
-            cache: false,
-            type: 'GET',
-            url: "https://ipinfo.io/json",
-            dataType: 'jsonp',
-            success: function(response) {
-                let c = response.loc.split(',', 2);
-                let r = {
-                    lat: c[0],
-                    lng: c[1]
-                };
-                console.log('__GetUserCoords', r);
-                return r;
-            },
-            error: function(response) {
-                return {
-                    lat: 59.939031,
-                    lng: 30.315893
-                };
-            }
-        });
-    };
+    __GetUserCoordsIPInfo = function() {};
 
     $(function(){
         var map = __CreateMap("map", userlocation);
@@ -122,7 +101,7 @@
         createControl_InfoBox();
 
         map.addControl( new L.Control.AboutBox() );
-        map.addControl( new L.Control.InfoBox() );
+
 
         var layer_ows = L.markerClusterGroup();
         layer_ows.addTo(map);
@@ -138,8 +117,13 @@
                 }),
                 id: data.id
             }).on('click', function() {
+                if (!is_infobox_present) {
+                    is_infobox_present = true;
+                    map.addControl( new L.Control.InfoBox() );
+                }
 
-                load_poi_content(this.options.id, "section-infobox-content");
+                load_poi_content(this.options.id, "section-infobox");
+
                 map.setView([data.lat, data.lng], 14, {animate: true});
 
             } );
@@ -151,7 +135,9 @@
         $('#' + $(this).data('content')).toggle();
         $(this).data('content-is-visible', !state);
     }).escape(function(){
-        $("#section-infobox-content").hide();
+        $("#section-infobox").hide();
+    }).on('click', '#actor-infobox-close', function(){
+        $("#section-infobox").hide();
     });
 
     $(document).on('click', 'a', function(){
