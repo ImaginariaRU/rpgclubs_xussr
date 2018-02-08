@@ -67,16 +67,15 @@
         };
     };
 
-    __CreateMap = function(target, location, zoom) {
+    __CreateMap = function(target, location) {
         var __LatLngCenter
             = !!(location.city_lat && location.city_lng)
             ? new L.LatLng(location.city_lat, location.city_lng)
             : new L.LatLng(location.ip_lat, location.ip_lng);
 
-        // var __LatLngCenter = new L.LatLng(center.lat, center.lng);
+        let zoom = location.zoom || 12; // hardcoded 12-th zoom
+
         let map = L.map(target, {
-            // renderer: L.canvas(),
-            // zoom: 16,
             maxZoom: 18,
             minZoom: 4,
             zoomControl: false
@@ -85,13 +84,13 @@
         map.addControl(new L.Control.Zoomslider({position: 'bottomright'}));
 
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+            attribution: '&copy;<a href="http://osm.org/copyright">OpenStreetMap</a>, Geotargeting: <a href="https://yandex.ru">Yandex</a>'
         }).addTo(map);
 
         return map;
     };
 
-    __GetUserCoords = function() {
+    __GetUserCoordsIPInfo = function() {
         $.ajax({
             async: false,
             cache: false,
@@ -117,7 +116,7 @@
     };
 
     $(function(){
-        var map = __CreateMap("map", userlocation, 12);
+        var map = __CreateMap("map", userlocation);
 
         createControl_AboutBox();
         createControl_InfoBox();
@@ -139,8 +138,10 @@
                 }),
                 id: data.id
             }).on('click', function() {
+
                 load_poi_content(this.options.id, "section-infobox-content");
                 map.setView([data.lat, data.lng], 14, {animate: true});
+
             } );
             layer_ows.addLayer(marker);
         });

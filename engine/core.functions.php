@@ -4,6 +4,8 @@
  * Date: 03.02.2018, time: 22:20
  */
 
+use Curl\Curl;
+
 /**
  *
  * Аналог list($dataset['a'], $dataset['b']) = explode(',', 'AAAAAA,BBBBBB'); только с учетом размерной массивов и дефолтными значениями
@@ -22,8 +24,6 @@ function array_fill_like_list(array &$target_array, array $indexes, array $sourc
         $target_array[ $index ] = array_key_exists($i, $source_array) ? $source_array[ $i ] : $default_value;
     }
 }
-
-
 
 /**
  * @package KarelWintersky/CoreFunctions
@@ -56,80 +56,103 @@ function getIp() {
  * @return array
  */
 function getCoordsByIP($ip) {
-    $coords_nowhere = [
-        'lat'   =>  NULL,
-        'lng'   =>  NULL,
+    /**
+     * @var stdClass $response
+     */
+
+    // координаты "нигде" - это центр карты РФ с зумом чтобы влезло всё. Это, неожиданно, Екатеринбург!
+    $coords_not_resolved = [
+        'lat'   =>  56.769540,
+        'lng'   =>  60.334709,
+        'zoom'  =>  4,
         'city'  =>  NULL
     ];
 
-    $url = "http://ipinfo.io/{$ip}/json";
+    $url = "http://ipinfo.io/{$ip}/geo";
 
-    $raw = file_get_contents($url);
-    if ($raw === FALSE) return $coords_nowhere;
+    $curl = new Curl();
+    $curl->get($url, [
+        'token'     =>  \RPGCAtlas\Classes\StaticConfig::get('ipinfo/token')
+    ]);
 
-    $json = json_decode($raw, TRUE);
-    if (($json === NULL) || ($json === FALSE)) return $coords_nowhere;
+    if ($curl->error) return $coords_not_resolved;
 
-    $location = explode(',', $json['loc'], 2);
+    $response = $curl->response;
+    $curl->close();
+
+    if (!$response) return $coords_not_resolved;
+
+    $latlng = explode(',', $response->loc, 2);
     return [
-        'lat'   =>  $location[0] ?? NULL,
-        'lng'   =>  $location[1] ?? NULL,
-        'city'  =>  $json->city ?? ''
+        'lat'   =>  $latlng[0] ?? NULL,
+        'lng'   =>  $latlng[1] ?? NULL,
+        'city'  =>  ($response->region ?? NULL) . ' ' . ($response->city ?? NULL)
     ];
 }
 
 
 /**
+ * Возвращает публичную информацию о группе в ВКонтакте по айди или идентификатору
  *
- * @package KarelWintersky/NetFunctions
- *
- * @param $name
- * @return mixed|null
+ * @param $group_name
+ * @return object
  */
-function getVKGroupInfo($name) {
-    // https://vk.com/dev/groups.getById
-    // https://vk.com/dev/objects/group - возвращаемые данные
+function getVKGroupInfo($group_name) {
+    /**
+     * @var stdClass $response
+     */
 
-
-    $url = 'https://api.vk.com/method/groups.getById?';
+    $url = 'https://api.vk.com/method/groups.getById';
     $request_params = [
-        'group_ids' =>  $name,
+        'group_ids' =>  $group_name,
         'fields'    =>  'id,name,screen_name,type,city,country,cover,description',
         'v'         =>  '5.71'
     ];
+    $curl = new Curl();
 
-    $raw = file_get_contents($url . http_build_query($request_params));
-    if ($raw === FALSE) return NULL;
+    $curl->get($url, $request_params);
+    if ($curl->error) return NULL;
 
-    $json = json_decode($raw, TRUE);
-    if (($json === NULL) || ($json === FALSE)) return NULL;
+    $response = $curl->response;
+    if (!$response) return NULL;
+    $curl->close();
 
-    return $json;
+    return $response->response[0];
 }
 
-if (!function_exists('dd')) {
-    function dd($value) {
-        echo '<pre>';
-        var_dump($value);
-        die;
-    }
-}
-
-
+/**
+ * Определяет город по координатам, используя АПИ Яндекс-геокодера
+ *
+ * @dependancy php-curl-class/php-curl-class AS Curl
+ * @param $lat
+ * @param $lng
+ * @return array|null
+ */
 function getCityByCoords($lat, $lng) {
     if (!($lat&&$lng)) return NULL;
 
-    //@todo: monolog - логгировать запросы
+    /**
+     * @var stdClass $response
+     */
 
-    $url = "https://geocode-maps.yandex.ru/1.x/?sco=latlong&kind=locality&format=json&geocode={$lat},{$lng}";
-    $raw = file_get_contents($url);
+    $url =  "https://geocode-maps.yandex.ru/1.x/";
+    $request_params = [
+        'sco'       =>  'latlong',
+        'kind'      =>  'locality',
+        'format'    =>  'json',
+        'geocode'   =>  "{$lat},{$lng}"
+    ];
 
-    if ($raw === false) return NULL;
+    $curl = new Curl();
 
-    $json = json_decode( $raw );
-    if (($json === NULL) || ($json === FALSE)) return NULL;
+    $curl->get($url, $request_params);
+    if ($curl->error) return NULL;
 
-    $feature_member = $json->response->GeoObjectCollection->featureMember;
+    $response = $curl->response;
+    if (!$response) return NULL;
+    $curl->close();
+
+    $feature_member = $response->response->GeoObjectCollection->featureMember;
 
     if (empty($feature_member)) return NULL;
 
@@ -138,8 +161,24 @@ function getCityByCoords($lat, $lng) {
     $coords = explode(' ', $geo_object->Point->pos);
 
     return [
-        'city'      =>  $geo_object->metaDataProperty->GeocoderMetaData->Address->formatted ?? NULL,
+        'city'      =>  $geo_object->name ?? NULL,
         'city_lat'  =>  $coords[1] ?? NULL,
         'city_lng'  =>  $coords[0] ?? NULL
     ];
 }
+
+
+
+if (!function_exists('dd')) {
+
+    /**
+     * Dump and die
+     * @param $value
+     */
+    function dd($value) {
+        echo '<pre>';
+        var_dump($value);
+        die;
+    }
+}
+

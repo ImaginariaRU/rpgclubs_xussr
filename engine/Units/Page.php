@@ -41,6 +41,7 @@ ORDER BY `id`";
             'city_lat'  =>  $location['city_lat'] ?? NULL,
             'city_lng'  =>  $location['city_lng'] ?? NULL
         ]);
+
         $template->set('center', $coords_latlng);
 
         $template->set('publish_options', [

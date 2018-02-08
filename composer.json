@@ -11,7 +11,8 @@
     "require": {
         "pecee/simple-router": "3.4.10.1",
         "monolog/monolog": "^1.23",
-        "google/recaptcha": "^1.1"
+        "google/recaptcha": "^1.1",
+        "php-curl-class/php-curl-class": "^8.0"
     },
     "autoload": {
         "files": [
