@@ -55,9 +55,12 @@
     <table border="1" width="100%">
         <tr>
             <td colspan="100">
-                <strong>ВАЖНО:</strong> Иногда гуглокапча начинает глючить и перестает работать. Все вопросы к гуглу.
+                <strong>ВАЖНО:</strong>
+                На сайте не используется SSL-сертификат (пока что это не имеет смысла). Поэтому гуглокапча иногда начинает глючить и браузер паникует:
+                <em>"Подтвердите действие, нет интернет-соединения, повторите попытку.</em>. Всё у вас есть! Только гуглокапча не работает.
+                <br/>
                 В этом случае просто отправьте письмо на ящик <a href="mailto:rpgclubsrf@yandex.ru">rpgclubsrf@yandex.ru</a>,
-                сообщив нам про свой клуб всё, что ввели бы в эту форму.
+                сообщив нам про свой клуб всё, что ввели бы в эту форму (скорее всего достаточно будет только адреса клуба).
             </td>
         </tr>
         <!--<tr>
@@ -117,6 +120,8 @@
                 Lat: <input type="text" value="" size="20" name="club:unauthadd:lat">
                 /
                 Lng: <input type="text" value="" size="20" name="club:unauthadd:lng">
+                /
+                Город: <input type="text" value="" size="40" name="club:unauthadd:address_city">
                 <div id="set-coords-manually">
                     <br>
                     <small>
@@ -128,8 +133,7 @@
                     <input type="text" size="20" value="" name="club:unauthadd:latlng"> <br/>
 
                     <button id="actor-resolve-city" data-url="{*href.ajax_get_city_by_coords*}" data-target="club:unauthadd:address_city">Определить по координатам город</button><br/>
-                    Город:<input type="text" value="" size="40" name="club:unauthadd:address_city">
-                    <small>Если вы не знаете координаты и не смогли узнать по координатам город - оставьте поле пустым.</small>
+                    <small>Если вы не знаете координаты и не смогли узнать по координатам город - оставьте поля пустыми.</small>
                 </div>
             </td>
         </tr>
@@ -251,7 +255,6 @@
                 $("input[name='club:unauthadd:lat']").val(data.lat);
                 $("input[name='club:unauthadd:lng']").val(data.lon);
                 $("input[name='club:unauthadd:vk_banner']").val(data.picture);
-                $("#actor-parse-address").attr('disabled', 'disabled');
                 $("#set-coords-manually").hide();
 
             } else {

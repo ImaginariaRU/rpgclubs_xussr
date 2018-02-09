@@ -99,7 +99,7 @@ function getCoordsByIP($ip) {
  * @param $group_name
  * @return object
  */
-function getVKGroupInfo($group_name) {
+function getVKGroupInfo($group_name, $debug = false) {
     $dataset = [
         'state'     =>  'error'
     ];
@@ -122,6 +122,8 @@ function getVKGroupInfo($group_name) {
     if (!$response) return $dataset;
     $curl->close();
 
+if ($debug) dd($response);
+
     if (property_exists($response, 'error')) {
         return $dataset;
     } elseif (property_exists($response, 'response')) {
@@ -143,12 +145,13 @@ function getVKGroupInfo($group_name) {
     // для этого мы перебираем массив $data->cover->images (если $data->cover->enabled == 1)
     // и у каждого элемента проверяем
     $image_url = '';
+
     if ($data->cover->enabled) {
         $image = array_filter($data->cover->images, function($i){
-            return ($i->height > 194 || $i->height < 206);
+            return ($i->height > 194 && $i->height < 206);
         });
 
-        $image_url = $image[0]->url ?? NULL;
+        $image_url = reset($image)->url ?? NULL;
     }
 
     $dataset += [
