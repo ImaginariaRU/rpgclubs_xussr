@@ -22,11 +22,5 @@ $main_config = new \RPGCAtlas\Classes\INIConfig(PATH_CONFIG . 'config.ini');
 $main_config->append(PATH_CONFIG . 'db.ini');
 \RPGCAtlas\Classes\StaticConfig::set_config( $main_config );
 
-
-
-// $dbi = \RPGCAtlas\Classes\DBConnectionStatic::getInstance();
-
-// dd( $dbi->getConnection()->query("SHOW TABLES;")->fetchAll(\PDO::FETCH_COLUMN) );
-
 SimpleRouter::start();
 

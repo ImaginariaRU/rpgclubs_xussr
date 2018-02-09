@@ -5,6 +5,8 @@
  */
 
 use Curl\Curl;
+use Nette\Mail\Message;
+use Nette\Mail\SendmailMailer;
 
 /**
  *
@@ -257,6 +259,18 @@ function getCoordsByAddress($address)
         'city_lat'  =>  $coords[1] ?? NULL,
         'city_lng'  =>  $coords[0] ?? NULL
     ];
+}
+
+function doSendMail($destination, $subject, $text)
+{
+    $mail = new Message;
+    $mail->setFrom('Autobot <admin@ролевыеклубы.рф>')
+        ->addTo($destination)
+        ->setSubject($subject)
+        ->setBody($text);
+
+    $mailer = new SendmailMailer;
+    $mailer->send($mail);
 }
 
 

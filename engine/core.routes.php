@@ -19,8 +19,8 @@ SimpleRouter::get   ('/ajax/get:vk:club:info', 'Ajax@get_vk_club_info')->name('a
 SimpleRouter::get   ('/ajax/get:coords:by:address', 'Ajax@get_coords_by_address')->name('ajax_get_coords_by_address');
 
 /* === FEEDBACK AJAX === */
-SimpleRouter::get   ('/ajax/feedback', 'Ajax@form_feedback');
-SimpleRouter::post  ('/ajax/feedback', 'Ajax@callback_feedback');
+//SimpleRouter::get   ('/ajax/feedback', 'Ajax@form_feedback');
+//SimpleRouter::post  ('/ajax/feedback', 'Ajax@callback_feedback');
 
 /* Форма добавления клуба анонимусом */
 SimpleRouter::get   ('/unauth_add_any_club', 'Clubs@form_unauth_add_any_club')->name('club_form_unauth_add_any_club');

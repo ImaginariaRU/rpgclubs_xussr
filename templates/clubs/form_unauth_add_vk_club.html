@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>{*html.title*}</title>
-    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" />
-    <link href="/frontend/colorbox/colorbox.css" rel="stylesheet" />
+    <link   href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" />
+    <link   href="/frontend/colorbox/colorbox.css" rel="stylesheet" />
     <script src="/frontend/jquery/jquery-3.2.1_min.js" type="text/javascript" ></script>
     <script src="/frontend/colorbox/jquery.colorbox-min.js" type="text/javascript"></script>
     <script src="/frontend/jquery/jquery.jgrowl.min.js" type="text/javascript"></script>
-    <link href="/frontend/jquery/jquery.jgrowl.min.css" rel="stylesheet" />
+    <link   href="/frontend/jquery/jquery.jgrowl.min.css" rel="stylesheet" />
 
     <style type="text/css">
         input[required] {
@@ -40,6 +40,9 @@
             background-color: 		#FFF1C2;
             color: 					navy;
             font-size: large;
+        }
+        .invisible {
+            display: none;
         }
 
     </style>
@@ -105,22 +108,29 @@
                     третий поворот направо во втором дворе в доме напротив памятника Радагасту) укажите их. Это поможет людям найти вас!</small>
                 <textarea cols="70" rows="7" name="club:unauthadd:address_hint"></textarea>
                 <br />
-                <button disabled id="actor-parse-address" data-url="{*href.ajax_get_coords_by_address*}">Попытаться определить координаты и город по адресу</button>
+                <button id="actor-parse-address" data-url="{*href.ajax_get_coords_by_address*}">Попытаться определить координаты и город по адресу</button>
             </td>
         </tr>
         <tr>
             <td>Координаты</td>
             <td>
-                <!-- С карты: <input type="text" size="20" value="" name="club:unauthadd:latlng"> -->
-                Lat: <input type="text" value="" size="10" name="club:unauthadd:lat">
+                Lat: <input type="text" value="" size="20" name="club:unauthadd:lat">
                 /
-                Lng: <input type="text" value="" size="10" name="club:unauthadd:lng">
-                <br>
+                Lng: <input type="text" value="" size="20" name="club:unauthadd:lng">
+                <div id="set-coords-manually">
+                    <br>
+                    <small>
+                        Где найти координаты? Например, на <a href="https://yandex.ru/maps/" target="_blank">яндекс-карте</a> (откроется в новой вкладке).</br>
+                        <img src="/public/images/coord_at_yandex_map.png"><br/>
+                        Найдите свой клуб, кликните на здание с клубом, а потом скопируйте координаты в это поле:
+                    </small>
+                    <br/>
+                    <input type="text" size="20" value="" name="club:unauthadd:latlng"> <br/>
 
-                <button id="actor-resolve-city" data-url="{*href.ajax_get_city_by_coords*}" data-target="club:unauthadd:address_city">Угадать город</button>
-                <br/>
-                <small>Если вы не знаете координаты и не смогли узнать по координатам город - не пишите сюда ничего.</small><br/>
-                <input type="text" value="" size="40" name="club:unauthadd:address_city">
+                    <button id="actor-resolve-city" data-url="{*href.ajax_get_city_by_coords*}" data-target="club:unauthadd:address_city">Определить по координатам город</button><br/>
+                    Город:<input type="text" value="" size="40" name="club:unauthadd:address_city">
+                    <small>Если вы не знаете координаты и не смогли узнать по координатам город - оставьте поле пустым.</small>
+                </div>
             </td>
         </tr>
         <tr>
@@ -138,6 +148,7 @@
                 <input type="text" value="" size="80" name="club:unauthadd:banner_other">
             </td>
         </tr>
+<!--
         <tr>
             <td>Формат <br>инфобокса</td>
             <td>
@@ -147,6 +158,7 @@
                 <label>Other<input type="radio" name="club:unauthadd:infobox_layout" value="Other"></label>
             </td>
         </tr>
+-->
         {?*options.captcha_enabled*}
         <tr>
             <td>
@@ -162,9 +174,11 @@
         {?}
         <tr>
             <td colspan="2">
-                <span style="color: navy">Вы же понимаете, что я не могу сразу взять и показать ваш клуб на карте? К сожалению, нее все, кто придут на эту
-                страницу - уважаемые и доверенные пользователи и действительно хотят добавить клуб, а не просто развлекаются.
-                Поэтому мы свяжемся с вами, уточним информацию и после этого, скорее всего, ваш клуб появится на карте. Мы постараемся с вами связаться в течение суток.</span>
+                <span style="color: navy">Вы же понимаете, что я не могу сразу взять и показать ваш клуб на карте? Информацию нужно проверить.
+                    <br/>
+                    При необходимости мы свяжемся с вами и уточним детали. После этого, скорее всего, ваш клуб появится на карте.
+                    Произойдет это в течение суток.
+                </span>
             </td>
         </tr>
         <tr>
@@ -179,12 +193,20 @@
         </tr>
     </table>
 </form>
+<form action="{*href.frontpage*}" method="POST" id="form-unautharized-add-result" class="invisible">
+    <div class="text-align:center">
+        <button style="height: 200px; width: 200px; font-size: 600%"></button>
+    </div>
+
+</form>
 
 <script type="text/javascript">
     ;$(function(){
         $("input[name='club:unauthadd:owner_email']").focus();
-    }).on('click', '#actor-quit', function(){
+    }).on('click', '#actor-quit', function(event){
 
+        event.preventDefault();
+        event.stopPropagation();
         document.location.href = $(this).data('url');
 
     }).on('click', '#actor-resolve-city', function(event){
@@ -229,12 +251,33 @@
                 $("input[name='club:unauthadd:lat']").val(data.lat);
                 $("input[name='club:unauthadd:lng']").val(data.lon);
                 $("input[name='club:unauthadd:vk_banner']").val(data.picture);
+                $("#actor-parse-address").attr('disabled', 'disabled');
+                $("#set-coords-manually").hide();
+
             } else {
                 $.jGrowl("Данные из ВКонтакте загрузить не удалось, скорее всего нет такой группы!", { header: 'ВАЖНО', position: 'top-right', life: 10000, theme: 'error', speed: 'slow' });
             }
         });
-    })
-    .on('submit', '#form-unautharized-add-club', function(){
+    }).on('click', '#actor-parse-address', function(event){
+        event.preventDefault();
+        event.stopPropagation();
+
+        let request_url = $(this).data('url');
+        let address = $("input[name='club:unauthadd:address']").val();
+
+        $.getJSON(request_url, { club_address: address }, function(data){
+            if (!data) {
+                $.jGrowl("Не удалось получить координаты по адресу.", { header: 'ВАЖНО', position: 'top-right', life: 5000, theme: 'error', speed: 'slow' });
+            } else {
+                $.jGrowl("Нам удалось определить координаты по адресу", { header: 'ВАЖНО', position: 'top-right', life: 5000, theme: 'success', speed: 'slow' });
+
+                $("input[name='club:unauthadd:lat']").val(data.city_lat);
+                $("input[name='club:unauthadd:lng']").val(data.city_lng);
+            }
+        });
+
+
+    }).on('submit', '#form-unautharized-add-club', function(event){
         // сабмит формы
         let $captcha = $( '#recaptcha' );
         let response = grecaptcha.getResponse();

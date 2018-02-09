@@ -272,7 +272,7 @@ class Clubs
             dd($e->getMessage()); //@todo: MONOLOG
         }
 
-        // сделать отправку письма на почту админу с датасетом
+        doSendMail( StaticConfig::get('emails/club_add'), "Новый клуб", "Некто с адресом {$dataset['owner_email']} подал заявку на добавление клуба {$dataset['title']}");
 
         response()->redirect( url('frontpage') );
     }
@@ -397,11 +397,9 @@ class Clubs
             dd($e->getMessage()); //@todo: MONOLOG
         }
 
-        // сделать отправку письма на почту админу с датасетом
+        doSendMail( StaticConfig::get('emails/club_add'), "Новый клуб", "Некто с адресом {$dataset['owner_email']} подал заявку на добавление клуба {$dataset['title']}");
 
         response()->redirect( url('frontpage') );
-
-
     }
 
 
@@ -522,7 +520,7 @@ class Clubs
         $dbi = DBStatic::getInstance();
         $table = $dbi::$_table_prefix . 'clubs';
 
-        $query = "";
+        $query = "UPDATE {$table} SET `id_public` = NOT `is_public` WHERE `id` = :id";
 
         $sth = $dbi->getConnection()->prepare($query);
         $dataset = [
@@ -535,8 +533,7 @@ class Clubs
             dd($e->getMessage()); //@todo: MONOLOG
         }
 
-        // ajax result
-
+        return json_encode([TRUE]);
     }
 
 }

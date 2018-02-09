@@ -5,6 +5,5 @@
 .config/phpauth.ini
 composer.lock
 vendor
-public
 public/scripts.js
 public/styles.css

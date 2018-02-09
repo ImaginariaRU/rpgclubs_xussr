@@ -94,7 +94,17 @@
 
     __GetUserCoordsIPInfo = function() {};
 
+    GetUserGeolocation = function(){
+        if (document.location.protocol === 'https' && navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position){
+                let message = "Latitude: " + position.coords.latitude + " Longitude: " + position.coords.longitude;
+            });
+        }
+    };
+
     $(function(){
+        // GetUserGeolocation();
+
         var map = __CreateMap("map", userlocation);
 
         createControl_AboutBox();
