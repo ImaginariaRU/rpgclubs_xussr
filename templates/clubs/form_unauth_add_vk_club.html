@@ -60,7 +60,7 @@
         <!--<tr>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
-            <td rowspan="100" width="50%">карта</td>
+            <td rowspan="100" width="40%">карта</td>
         </tr>-->
         <tr>
             <td>Email <br/> (для обратной связи)</td>
@@ -72,7 +72,7 @@
             <td>Кто вы</td>
             <td>
                 <small>Расскажите немного о себе. Кто вы? Кого вы представляете? Как с вами связаться кроме электронной почты?</small><br/>
-                <input type="text" size="250" name="club:unauthadd:owner_about" />
+                <input type="text" size="80" name="club:unauthadd:owner_about" />
             </td>
         </tr>
         <tr>
@@ -100,7 +100,7 @@
             <td>Адрес:</td>
             <td>
                 <small>Укажите здесь адрес клуба: </small><br/>
-                <input type="text" value="" size="70" name="club:unauthadd:address"><br/><br/>
+                <input type="text" value="" size="70" name="club:unauthadd:address"><br/>
                 <small>А здесь, если есть какие-то особенности адреса (домофон, охрана в бизнес-центре или
                     третий поворот направо во втором дворе в доме напротив памятника Радагасту) укажите их. Это поможет людям найти вас!</small>
                 <textarea cols="70" rows="7" name="club:unauthadd:address_hint"></textarea>
@@ -111,9 +111,10 @@
         <tr>
             <td>Координаты</td>
             <td>
-                С карты: <input type="text" size="20" value="" name="club:anauthadd:latlng">
-                (Lat: <input type="text" value="" size="10" name="club:unauthadd:lat" disabled> / Lng: <input type="text" value="" size="10" name="club:unauthadd:lng" disabled>)
-
+                <!-- С карты: <input type="text" size="20" value="" name="club:unauthadd:latlng"> -->
+                Lat: <input type="text" value="" size="10" name="club:unauthadd:lat">
+                /
+                Lng: <input type="text" value="" size="10" name="club:unauthadd:lng">
                 <br>
 
                 <button id="actor-resolve-city" data-url="{*href.ajax_get_city_by_coords*}" data-target="club:unauthadd:address_city">Угадать город</button>
@@ -134,7 +135,7 @@
             <td>Баннер (другой)</td>
             <td>
                 <small>Если у вас нет баннера для группы ВК - укажите хоть какой-нибудь. Мы подумаем, как его показать.</small><br/>
-                <input type="text" value="" size="80" name="club:unauthadd:banner_vertical">
+                <input type="text" value="" size="80" name="club:unauthadd:banner_other">
             </td>
         </tr>
         <tr>
@@ -187,12 +188,10 @@
         document.location.href = $(this).data('url');
 
     }).on('click', '#actor-resolve-city', function(event){
-        // попытка определить город по координатам
-
         event.preventDefault();
         event.stopPropagation();
 
-        let url = "{*href.ajax_get_city_by_coords*}";
+        let url = $(this).data('url');
         let target = $(this).data('target');
 
         $.get(url, {
@@ -210,7 +209,10 @@
         let src = $(this).data('source');
         let club_url = $("input[name='"+ src +"']").val();
 
-        if (club_url == '') return false;
+        if (club_url == '') {
+            $.jGrowl("Нечего анализировать", { header: 'ВАЖНО', position: 'top-right', life: 3000, theme: 'error' });
+            return false;
+        }
         let club_url_parts = club_url.split('/');
         let club_id = club_url_parts[club_url_parts.length-1];
 
@@ -218,24 +220,20 @@
             club_id: club_id,
         }, function(data){
             if (data.state != 'error') {
-                $.jGrowl("Данные из сети ВКонтакте загружены", { header: 'ВАЖНО', position: 'top', life: 3000, theme: 'success' });
+                $.jGrowl("Данные из сети ВКонтакте загружены", { header: 'ВАЖНО', position: 'top-right', life: 3000, theme: 'success' });
                 // раскладываем данные
                 $("input[name='club:unauthadd:title']").val( data.name );
                 $("input[name='club:unauthadd:address']").val(data.address);
-                $("textarea[name='club:unauthadd:description']").html(data.description);
                 $("input[name='club:unauthadd:address_city']").val(data.city);
+                $("textarea[name='club:unauthadd:description']").html(data.description);
                 $("input[name='club:unauthadd:lat']").val(data.lat);
                 $("input[name='club:unauthadd:lng']").val(data.lon);
                 $("input[name='club:unauthadd:vk_banner']").val(data.picture);
             } else {
-                $.jGrowl("Данные из ВКонтакте загрузить не удалось, скорее всего нет такой группы!", { header: 'ВАЖНО', position: 'top-left', life: 10000, theme: 'error', speed: 'slow' });
+                $.jGrowl("Данные из ВКонтакте загрузить не удалось, скорее всего нет такой группы!", { header: 'ВАЖНО', position: 'top-right', life: 10000, theme: 'error', speed: 'slow' });
             }
         });
-
-
     })
-
-
     .on('submit', '#form-unautharized-add-club', function(){
         // сабмит формы
         let $captcha = $( '#recaptcha' );

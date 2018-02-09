@@ -301,13 +301,106 @@ class Clubs
         ]);
 
         return $template->render();
-
-
-
     }
 
     public function callback_unauth_add_vk_club()
     {
+        $dbi = DBStatic::getInstance();
+        $table = $dbi::$_table_prefix . 'clubs';
+
+        if (StaticConfig::get('google_recaptcha/enable') == 1) {
+            // проверяем капчу
+            $recaptcha = new ReCaptcha('6Lf3akQUAAAAAO3czhvEBEX0bda2NtwIJ8YorYHK');
+            $checkout = $recaptcha->verify(input('g-recaptcha-response'), getIp());
+
+            // неправильная капча?
+            if (!$checkout->isSuccess()) {
+                response()->redirect( url('club_form_unauth_add_vk_club') ); // и как-то надо передать сообщение, что ошибка в капче. КАК?
+            }
+        }
+
+        $query = "
+        INSERT INTO {$table}
+        (
+          `id_owner`,
+          `is_public`,
+          `owner_email`,
+          `owner_about`,
+          `title`,
+          `desc`,
+          `lat`,
+          `lng`,
+          `zoom`,
+          `address_city`,
+          `address`,
+          `banner_horizontal`,
+          `banner_vertical`,
+          `url_site`,
+          `ipv4_add`
+        )
+        VALUES
+        (
+          :id_owner,
+          :is_public,
+          :owner_email,
+          :owner_about,
+          :title,
+          :desc,
+          :lat,
+          :lng,
+          :zoom,
+          :address_city,
+          :address,
+          :banner_horizontal,
+          :banner_vertical,
+          :url_site,
+          INET_ATON(:ipv4_add)
+        )
+        ";
+        $sth = $dbi->getConnection()->prepare($query);
+
+        $dataset = [
+            "id_owner"      =>  0,
+            "is_public"     =>  0,
+            "owner_email"   =>  input('club:unauthadd:owner_email'),
+            "owner_about"   =>  input('club:unauthadd:owner_about'),
+            "title"         =>  input('club:unauthadd:title'),
+            "desc"          =>  input('club:unauthadd:description'),
+            "zoom"          =>  12,                                     //@todo: фронтэнд-обработка (зум карты меняет значение в поле)
+            "address_city"  =>  input('club:unauthadd:address_city'),
+            "address"       =>  input('club:unauthadd:address'),
+            "banner_horizontal" =>  input('club:unauthadd:vk_banner'),
+            "banner_vertical"   =>  input('club:unauthadd:banner_other'),
+            "url_site"      =>  input('club:unauthadd:url_site'),
+            "ipv4_add"      =>  getIp()
+        ];
+        if (!(input('club:unauthadd:lat')&&input('club:unauthadd:lng')) && (input('club:unauthadd:latlng'))) {
+            // координаты заданы строкой с карты
+            // '59.925483, 30.259649'
+            // trim, explode by ', '
+            $set = explode(', ', trim(input('club:unauthadd:latlng')));
+            $dataset['lat'] = $set[0];
+            $dataset['lng'] = $set[1];
+        } else {
+            // координаты заданы полями
+            $dataset['lat'] = input('club:unauthadd:lat');
+            $dataset['lng'] = input('club:unauthadd:lng');
+        }
+
+        if (!$dataset['address_city']) {
+            $dataset['address_city'] = getCityByCoords($dataset['lat'], $dataset['lng'])['city'];
+        }
+
+        try {
+            $sth->execute($dataset);
+        } catch (\PDOException $e) {
+            dd($e->getMessage()); //@todo: MONOLOG
+        }
+
+        // сделать отправку письма на почту админу с датасетом
+
+        response()->redirect( url('frontpage') );
+
 
     }
 

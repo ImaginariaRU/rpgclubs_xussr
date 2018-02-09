@@ -76,7 +76,9 @@ class Ajax
     {
         $address = input('club_address');
 
+        $coords = getCoordsByAddress($address);
 
+        return json_encode($coords);
     }
 
 }
