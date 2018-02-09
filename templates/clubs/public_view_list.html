@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Список клубов</title>
+    <script type="text/javascript" src="/frontend/jquery/jquery-3.2.1_min.js"></script>
+    <style type="text/css">
+        button {
+            font-size: large;
+        }
+    </style>
+</head>
+<body>
+
+<table border="1" width="100%">
+    <tr>
+        <td colspan="100" align="left">
+            <table width="100%" border="0">
+                <tr>
+                    <td width="33%" style="text-align: left">
+                    </td>
+                    <td width="33%" style="text-align: center">
+                        Всего клубов: <span style="color: blue">{*summary.clubs_total*}</span><br>
+                        На карте клубов: <span style="color: blue">{*summary.clubs_visible*}</span>
+                    </td>
+                    <td width="33%" style="text-align: right">
+                        <button id="actor-back-to-frontpage" data-url="{*href.frontpage*}">BACK TO FRONTPAGE</button>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <th>Одобрено</th>
+        <th>Название</th>
+        <th>Город</th>
+        <th>Адрес</th>
+        <th>Сайт</th>
+    </tr>
+    {%*dataset*}
+    <tr>
+        <td align="center">{?*dataset:is_public*}<h1>+</h1>{?}{?!*dataset:is_public*}<h1>-</h1>{?}</td>
+        <td>{*dataset:title*}</td>
+        <td>{*dataset:address_city*}</td>
+        <td>{*dataset:address*}</td>
+        <td>
+            {?*dataset:url_site*}<a href="{*dataset:url_site*}" target="_blank">{*dataset:url_site*}</a>{?}
+            {?!*dataset:url_site*}не указан{?}
+        </td>
+    </tr>
+    {%}
+</table>
+
+<script type="text/javascript">
+    ;$(function(){}).on('click', '#actor-back-to-frontpage', function(){
+        document.location.href = $(this).data('url');
+    });
+</script>
+
+
+</body>
+</html>

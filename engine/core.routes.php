@@ -22,12 +22,15 @@ SimpleRouter::get   ('/ajax/get:coords:by:address', 'Ajax@get_coords_by_address'
 //SimpleRouter::get   ('/ajax/feedback', 'Ajax@form_feedback');
 //SimpleRouter::post  ('/ajax/feedback', 'Ajax@callback_feedback');
 
+/* exoterical - общедоступный, понятный непосвящённым. К сожалению, имя класса `public` невозможно */
 /* Форма добавления клуба анонимусом */
-SimpleRouter::get   ('/unauth_add_any_club', 'Clubs@form_unauth_add_any_club')->name('club_form_unauth_add_any_club');
-SimpleRouter::post  ('/unauth_add_any_club', 'Clubs@callback_unauth_add_any_club')->name('club_callback_unauth_add_any_club');
+SimpleRouter::get   ('/exoterical/add_any_club', 'Exoterical@form_unauth_add_any_club')->name('club_form_unauth_add_any_club');
+SimpleRouter::post  ('/exoterical/add_any_club', 'Exoterical@callback_unauth_add_any_club')->name('club_callback_unauth_add_any_club');
 
-SimpleRouter::get   ('/unauth_add_vk_club', 'Clubs@form_unauth_add_vk_club')->name('club_form_unauth_add_vk_club');
-SimpleRouter::post  ('/unauth_add_vk_club', 'Clubs@callback_unauth_add_vk_club')->name('club_callback_unauth_add_vk_club');
+SimpleRouter::get   ('/exoterical/add_vk_club', 'Exoterical@form_unauth_add_vk_club')->name('club_form_unauth_add_vk_club');
+SimpleRouter::post  ('/exoterical/add_vk_club', 'Exoterical@callback_unauth_add_vk_club')->name('club_callback_unauth_add_vk_club');
+
+SimpleRouter::get   ('/exoterical/list', 'Exoterical@public_clubs_list')->name('public_clubs_list');
 
 /* === AUTH === */
 SimpleRouter::get   ('/auth/login', 'Auth@form_login')->name('auth_form_login');
@@ -47,7 +50,7 @@ SimpleRouter::group(['middleware' => \RPGCAtlas\Middleware\CheckAuth::class], fu
     SimpleRouter::get   ('/profile/edit', 'Profile@form_edit')->name('profile_form_edit');
     SimpleRouter::post  ('/profile/edit', 'Profile@callback_edit')->name('profile_callback_edit');
 
-    SimpleRouter::get   ('/profile/clubs', 'Clubs@view_clubs')->name('clubs_list');
+    SimpleRouter::get   ('/profile/clubs', 'Clubs@view_clubs')->name('admin_clubs_list');
 
     SimpleRouter::get   ('/profile/clubs/add', 'Clubs@form_club_add')->name('club_form_add');
     SimpleRouter::post  ('/profile/clubs/add', 'Clubs@callback_club_add')->name('club_callback_add');

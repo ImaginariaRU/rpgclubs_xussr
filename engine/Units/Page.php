@@ -53,7 +53,8 @@ ORDER BY `id`";
             'unauth_add_any_club'   =>  url('club_form_unauth_add_any_club'),
             'unauth_add_vk_club'    =>  url('club_form_unauth_add_vk_club'),
 
-            'clubs_list'            =>  url('clubs_list')
+            'admin_clubs_list'      =>  url('admin_clubs_list'),
+            'public_clubs_list'     =>  url('public_clubs_list')
         ]);
 
         $template->set('dataset_clubs_list', $dataset);

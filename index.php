@@ -18,9 +18,11 @@ require_once 'engine/core.routes.php';
 require_once 'engine/core.functions.php';
 require_once 'engine/websun.php';
 
-$main_config = new \RPGCAtlas\Classes\INIConfig(PATH_CONFIG . 'config.ini');
-$main_config->append(PATH_CONFIG . 'db.ini');
-\RPGCAtlas\Classes\StaticConfig::set_config( $main_config );
+$config = new \RPGCAtlas\Classes\INIConfig(PATH_CONFIG . 'config.ini');
+$config->append(PATH_CONFIG . 'db.ini');
+
+\RPGCAtlas\Classes\StaticConfig::set_config( $config );
+\RPGCAtlas\Classes\StaticConfig::set('copyright/title', '0.2.14 "Haskuldr"');
 
 SimpleRouter::start();
 

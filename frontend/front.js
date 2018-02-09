@@ -51,7 +51,7 @@
     load_poi_content = function(id, container) {
         let target = container || "section-infobox-content";
         let $target = $('#' + container);
-        let url = '/ajax/poi/' + id;
+        let url = '/ajax/get:poi/' + id;
 
         $target.html('').scrollTop(0);
 
@@ -151,7 +151,7 @@
     });
 
     $(document).on('click', 'a', function(){
-        if ($(this).attr('href') != window.location.hostname) {
+        if (($(this).attr('href') != window.location.hostname) && ($(this).attr('target') == '')) {
             $(this).attr('target', '_blank');
         }
     });
