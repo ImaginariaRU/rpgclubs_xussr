@@ -38,6 +38,18 @@ final class DBStatic
 
     /* ================================================================== */
 
+    /**
+     * Отдает инстанс класса. Позволяет эмулировать "фасад".
+     */
+    public function __invoke()
+    {
+        if (self::$_instance === null) {
+            self::$_instance = new self;
+        }
+
+        return self::$_instance;
+    }
+
 
     private function get_pdo():\PDO
     {

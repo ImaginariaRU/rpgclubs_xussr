@@ -19,9 +19,18 @@ class Page
     public function view_frontpage() {
         $template = new Template('frontpage.html', '$/templates/frontpage');
 
-        $ip = (StaticConfig::get('connection/suffix') == 'development') ? '188.143.207.215' : getIp();
-        $coords_latlng = getCoordsByIP($ip);
-        $location = getCityByCoords($coords_latlng['lat'], $coords_latlng['lng']);
+        // $ip = (StaticConfig::get('connection/suffix') == 'development') ? '188.143.207.215' : getIp();
+        // $coords_latlng = getCoordsByIP($ip);
+        // $location = getCityByCoords($coords_latlng['lat'], $coords_latlng['lng']);
+
+        $city_location = [
+            'zoom'  =>  4
+        ];
+        $ip_location = [
+            'lat'   =>  56.769540,
+            'lng'   =>  60.334709,
+            'city'  =>  NULL
+        ];
 
         // load clubs
         $dbi = DBStatic::getInstance();
@@ -35,14 +44,16 @@ ORDER BY `id`";
         $dataset = $dbi->getConnection()->query($query)->fetchAll();
 
         $template->set('location', [
-            'ip_lat'    =>  $coords_latlng['lat'],
-            'ip_lng'    =>  $coords_latlng['lng'],
-            'city'      =>  $location['city']  ?? NULL,
-            'city_lat'  =>  $location['city_lat'] ?? NULL,
-            'city_lng'  =>  $location['city_lng'] ?? NULL
+            'ip_lat'    =>  $ip_location['lat'],
+            'ip_lng'    =>  $ip_location['lng'],
+            'zoom'      =>  $city_location['zoom'],
+
+            'city'      =>  $city_location['city']  ?? NULL,
+            'city_lat'  =>  $city_location['city_lat'] ?? NULL,
+            'city_lng'  =>  $city_location['city_lng'] ?? NULL
         ]);
 
-        $template->set('center', $coords_latlng);
+        $template->set('center', $ip_location);
 
         $template->set('publish_options', [
             'assets_type'   =>  StaticConfig::get('global/server'),
@@ -63,9 +74,6 @@ ORDER BY `id`";
             'infobox_position'  =>  'topleft',
             'about_position'    =>  'topright'
         ]);
-
-        // $packer = new HtmlMin();
-        // return $packer->minify($template->render());
 
         return preg_replace('/^\h*\v+/m', '', $template->render());
     }

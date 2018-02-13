@@ -47,7 +47,7 @@
     {?}
 
     <script type="text/javascript" id="data">
-        var userlocation = { ip_lat: '{*location.ip_lat*}', ip_lng: '{*location.ip_lng*}', city: '{*location.city*}', city_lat: '{*location.city_lat*}', city_lng: '{*location.city_lng*}' };
+        var userlocation = { ip_lat: '{*location.ip_lat*}', ip_lng: '{*location.ip_lng*}', zoom: 4, city: '{*location.city*}' };
         var clubs_list = [ {%*dataset_clubs_list*} { id: {*dataset_clubs_list:id*}, lat: {*dataset_clubs_list:lat*}, lng: {*dataset_clubs_list:lng*} }, {%} ];
     </script>
 
