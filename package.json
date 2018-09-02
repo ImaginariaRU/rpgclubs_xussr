@@ -1,0 +1,22 @@
+{
+  "name": "rpgclubs_xussr",
+  "description": "Каталог-атлас ролевых клубов (настольные игры и настольные ролевые игры) на территории РФ и xUSSR",
+  "author": "Karel Wintersky <karel.wintersky@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KarelWintersky/rpgclubs_xussr.git"
+  },
+  "bugs": {
+    "url": "https://github.com/KarelWintersky/rpgclubs_xussr/issues"
+  },
+  "keywords": [
+    "map, rpg, clubs, ролевые клубы, карта, настольные, ролевые, игры, поиграть, НРИ, антикафе, игротеки"
+  ],
+  "private": true,
+  "dependencies": {
+    "clean-node-modules": "^2.1.3",
+    "grunt": "^1.0.2",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-cssmin": "^2.2.1"
+  }
+}

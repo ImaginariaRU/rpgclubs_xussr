@@ -85,8 +85,8 @@
         map.setView(__LatLngCenter, zoom)
         map.addControl(new L.Control.Zoomslider({position: 'bottomright'}));
 
-        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-            attribution: '&copy;<a href="http://osm.org/copyright">OpenStreetMap</a>, Geotargeting: <a href="https://yandex.ru">Yandex</a>'
+        L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+            attribution: '&copy;<a href="https://osm.org/copyright">OpenStreetMap</a>, Geotargeting: <a href="https://yandex.ru">Yandex</a>'
         }).addTo(map);
 
         return map;

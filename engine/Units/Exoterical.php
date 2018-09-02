@@ -272,7 +272,7 @@ class Exoterical
 
         $table = $dbi::$_table_prefix . 'clubs';
 
-        $query = "SELECT * FROM {$table} ORDER BY `is_public` DESC, `address_city`, `title`";
+        $query = "SELECT * FROM {$table} WHERE `is_public` = 1 ORDER BY `is_public` DESC, `address_city`, `title` ";
 
         $dataset = [];
         foreach ($dbi->getConnection()->query($query)->fetchAll() as $row) {

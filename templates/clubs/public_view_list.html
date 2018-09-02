@@ -38,7 +38,7 @@
     <table border="1" width="100%" id="public_clubs" cellspacing="0" class="display table table-striped table-bordered">
         <thead>
         <tr>
-            <th>Одобрено</th>
+            /* <th>Одобрено</th> */
             <th>Город</th>
             <th>Название</th>
             <th>Адрес</th>
@@ -47,9 +47,9 @@
         </thead>
         <tfoot>
         <tr>
-            <th>Одобрено</th>
-            <th>Название</th>
+            /* <th>Одобрено</th> */
             <th>Город</th>
+            <th>Название</th>
             <th>Адрес</th>
             <th>Сайт</th>
         </tr>
@@ -58,7 +58,7 @@
         <tbody>
         {%*dataset*}
         <tr>
-            <td align="center">{?*dataset:is_public*}<h1>+</h1>{?}{?!*dataset:is_public*}<h1>-</h1>{?}</td>
+            /* <td align="center">{?*dataset:is_public*}<h1>+</h1>{?}{?!*dataset:is_public*}<h1>-</h1>{?}</td> */
             <td>{*dataset:address_city*}</td>
             <td>{*dataset:title*}</td>
             <td>{*dataset:address*}</td>
