@@ -48,7 +48,20 @@
 
     <script type="text/javascript" id="data">
         var userlocation = { ip_lat: '{*location.ip_lat*}', ip_lng: '{*location.ip_lng*}', zoom: 4, city: '{*location.city*}' };
-        var clubs_list = [ {%*dataset_clubs_list*} { id: {*dataset_clubs_list:id*}, lat: {*dataset_clubs_list:lat*}, lng: {*dataset_clubs_list:lng*} }, {%} ];
+        var clubs_list = [
+        {%*dataset_clubs_list*}
+                            { id: {*dataset_clubs_list:id*}, lat: {*dataset_clubs_list:lat*}, lng: {*dataset_clubs_list:lng*} },
+        {%} ];
+
+        var map_providers = {
+            "use": "{*map_provider.key*}",
+
+            "{*map_provider.key*}": {
+                "href" : '{*map_provider.href*}',
+                "attribution": '{*map_provider.attribution*}',
+                "max_zoom" : "{*map_provider.max_zoom*}",
+            }
+        };
     </script>
 
 </head>

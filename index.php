@@ -21,6 +21,7 @@ require_once 'engine/websun.php';
 
 $config = new \RPGCAtlas\Classes\INIConfig(PATH_CONFIG . 'config.ini');
 $config->append(PATH_CONFIG . 'db.ini');
+$config->append(PATH_CONFIG . 'maps.ini');
 
 \RPGCAtlas\Classes\StaticConfig::set_config( $config );
 \RPGCAtlas\Classes\StaticConfig::set('copyright/title', '0.2.16 "Haskuldr"');

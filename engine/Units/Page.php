@@ -10,6 +10,7 @@
 
 namespace RPGCAtlas\Units;
 
+use PHPAuth\Config;
 use RPGCAtlas\Classes\StaticConfig;
 use RPGCAtlas\Classes\Template;
 use RPGCAtlas\Classes\DBStatic;
@@ -73,6 +74,17 @@ ORDER BY `id`";
         $template->set('section', [
             'infobox_position'  =>  'topleft',
             'about_position'    =>  'topright'
+        ]);
+
+        // Get Map Provider
+        $provider_key = StaticConfig::get('map/use');
+        $provider_data = StaticConfig::get("{$provider_key}");
+
+        $template->set('map_provider', [
+            'key'   =>  $provider_key,
+            'href'  =>  StaticConfig::get("{$provider_key}/href"),
+            'zoom'  =>  StaticConfig::get("{$provider_key}/zoom", 19),
+            'attribution'   =>  StaticConfig::get("{$provider_key}/attribution")
         ]);
 
         return preg_replace('/^\h*\v+/m', '', $template->render());

@@ -9,8 +9,19 @@
     });
 };
 
-;(function(userlocation, clubs_list){
+;(function(userlocation, clubs_list, map_providers, map){
     let is_infobox_present = false;
+    let map_provider_data;
+
+    let provider_id = map_providers.use;
+
+    if (map_providers.hasOwnProperty(provider_id)) {
+        map_provider_data = map_providers[provider_id];
+    } else {
+        console.log('Bad map provider', provider_id);
+        return false;
+    }
+
 
     createControl_InfoBox = function(){
         L.Control.InfoBox = L.Control.extend({
@@ -85,9 +96,12 @@
         map.setView(__LatLngCenter, zoom)
         map.addControl(new L.Control.Zoomslider({position: 'bottomright'}));
 
-        L.tileLayer('https://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-            attribution: '&copy;<a href="https://osm.org/copyright">OpenStreetMap</a>, Geotargeting: <a href="https://yandex.ru">Yandex</a>'
-        }).addTo(map);
+        let map_provider = L.tileLayer(map_provider_data.href, {
+            maxZoom:        +map_provider_data.maxZoom,
+            attribution:    map_provider_data.attribution
+        });
+
+        map_provider.addTo(map);
 
         return map;
     };
@@ -156,4 +170,4 @@
         }
     });
 
-}(userlocation, clubs_list, $));
+}(userlocation, clubs_list, map_providers, $));
