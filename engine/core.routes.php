@@ -30,8 +30,8 @@ SimpleRouter::post  ('/exoterical/add_any_club', 'Exoterical@callback_unauth_add
 SimpleRouter::get   ('/exoterical/add_vk_club', 'Exoterical@form_unauth_add_vk_club')->name('club_form_unauth_add_vk_club');
 SimpleRouter::post  ('/exoterical/add_vk_club', 'Exoterical@callback_unauth_add_vk_club')->name('club_callback_unauth_add_vk_club');
 
-SimpleRouter::get   ('/exoterical/list', 'Exoterical@public_clubs_list')->name('public_clubs_list');
-SimpleRouter::get   ('/exoterical/list_colorbox', 'Exoterical@public_clubs_list_colorbox')->name('public_clubs_list_colorbox');
+SimpleRouter::get   ('/list', 'Exoterical@public_clubs_list')->name('public_clubs_list');
+SimpleRouter::get   ('/list_colorbox', 'Exoterical@public_clubs_list_colorbox')->name('public_clubs_list_colorbox');
 
 /* === AUTH === */
 SimpleRouter::get   ('/auth/login', 'Auth@form_login')->name('auth_form_login');

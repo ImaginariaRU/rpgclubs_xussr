@@ -66,7 +66,8 @@ ORDER BY `id`";
             'unauth_add_vk_club'    =>  url('club_form_unauth_add_vk_club'),
 
             'admin_clubs_list'      =>  url('admin_clubs_list'),
-            'public_clubs_list'     =>  url('public_clubs_list')
+            'public_clubs_list'     =>  url('public_clubs_list'),
+            'colorbox_clubs_list'   =>  url('public_clubs_list_colorbox')
         ]);
 
         $template->set('dataset_clubs_list', $dataset);

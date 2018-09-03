@@ -190,11 +190,12 @@
     }).on('click', '#actor-infobox-close', function(){
         $("#section-infobox").hide();
     }).on('click', '#actor-list-popup', function () {
+        let url = $(this).data('actor-url');
 
         $.colorbox({
-            href: '/exoterical/list_colorbox/',
-            width: 800,
-            height: 600,
+            href: url,
+            width: '60%',
+            height: '60%',
         });
 
     }).on('click', 'a', function(){
