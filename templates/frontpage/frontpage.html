@@ -24,6 +24,9 @@
     <script src="/frontend/leaflet/leaflet.js" type="text/javascript"></script>
     <link href="/frontend/leaflet/leaflet.css" rel="stylesheet" />
 
+    <script src="/frontend/colorbox/jquery.colorbox-min.js" type="text/javascript"></script>
+    <link href="/frontend/colorbox/colorbox.css" rel="stylesheet">
+
     <!-- danwild/leaflet-fa-markers -->
     <script src="/frontend/leaflet/L.Icon.FontAwesome.js" type="text/javascript"></script>
     <link href="/frontend/leaflet/L.Icon.FontAwesome.css" rel="stylesheet" />
@@ -68,6 +71,11 @@
 <body>
 
 <div tabindex="0" class="leaflet-container leaflet-fade-anim leaflet-grab leaflet-touch-drag" id="map"></div>
+
+<section id="section-actorlistbutton" class="section-actorlistbutton-wrapper invisible" data-leaflet-control-position="bottomleft">
+    <span id="section-act"></span>
+    <button id="actor-list-popup">Клубы на карте</button>
+</section>
 
 <section id="section-infobox" class="section-infobox-wrapper invisible" data-leaflet-control-position="{*section.infobox_position*}"></section>
 

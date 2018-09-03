@@ -8,6 +8,7 @@ module.exports = function(grunt) {
             js: {
                 src: [
                     'frontend/jquery/jquery.min.js',
+                    'frontend/colorbox/jquery.colorbox-min.js',
 
                     'frontend/leaflet/leaflet.js',
                     'frontend/leaflet/L.Icon.FontAwesome.js',
@@ -23,6 +24,7 @@ module.exports = function(grunt) {
                 files: {
                     'public/styles.css': [
                         'frontend/leaflet/leaflet.css',
+                        'frontend/colorbox/colorbox.css',
 
                         'frontend/leaflet/L.Icon.FontAwesome.css',
                         'frontend/leaflet/MarkerCluster.css',

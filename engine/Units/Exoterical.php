@@ -299,4 +299,41 @@ class Exoterical
 
     }
 
+    public function public_clubs_list_colorbox()
+    {
+        $template = new Template('public_view_list_colorbox.html', '$/templates/clubs');
+
+        $dbi = DBStatic::getInstance();
+
+        $table = $dbi::$_table_prefix . 'clubs';
+
+        $query = "SELECT * FROM {$table} WHERE `is_public` = 1 ORDER BY `is_public` DESC, `address_city`, `title` ";
+
+        $dataset = [];
+        foreach ($dbi->getConnection()->query($query)->fetchAll() as $row) {
+            $data = $row;
+            $data['coords'] = "{$row['lat']} / {$row['lng']}";
+            $dataset[ $row['id'] ] = $data;
+        }
+
+        $template->set('dataset', $dataset);
+
+        $template->set('summary', [
+            // клубов всего
+            'clubs_total'   =>  count($dataset),
+
+            // кол-во клубов, у которых is_public = 1
+            'clubs_visible' =>  count(array_filter($dataset, function($data){ return !!$data['is_public']; }) )
+        ]);
+
+        $template->set('href', [
+            'frontpage'     =>  url('frontpage')
+        ]);
+
+        return preg_replace('/^\h*\v+/m', '', $template->render());
+
+    }
+
+
+
 }

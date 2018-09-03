@@ -22,7 +22,9 @@
         return false;
     }
 
-
+    /**
+     * Создает в объекте L область для справочного окна (по всему проекту)
+     */
     createControl_InfoBox = function(){
         L.Control.InfoBox = L.Control.extend({
             is_content_visible: false,
@@ -41,6 +43,9 @@
         });
     };
 
+    /**
+     * Создает в объекте L область для информационного окна о клубе
+     */
     createControl_AboutBox = function() {
         L.Control.AboutBox = L.Control.extend({
             is_content_visible: false,
@@ -56,6 +61,26 @@
                 return div;
             },
             onRemove: function(map) {}
+        });
+    };
+
+    /**
+     * Создает в объекте L активную область для кнопки "Список клубов"
+     */
+    createControl_ButtonActorList = function(){
+        L.Control.ButtonActorList = L.Control.extend({
+            is_content_visible: true,
+            options: {
+                position: 'bottomleft'
+            },
+            onAdd: function(map) {
+                var div = L.DomUtil.get('section-actorlistbutton');
+                L.DomUtil.removeClass(div, 'invisible');
+                L.DomEvent.disableScrollPropagation(div);
+                L.DomEvent.disableClickPropagation(div);
+                return div;
+            },
+            onRemove: function(map){}
         });
     };
 
@@ -121,11 +146,13 @@
 
         var map = __CreateMap("map", userlocation);
 
-        createControl_AboutBox();
         createControl_InfoBox();
 
+        createControl_AboutBox();
         map.addControl( new L.Control.AboutBox() );
 
+        createControl_ButtonActorList();
+        map.addControl( new L.Control.ButtonActorList() );
 
         var layer_ows = L.markerClusterGroup();
         layer_ows.addTo(map);
@@ -162,12 +189,33 @@
         $("#section-infobox").hide();
     }).on('click', '#actor-infobox-close', function(){
         $("#section-infobox").hide();
-    });
+    }).on('click', '#actor-list-popup', function () {
 
-    $(document).on('click', 'a', function(){
+        $.colorbox({
+            href: '/exoterical/list_colorbox/',
+            width: 800,
+            height: 600,
+        });
+
+    }).on('click', 'a', function(){
         if (($(this).attr('href') != window.location.hostname) && ($(this).attr('target') == '')) {
             $(this).attr('target', '_blank');
         }
     });
+
+    /*$(document).on('click', 'a', function(){
+        if (($(this).attr('href') != window.location.hostname) && ($(this).attr('target') == '')) {
+            $(this).attr('target', '_blank');
+        }
+    });*/
+
+    /*$(document).on('click', '#actor-list-popup', function () {
+        $.colorbox({
+            url: '/exoterical/list/',
+            // html: '',
+            width: 800,
+            height: 600,
+        });
+    });*/
 
 }(userlocation, clubs_list, map_providers, $));
