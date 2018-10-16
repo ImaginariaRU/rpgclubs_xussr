@@ -43,9 +43,11 @@ class Exoterical
         $dbi = DBStatic::getInstance();
         $table = $dbi::$_table_prefix . 'clubs';
 
+        $recaptcha_secret = StaticConfig::get('google_recaptcha/secret_key');
+
         if (StaticConfig::get('google_recaptcha/enable') == 1) {
             // проверяем капчу
-            $recaptcha = new ReCaptcha('6Lf3akQUAAAAAO3czhvEBEX0bda2NtwIJ8YorYHK');
+            $recaptcha = new ReCaptcha($recaptcha_secret);
             $checkout = $recaptcha->verify(input('g-recaptcha-response'), getIp());
 
             // неправильная капча?
@@ -167,9 +169,11 @@ class Exoterical
         $dbi = DBStatic::getInstance();
         $table = $dbi::$_table_prefix . 'clubs';
 
+        $recaptcha_secret = StaticConfig::get('google_recaptcha/secret_key');
+
         if (StaticConfig::get('google_recaptcha/enable') == 1) {
             // проверяем капчу
-            $recaptcha = new ReCaptcha('6Lf3akQUAAAAAO3czhvEBEX0bda2NtwIJ8YorYHK');
+            $recaptcha = new ReCaptcha($recaptcha_secret);
             $checkout = $recaptcha->verify(input('g-recaptcha-response'), getIp());
 
             // неправильная капча?
