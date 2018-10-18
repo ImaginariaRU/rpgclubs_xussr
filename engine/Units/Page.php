@@ -77,6 +77,8 @@ ORDER BY `id`";
             'about_position'    =>  'topright'
         ]);
 
+        $template->set('yandex_metrika_id', StaticConfig::get('metrika/yandex_id', FALSE));
+
         // Get Map Provider
         $provider_key = StaticConfig::get('map/use');
         $provider_data = StaticConfig::get("{$provider_key}");
