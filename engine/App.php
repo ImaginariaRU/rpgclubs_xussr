@@ -1,0 +1,228 @@
+<?php
+
+namespace RPGCAtlas;
+
+use AJUR\Template\FlashMessages;
+use Arris\AppLogger;
+use Arris\Database\DBWrapper;
+use Arris\DelightAuth\Auth\Auth;
+use Arris\Path;
+use Arris\Template\Template;
+use Kuria\Error\ErrorHandler;
+use Kuria\Error\Screen\WebErrorScreen;
+use Kuria\Error\Screen\WebErrorScreenEvents;
+use Smarty;
+
+class App extends \Arris\App
+{
+    /**
+     * @var Template
+     */
+    public static $template;
+
+    /**
+     * @var FlashMessages
+     */
+    public static $flash;
+
+    /**
+     * @var DBWrapper|\PDO
+     */
+    public static $pdo;
+
+    /**
+     * @var Auth
+     */
+    private static $auth;
+
+    public static function init()
+    {
+        $app = App::factory();
+
+        $_path_install = Path::create( getenv('PATH.INSTALL') );
+        $_path_monolog = Path::create( getenv('PATH.LOGS') );
+
+        config('path', [
+            'install'           =>  $_path_install->toString(true),
+            'web'               =>  $_path_install->join('public')->toString('/'),
+            'cache'             =>  $_path_install->join('cache')->toString('/'),
+            'monolog'           =>  $_path_monolog->toString(),
+            'storage'           =>  getenv('PATH.STORAGE')
+        ]);
+
+        config('domains', [
+            'scheme'    =>  getenv('SCHEME'),
+            'site'      =>  getenv('DOMAIN'),
+            'fqdn'      =>  getenv('DOMAIN.FQDN')
+        ]);
+
+        config('limits', [
+            'MAX_UPLOAD_SIZE'   =>  \min(
+                Common::get_ini_value('post_max_size'),
+                Common::get_ini_value('upload_max_filesize'),
+                Common::return_bytes(_env('MAX_UPLOAD_SIZE', '64M')
+                )
+            )
+        ]);
+    }
+
+    public static function initLogger()
+    {
+        AppLogger::init("mediaBox", bin2hex(random_bytes(4)), [
+            'default_logfile_path'      =>  config('path.monolog'),
+            'default_logfile_prefix'    =>  date_format(date_create(), 'Y-m-d') . '__'
+        ]);
+        AppLogger::addScope('main');
+    }
+
+    /**
+     * @throws \SmartyException
+     */
+    public static function initTemplate()
+    {
+        $app = self::factory();
+
+        config('smarty', [
+            'path_template'     =>  config('path.web') . 'templates/',
+            'path_cache'        =>  config('path.cache'),
+            'force_compile'     =>  _env('DEBUG.SMARTY_FORCE_COMPILE', false, 'bool')
+        ]);
+
+        App::$template = new Template($_REQUEST, []);
+        App::$template
+            ->setTemplateDir( config('smarty.path_template') )
+            ->setCompileDir( config('smarty.path_cache'))
+            ->setForceCompile( config('smarty.force_compile') )
+            ->registerPlugin( Smarty::PLUGIN_MODIFIER, 'dd', 'dd', false)
+            ->registerPlugin( Smarty::PLUGIN_MODIFIER, 'size_format', 'size_format', false)
+            ->registerPlugin( Smarty::PLUGIN_MODIFIER, "convertDateTime", [ \RPGCAtlas\Common::class, "convertDateTime" ]);
+
+        App::$template->setTemplate("_main_template.tpl");
+
+        App::$flash = new FlashMessages();
+    }
+
+    public static function initDBConnection()
+    {
+        $app = self::factory();
+
+        /**
+         * Database
+         */
+        $db_credentials = [
+            'driver'            =>  'mysql',
+            'hostname'          =>  getenv('DB.HOST'),
+            'database'          =>  getenv('DB.NAME'),
+            'username'          =>  getenv('DB.USERNAME'),
+            'password'          =>  getenv('DB.PASSWORD'),
+            'port'              =>  getenv('DB.PORT'),
+            'charset'           =>  'utf8',
+            'charset_collate'   =>  'utf8_general_ci',
+            'slow_query_threshold'  => 1
+        ];
+        config('db_credentials', $db_credentials);
+
+        App::$pdo = new DBWrapper(config('db_credentials'), [ 'slow_query_threshold' => 100 ], AppLogger::scope('mysql') );
+    }
+
+    public static function initAuth()
+    {
+        $app = self::factory();
+
+        /**
+         * Auth Delight
+         */
+        App::$auth = new Auth(new \PDO(
+            sprintf(
+                "mysql:dbname=%s;host=%s;charset=utf8mb4",
+                config('db_credentials.database'),
+                config('db_credentials.hostname')
+            ),
+            config('db_credentials.username'),
+            config('db_credentials.password')
+        ));
+        $app->addService(Auth::class, App::$auth);
+        config('auth', [
+            'id'            =>  App::$auth->id(),
+            'is_logged_in'  =>  App::$auth->isLoggedIn(),       // флаг "залогинен"
+            'username'      =>  App::$auth->getUsername(),      // пользователь
+            'email'         =>  App::$auth->getEmail(),
+            'ipv4'          =>  \Arris\Helpers\Server::getIP(),                // IPv4
+
+            // основная роль пользователя
+            /*
+            'is_banned'     =>  App::$auth->hasRole(\AjurMedia\MediaBox\Role::BANNED),
+            'is_viewer'     =>  App::$auth->hasRole(\AjurMedia\MediaBox\Role::VIEWER),    // просмотр
+            'is_editor'     =>  App::$auth->hasRole(\AjurMedia\MediaBox\Role::EDITOR),      // загрузка и редактирование
+            'is_curator'    =>  App::$auth->hasRole(\AjurMedia\MediaBox\Role::CURATOR),     // куратор: статистика
+            'is_admin'      =>  App::$auth->hasRole(\AjurMedia\MediaBox\Role::ADMIN),       // админ
+            */
+        ]);
+    }
+
+    public static function initMobileDetect()
+    {
+        $MOBILE_DETECT_INSTANCE = new \Detection\MobileDetect();
+        config('features', [
+            'is_cli'        =>  PHP_SAPI === "cli",
+            'is_mobile'     =>  PHP_SAPI !== "cli" && $MOBILE_DETECT_INSTANCE->isMobile(),
+            'is_iphone'     =>  $MOBILE_DETECT_INSTANCE->is('iPhone'),
+            'is_android'    =>  $MOBILE_DETECT_INSTANCE->is('Android'),
+        ]);
+    }
+
+    public static function initErrorHandler()
+    {
+        // в DEV-режиме мы падаем на любой ошибке
+        if (_env('ENV_STATE', 'prod') == 'dev') {
+            ini_set("display_errors", "On");
+            error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
+        }
+
+        $errorHandler = new ErrorHandler();
+        $errorHandler->setDebug(getenv('ENV_STATE') != 'prod');
+        $errorHandler->register();
+
+        $errorScreen = $errorHandler->getErrorScreen();
+        if (!$errorHandler->isDebugEnabled() && $errorScreen instanceof WebErrorScreen) {
+            $errorScreen->on(WebErrorScreenEvents::RENDER, static function ($event) {
+                $event['heading'] = 'RPGClubs';
+                $event['text'] = 'У нас что-то сломалось. Мы уже чиним.';
+            });
+        }
+
+        if (getenv('ENV_STATE') == 'prod') {
+            $errorScreen = $errorHandler->getErrorScreen();
+            if (!$errorHandler->isDebugEnabled() && $errorScreen instanceof WebErrorScreen) {
+                $errorScreen->on(WebErrorScreenEvents::RENDER, static function ($event) {
+                    $event['heading'] = 'RPGClubs';
+                    $event['text'] = 'У нас что-то сломалось. Мы уже чиним.';
+                });
+            }
+        }
+
+    }
+
+    public static function initManticore()
+    {
+        // SphinxToolkit::init(getenv('SEARCH.HOST'), getenv('SEARCH.PORT'), []);
+    }
+
+    public static function initRedis()
+    {
+        \Arris\Cache\Cache::init([
+            'enabled'   =>  getenv('REDIS.ENABLED'),
+            'host'      =>  getenv('REDIS.HOST'),
+            'port'      =>  getenv('REDIS.PORT'),
+            'password'  =>  getenv('REDIS.PASSWORD'),
+            'database'  =>  getenv('REDIS.DATABASE')
+        ], [ ], App::$pdo, AppLogger::scope('redis'));
+    }
+
+    public static function addCustomServices()
+    {
+        $app = self::factory();
+    }
+
+
+}
