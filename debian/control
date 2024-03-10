@@ -1,0 +1,12 @@
+Source: rpgclubs
+Section: unknown
+Priority: optional
+Maintainer: Karel Wintersky <karel.wintersky@yandex.ru>
+Uploaders: Karel Wintersky <karel.wintersky@yandex.ru>
+Build-Depends: debhelper (>= 10)
+Standards-Version: 3.9.8
+Homepage: https://ролевыеклубы.рф/
+
+Package: rpgclubs
+Architecture: all
+Description: Движок каталога-атласа ролевых клубов (настольные игры и настольные ролевые игры) на территории РФ и xUSSR.

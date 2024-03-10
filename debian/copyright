@@ -1,0 +1,12 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: rpgclubs
+Source: -
+
+This package was debianized by Karel Wintersky <karel.wintersky@yandex.ru> on
+Thu, 10 Mar 2024 10:49:00 +0300
+
+Upstream Author(s): <karel.wintersky@yandex.ru>
+
+Copyright:
+
+...

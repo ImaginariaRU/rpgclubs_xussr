@@ -3,6 +3,7 @@
 use Arris\AppLogger;
 use Arris\AppRouter;
 use RPGCAtlas\App;
+use RPGCAtlas\Common;
 use RPGCAtlas\Exceptions\AccessDeniedException;
 
 define('PATH_ROOT', dirname(__DIR__, 1));
@@ -73,7 +74,7 @@ if (!empty($render)) {
     echo $render;
 }
 
-logSiteUsage( AppLogger::scope('site_usage') );
+Common::logSiteUsage( AppLogger::scope('site_usage') );
 
 if (App::$template->isRedirect()) {
     App::$template->makeRedirect();
