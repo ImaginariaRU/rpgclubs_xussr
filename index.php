@@ -26,7 +26,7 @@ $config->append(PATH_CONFIG . 'maps.ini');
 \RPGCAtlas\Classes\StaticConfig::set_config( $config );
 \RPGCAtlas\Classes\StaticConfig::set('copyright/title', '0.2.16 "Haskuldr"');
 
-\RPGCAtlas\Classes\VisitLogger::log(\RPGCAtlas\Classes\DBStatic::getConnection(), 'rpgcrf_clubs_visitlog', 'rpgcrfip');
+\VisitLogger::log(\RPGCAtlas\Classes\DBStatic::getConnection(), 'rpgcrf_clubs_visitlog', 'rpgcrfip');
 
 SimpleRouter::start();
 

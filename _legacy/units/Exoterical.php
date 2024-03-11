@@ -8,12 +8,11 @@
  * Date: 09.02.2018, time: 5:39
  */
 
-namespace RPGCAtlas\Units;
 
 use ReCaptcha\ReCaptcha;
+use RPGCAtlas\Classes\DBStatic;
 use RPGCAtlas\Classes\StaticConfig;
 use RPGCAtlas\Classes\Template;
-use RPGCAtlas\Classes\DBStatic;
 
 class Exoterical
 {
@@ -26,9 +25,9 @@ class Exoterical
         $template->set('html/title', "Добавление клуба неавторизованным пользователем");
 
         $template->set('href', [
-            'frontpage'         =>  url('frontpage'),
-            'form_action_submit'=>  url('club_callback_unauth_add_any_club'),
-            'ajax_get_city'     =>  url('ajax_get_city_by_coords')
+            'frontpage'         =>  \RPGCAtlas\Units\url('frontpage'),
+            'form_action_submit'=>  \RPGCAtlas\Units\url('club_callback_unauth_add_any_club'),
+            'ajax_get_city'     =>  \RPGCAtlas\Units\url('ajax_get_city_by_coords')
         ]);
         $template->set('options', [
             'captcha_enabled'   =>  StaticConfig::get('google_recaptcha/enable'),
@@ -48,11 +47,11 @@ class Exoterical
         if (StaticConfig::get('google_recaptcha/enable') == 1) {
             // проверяем капчу
             $recaptcha = new ReCaptcha($recaptcha_secret);
-            $checkout = $recaptcha->verify(input('g-recaptcha-response'), getIp());
+            $checkout = $recaptcha->verify(\RPGCAtlas\Units\input('g-recaptcha-response'), getIp());
 
             // неправильная капча?
             if (!$checkout->isSuccess()) {
-                response()->redirect( url('club_form_unauthorized_add') ); // и как-то надо передать сообщение, что ошибка в капче. КАК?
+                \RPGCAtlas\Units\response()->redirect( \RPGCAtlas\Units\url('club_form_unauthorized_add')); // и как-то надо передать сообщение, что ошибка в капче. КАК?
             }
         }
 
@@ -99,19 +98,19 @@ class Exoterical
         $dataset = [
             "id_owner"      =>  0,
             "is_public"     =>  0,
-            "owner_email"   =>  input('club:anonadd:owner_email'),
-            "owner_about"   =>  input('club:anonadd:owner_about'),
-            "title"         =>  input('club:anonadd:title'),
-            "desc"          =>  input('club:anonadd:desc'),
+            "owner_email"   =>  \RPGCAtlas\Units\input('club:anonadd:owner_email'),
+            "owner_about"   =>  \RPGCAtlas\Units\input('club:anonadd:owner_about'),
+            "title"         =>  \RPGCAtlas\Units\input('club:anonadd:title'),
+            "desc"          =>  \RPGCAtlas\Units\input('club:anonadd:desc'),
             "zoom"          =>  12,                                     //@todo: фронтэнд-обработка (зум карты меняет значение в поле)
-            "address_city"  =>  input('club:anonadd:address_city'),
-            "address"       =>  input('club:anonadd:address'),
-            "banner_horizontal" =>  input('club:anonadd:banner_horizontal'),
-            "banner_vertical"   =>  input('club:anonadd:banner_vertical'),
-            "url_site"      =>  input('club:anonadd:url_site'),
+            "address_city"  =>  \RPGCAtlas\Units\input('club:anonadd:address_city'),
+            "address"       =>  \RPGCAtlas\Units\input('club:anonadd:address'),
+            "banner_horizontal" =>  \RPGCAtlas\Units\input('club:anonadd:banner_horizontal'),
+            "banner_vertical"   =>  \RPGCAtlas\Units\input('club:anonadd:banner_vertical'),
+            "url_site"      =>  \RPGCAtlas\Units\input('club:anonadd:url_site'),
             "ipv4_add"      =>  getIp()
         ];
-        if (!(input('club:anonadd:lat')&&input('club:anonadd:lng')) && (input('club:anonadd:latlng'))) {
+        if (!(\RPGCAtlas\Units\input('club:anonadd:lat') && \RPGCAtlas\Units\input('club:anonadd:lng')) && (\RPGCAtlas\Units\input('club:anonadd:latlng'))) {
             // координаты заданы строкой с карты
             // '59.925483, 30.259649'
             // trim, explode by ', '
@@ -119,8 +118,8 @@ class Exoterical
             $dataset['lat'] = $set[0];
             $dataset['lng'] = $set[1];
         } else {
-            $dataset['lat'] = input('club:anonadd:lat');
-            $dataset['lng'] = input('club:anonadd:lng');
+            $dataset['lat'] = \RPGCAtlas\Units\input('club:anonadd:lat');
+            $dataset['lng'] = \RPGCAtlas\Units\input('club:anonadd:lng');
         }
 
         if (!$dataset['address_city']) {
@@ -135,7 +134,7 @@ class Exoterical
 
         doSendMail( StaticConfig::get('emails/club_add'), "Новый клуб", "Некто с адресом {$dataset['owner_email']} подал заявку на добавление клуба {$dataset['title']}");
 
-        response()->redirect( url('frontpage') );
+        \RPGCAtlas\Units\response()->redirect( \RPGCAtlas\Units\url('frontpage'));
     }
 
 
@@ -149,12 +148,12 @@ class Exoterical
         $template->set('html/title', "Добавление клуба неавторизованным пользователем");
 
         $template->set('href', [
-            'frontpage'             =>  url('frontpage'),
-            'form_action_submit'    =>  url('club_callback_unauth_add_vk_club'),
+            'frontpage'             =>  \RPGCAtlas\Units\url('frontpage'),
+            'form_action_submit'    =>  \RPGCAtlas\Units\url('club_callback_unauth_add_vk_club'),
 
-            'ajax_get_vk_club_info'     =>  url('ajax_get_vk_club_info'),
-            'ajax_get_city_by_coords'   =>  url('ajax_get_city_by_coords'),
-            'ajax_get_coords_by_address'=>  url('ajax_get_coords_by_address')
+            'ajax_get_vk_club_info'     =>  \RPGCAtlas\Units\url('ajax_get_vk_club_info'),
+            'ajax_get_city_by_coords'   =>  \RPGCAtlas\Units\url('ajax_get_city_by_coords'),
+            'ajax_get_coords_by_address'=>  \RPGCAtlas\Units\url('ajax_get_coords_by_address')
         ]);
         $template->set('options', [
             'captcha_enabled'   =>  StaticConfig::get('google_recaptcha/enable'),
@@ -174,11 +173,11 @@ class Exoterical
         if (StaticConfig::get('google_recaptcha/enable') == 1) {
             // проверяем капчу
             $recaptcha = new ReCaptcha($recaptcha_secret);
-            $checkout = $recaptcha->verify(input('g-recaptcha-response'), getIp());
+            $checkout = $recaptcha->verify(\RPGCAtlas\Units\input('g-recaptcha-response'), getIp());
 
             // неправильная капча?
             if (!$checkout->isSuccess()) {
-                response()->redirect( url('club_form_unauth_add_vk_club') ); // и как-то надо передать сообщение, что ошибка в капче. КАК?
+                \RPGCAtlas\Units\response()->redirect( \RPGCAtlas\Units\url('club_form_unauth_add_vk_club')); // и как-то надо передать сообщение, что ошибка в капче. КАК?
             }
         }
 
@@ -225,19 +224,19 @@ class Exoterical
         $dataset = [
             "id_owner"      =>  0,
             "is_public"     =>  0,
-            "owner_email"   =>  input('club:unauthadd:owner_email'),
-            "owner_about"   =>  input('club:unauthadd:owner_about'),
-            "title"         =>  input('club:unauthadd:title'),
-            "desc"          =>  input('club:unauthadd:description'),
+            "owner_email"   =>  \RPGCAtlas\Units\input('club:unauthadd:owner_email'),
+            "owner_about"   =>  \RPGCAtlas\Units\input('club:unauthadd:owner_about'),
+            "title"         =>  \RPGCAtlas\Units\input('club:unauthadd:title'),
+            "desc"          =>  \RPGCAtlas\Units\input('club:unauthadd:description'),
             "zoom"          =>  12,                                     //@todo: фронтэнд-обработка (зум карты меняет значение в поле)
-            "address_city"  =>  input('club:unauthadd:address_city'),
-            "address"       =>  input('club:unauthadd:address'),
-            "banner_horizontal" =>  input('club:unauthadd:vk_banner'),
-            "banner_vertical"   =>  input('club:unauthadd:banner_other'),
-            "url_site"      =>  input('club:unauthadd:url_site'),
+            "address_city"  =>  \RPGCAtlas\Units\input('club:unauthadd:address_city'),
+            "address"       =>  \RPGCAtlas\Units\input('club:unauthadd:address'),
+            "banner_horizontal" =>  \RPGCAtlas\Units\input('club:unauthadd:vk_banner'),
+            "banner_vertical"   =>  \RPGCAtlas\Units\input('club:unauthadd:banner_other'),
+            "url_site"      =>  \RPGCAtlas\Units\input('club:unauthadd:url_site'),
             "ipv4_add"      =>  getIp()
         ];
-        if (!(input('club:unauthadd:lat')&&input('club:unauthadd:lng')) && (input('club:unauthadd:latlng'))) {
+        if (!(\RPGCAtlas\Units\input('club:unauthadd:lat') && \RPGCAtlas\Units\input('club:unauthadd:lng')) && (\RPGCAtlas\Units\input('club:unauthadd:latlng'))) {
             // координаты заданы строкой с карты
             // '59.925483, 30.259649'
             // trim, explode by ', '
@@ -246,8 +245,8 @@ class Exoterical
             $dataset['lng'] = $set[1];
         } else {
             // координаты заданы полями
-            $dataset['lat'] = input('club:unauthadd:lat');
-            $dataset['lng'] = input('club:unauthadd:lng');
+            $dataset['lat'] = \RPGCAtlas\Units\input('club:unauthadd:lat');
+            $dataset['lng'] = \RPGCAtlas\Units\input('club:unauthadd:lng');
         }
 
         if (!$dataset['address_city']) {
@@ -262,7 +261,7 @@ class Exoterical
 
         doSendMail( StaticConfig::get('emails/club_add'), "Новый клуб", "Некто с адресом {$dataset['owner_email']} подал заявку на добавление клуба {$dataset['title']}");
 
-        response()->redirect( url('frontpage') );
+        \RPGCAtlas\Units\response()->redirect( \RPGCAtlas\Units\url('frontpage'));
     }
 
 
@@ -296,7 +295,7 @@ class Exoterical
         ]);
 
         $template->set('href', [
-            'frontpage'     =>  url('frontpage')
+            'frontpage'     =>  \RPGCAtlas\Units\url('frontpage')
         ]);
 
         return preg_replace('/^\h*\v+/m', '', $template->render());
@@ -331,7 +330,7 @@ class Exoterical
         ]);
 
         $template->set('href', [
-            'frontpage'     =>  url('frontpage')
+            'frontpage'     =>  \RPGCAtlas\Units\url('frontpage')
         ]);
 
         return preg_replace('/^\h*\v+/m', '', $template->render());

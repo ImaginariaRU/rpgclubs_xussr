@@ -8,11 +8,13 @@
  * Date: 03.02.2018, time: 19:28
  */
 
-namespace RPGCAtlas\Middleware;
+namespace _legacy;
 
 use Pecee\Http\Middleware\IMiddleware;
 use Pecee\Http\Request;
 use RPGCAtlas\Classes\StaticConfig;
+use function RPGCAtlas\Middlewares\response;
+use function RPGCAtlas\Middlewares\url;
 
 class CheckAuth implements IMiddleware {
 

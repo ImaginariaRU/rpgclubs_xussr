@@ -8,6 +8,7 @@ use Arris\Database\DBWrapper;
 use Arris\DelightAuth\Auth\Auth;
 use Arris\Path;
 use Arris\Template\Template;
+use Arris\Template\TemplateInterface;
 use Kuria\Error\ErrorHandler;
 use Kuria\Error\Screen\WebErrorScreen;
 use Kuria\Error\Screen\WebErrorScreenEvents;
@@ -18,12 +19,12 @@ class App extends \Arris\App
     /**
      * @var Template
      */
-    public static $template;
+    public static Template $template;
 
     /**
      * @var FlashMessages
      */
-    public static $flash;
+    public static FlashMessages $flash;
 
     /**
      * @var DBWrapper|\PDO
@@ -33,7 +34,7 @@ class App extends \Arris\App
     /**
      * @var Auth
      */
-    private static $auth;
+    public static Auth $auth;
 
     public static function init()
     {
@@ -41,6 +42,8 @@ class App extends \Arris\App
 
         $_path_install = Path::create( getenv('PATH.INSTALL') );
         $_path_monolog = Path::create( getenv('PATH.LOGS') );
+
+        config('ENV_STATE', _env('ENV_STATE', 'dev'));
 
         config('path', [
             'install'           =>  $_path_install->toString(true),
@@ -90,12 +93,27 @@ class App extends \Arris\App
 
         App::$template = new Template($_REQUEST, []);
         App::$template
-            ->setTemplateDir( config('smarty.path_template') )
-            ->setCompileDir( config('smarty.path_cache'))
+            ->setTemplateDir( config('path.web') . 'templates/' )
+            ->setCompileDir( config('path.cache') )
             ->setForceCompile( config('smarty.force_compile') )
-            ->registerPlugin( Smarty::PLUGIN_MODIFIER, 'dd', 'dd', false)
-            ->registerPlugin( Smarty::PLUGIN_MODIFIER, 'size_format', 'size_format', false)
-            ->registerPlugin( Smarty::PLUGIN_MODIFIER, "convertDateTime", [ \RPGCAtlas\Common::class, "convertDateTime" ]);
+            ->registerPlugin( TemplateInterface::PLUGIN_MODIFIER, 'dd', 'dd', false)
+            ->registerPlugin( TemplateInterface::PLUGIN_MODIFIER, 'size_format', 'size_format', false)
+            ->registerPlugin( TemplateInterface::PLUGIN_MODIFIER, "convertDateTime", [ \RPGCAtlas\Common::class, "convertDateTime" ])
+
+            // {_env key='' default=100};
+            ->registerPlugin(TemplateInterface::PLUGIN_FUNCTION, "_env", static function($params)
+            {
+                $default = (empty($params['default'])) ? '' : $params['default'];
+                if (empty($params['key'])) return $default;
+                $k = getenv($params['key']);
+                return ($k === false) ? $default : $k;
+            }, false )
+
+            // Вызывается как: `{config key='url.public'}`, ключ key может быть опущен
+            ->registerPlugin(TemplateInterface::PLUGIN_FUNCTION, "config", static function($params)
+            {
+                return empty($params['key']) ? config() : config($params['key']);
+            }, false);
 
         App::$template->setTemplate("_main_template.tpl");
 

@@ -8,12 +8,11 @@
  * Date: 04.02.2018, time: 18:48
  */
 
-namespace RPGCAtlas\Units;
 
 use ReCaptcha\ReCaptcha;
+use RPGCAtlas\Classes\DBStatic;
 use RPGCAtlas\Classes\StaticConfig;
 use RPGCAtlas\Classes\Template;
-use RPGCAtlas\Classes\DBStatic;
 
 class Clubs
 {
@@ -53,10 +52,10 @@ class Clubs
         ]);
 
         $template->set('href', [
-            'club_add'      =>  url('club_form_add'),
-            'club_edit'     =>  url('club_form_edit'),
-            'profile'       =>  url('profile_view'),
-            'frontpage'     =>  url('frontpage')
+            'club_add'      =>  \RPGCAtlas\Units\url('club_form_add'),
+            'club_edit'     =>  \RPGCAtlas\Units\url('club_form_edit'),
+            'profile'       =>  \RPGCAtlas\Units\url('profile_view'),
+            'frontpage'     =>  \RPGCAtlas\Units\url('frontpage')
         ]);
 
         return preg_replace('/^\h*\v+/m', '', $template->render());
@@ -73,11 +72,11 @@ class Clubs
         $template->set('html/title', "Добавление клуба");
 
         $template->set('href', [
-            'profile'           =>  url('profile_view'),
-            'frontpage'         =>  url('frontpage'),
-            'clubs_list'        =>  url('clubs_list'),
-            'form_action_submit'=>  url('club_callback_add'),
-            'ajax_get_city'     =>  url('ajax_get_city_by_coords')
+            'profile'           =>  \RPGCAtlas\Units\url('profile_view'),
+            'frontpage'         =>  \RPGCAtlas\Units\url('frontpage'),
+            'clubs_list'        =>  \RPGCAtlas\Units\url('clubs_list'),
+            'form_action_submit'=>  \RPGCAtlas\Units\url('club_callback_add'),
+            'ajax_get_city'     =>  \RPGCAtlas\Units\url('ajax_get_city_by_coords')
         ]);
         $template->set('options', [
             'captcha_enabled'   =>  StaticConfig::get('google_recaptcha/enabled'),
@@ -133,16 +132,16 @@ class Clubs
 
         $dataset = [
             "id_owner"  =>  1,
-            "is_public" =>  input('club:add:is_public') ? 1 : 0,
-            "lat"       =>  input('club:add:lat'),
-            "lng"       =>  input('club:add:lng'),
-            "title"     =>  input('club:add:title'),
-            "desc"      =>  input('club:add:desc'),
-            "address"   =>  input('club:add:address'),
-            "address_city" => input('club:add:address_city'),
-            "banner_horizontal" =>  input('club:add:banner_horizontal'),
-            "banner_vertical"   =>  input('club:add:banner_vertical'),
-            "url_site"       =>  input('club:add:url_site'),
+            "is_public" =>  \RPGCAtlas\Units\input('club:add:is_public') ? 1 : 0,
+            "lat"       =>  \RPGCAtlas\Units\input('club:add:lat'),
+            "lng"       =>  \RPGCAtlas\Units\input('club:add:lng'),
+            "title"     =>  \RPGCAtlas\Units\input('club:add:title'),
+            "desc"      =>  \RPGCAtlas\Units\input('club:add:desc'),
+            "address"   =>  \RPGCAtlas\Units\input('club:add:address'),
+            "address_city" => \RPGCAtlas\Units\input('club:add:address_city'),
+            "banner_horizontal" =>  \RPGCAtlas\Units\input('club:add:banner_horizontal'),
+            "banner_vertical"   =>  \RPGCAtlas\Units\input('club:add:banner_vertical'),
+            "url_site"       =>  \RPGCAtlas\Units\input('club:add:url_site'),
             "ipv4_add"  =>  getIp()
         ];
         if (!$dataset['address_city']) {
@@ -155,7 +154,7 @@ class Clubs
             dd($e->getMessage()); //@todo: MONOLOG
         }
 
-        response()->redirect( url('clubs_list') );
+        \RPGCAtlas\Units\response()->redirect( \RPGCAtlas\Units\url('clubs_list'));
     }
 
     /* ============ редактирование =============== */
@@ -180,13 +179,13 @@ class Clubs
 
         $template->set('html/title', "Редактирование клуба");
         $template->set('href', [
-            'profile'           =>  url('profile_view'),
-            'frontpage'         =>  url('frontpage'),
-            'clubs_list'        =>  url('clubs_list'),
-            'ajax_get_city'     =>  url('ajax_get_city_by_coords'),
-            'form_action_submit'=>  url('club_callback_edit', ['id' => $id]),
-            'form_action_delete'=>  url('club_callback_delete', ['id' => $id]),
-            'form_action_toggle'=>  url('club_callback_toggle', ['id' => $id]),
+            'profile'           =>  \RPGCAtlas\Units\url('profile_view'),
+            'frontpage'         =>  \RPGCAtlas\Units\url('frontpage'),
+            'clubs_list'        =>  \RPGCAtlas\Units\url('clubs_list'),
+            'ajax_get_city'     =>  \RPGCAtlas\Units\url('ajax_get_city_by_coords'),
+            'form_action_submit'=>  \RPGCAtlas\Units\url('club_callback_edit', ['id' => $id]),
+            'form_action_delete'=>  \RPGCAtlas\Units\url('club_callback_delete', ['id' => $id]),
+            'form_action_toggle'=>  \RPGCAtlas\Units\url('club_callback_toggle', ['id' => $id]),
         ]);
         $template->set('options', [
             'captcha_enabled'   =>  StaticConfig::get('google_recaptcha/enabled'),
@@ -220,17 +219,17 @@ class Clubs
         $sth = $dbi->getConnection()->prepare($query);
 
         $dataset = [
-            "id"        =>  input('club:edit:id'),
-            "id_owner"  =>  input('club:edit:id_owner'),
-            "is_public" =>  input('club:edit:is_public') ? 1 : 0,
-            "lat"       =>  input('club:edit:lat'),
-            "lng"       =>  input('club:edit:lng'),
-            "title"     =>  input('club:edit:title'),
-            "desc"      =>  input('club:edit:desc'),
-            "address"   =>  input('club:edit:address'),
-            "banner_horizontal" =>  input('club:edit:banner_horizontal'),
-            "banner_vertical"   =>  input('club:edit:banner_vertical'),
-            "url_site"       =>  input('club:edit:url_site'),
+            "id"        =>  \RPGCAtlas\Units\input('club:edit:id'),
+            "id_owner"  =>  \RPGCAtlas\Units\input('club:edit:id_owner'),
+            "is_public" =>  \RPGCAtlas\Units\input('club:edit:is_public') ? 1 : 0,
+            "lat"       =>  \RPGCAtlas\Units\input('club:edit:lat'),
+            "lng"       =>  \RPGCAtlas\Units\input('club:edit:lng'),
+            "title"     =>  \RPGCAtlas\Units\input('club:edit:title'),
+            "desc"      =>  \RPGCAtlas\Units\input('club:edit:desc'),
+            "address"   =>  \RPGCAtlas\Units\input('club:edit:address'),
+            "banner_horizontal" =>  \RPGCAtlas\Units\input('club:edit:banner_horizontal'),
+            "banner_vertical"   =>  \RPGCAtlas\Units\input('club:edit:banner_vertical'),
+            "url_site"       =>  \RPGCAtlas\Units\input('club:edit:url_site'),
             "ipv4_edit"     =>  getIp()
         ];
         if (!$dataset['address_city']) {
@@ -243,7 +242,7 @@ class Clubs
             dd($e->getMessage()); //@todo: MONOLOG
         }
 
-        response()->redirect( url('clubs_list') );
+        \RPGCAtlas\Units\response()->redirect( \RPGCAtlas\Units\url('clubs_list'));
     }
 
     public function callback_club_delete($id) {
@@ -267,7 +266,7 @@ class Clubs
             dd($e->getMessage()); //@todo: MONOLOG
         }
 
-        response()->redirect( url('clubs_list') );
+        \RPGCAtlas\Units\response()->redirect( \RPGCAtlas\Units\url('clubs_list'));
     }
 
     public function callback_club_visibility_toggle($id)

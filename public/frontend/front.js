@@ -1,37 +1,28 @@
 ;$.fn.escape = function (callback) {
     return this.each(function () {
         $(document).on("keydown", this, function (e) {
-            var keycode = ((typeof e.keyCode !='undefined' && e.keyCode) ? e.keyCode : e.which);
+            let keycode = ((typeof e.keyCode != 'undefined' && e.keyCode) ? e.keyCode : e.which);
             if (keycode === 27) {
                 callback.call(this, e);
-            };
+            }
         });
     });
 };
 
-;(function(userlocation, clubs_list, map_providers, map){
+;(function(user_location, clubs_list, map_providers, map){
     let is_infobox_present = false;
-    let map_provider_data;
+    let map_provider_data = map_providers;
 
-    let provider_id = map_providers.use;
-
-    if (map_providers.hasOwnProperty(provider_id)) {
-        map_provider_data = map_providers[provider_id];
-    } else {
-        console.log('Bad map provider', provider_id);
-        return false;
-    }
-
-    /**
+    let /**
      * Создает в объекте L область для справочного окна (по всему проекту)
      */
-    createControl_InfoBox = function(){
+    createControl_InfoBox = function () {
         L.Control.InfoBox = L.Control.extend({
             is_content_visible: false,
             options: {
                 position: $("#section-infobox").data('leaflet-control-position')
             },
-            onAdd: function(map) {
+            onAdd: function (map) {
                 var div = L.DomUtil.get('section-infobox');
                 // L.DomUtil.removeClass(div, 'invisible');  // don't show infobox by default
                 L.DomUtil.enableTextSelection();
@@ -39,20 +30,21 @@
                 L.DomEvent.disableClickPropagation(div);
                 return div;
             },
-            onRemove: function(map) {}
+            onRemove: function (map) {
+            }
         });
     };
 
-    /**
+    let /**
      * Создает в объекте L область для информационного окна о клубе
      */
-    createControl_AboutBox = function() {
+    createControl_AboutBox = function () {
         L.Control.AboutBox = L.Control.extend({
             is_content_visible: false,
             options: {
                 position: $("#section-about").data('leaflet-control-position')
             },
-            onAdd: function(map) {
+            onAdd: function (map) {
                 var div = L.DomUtil.get('section-about');
                 L.DomUtil.removeClass(div, 'invisible');
                 L.DomUtil.enableTextSelection();
@@ -60,31 +52,33 @@
                 L.DomEvent.disableClickPropagation(div);
                 return div;
             },
-            onRemove: function(map) {}
+            onRemove: function (map) {
+            }
         });
     };
 
-    /**
+    let /**
      * Создает в объекте L активную область для кнопки "Список клубов"
      */
-    createControl_ButtonActorList = function(){
+    createControl_ButtonActorList = function () {
         L.Control.ButtonActorList = L.Control.extend({
             is_content_visible: true,
             options: {
                 position: 'bottomleft'
             },
-            onAdd: function(map) {
+            onAdd: function (map) {
                 var div = L.DomUtil.get('section-actorlistbutton');
                 L.DomUtil.removeClass(div, 'invisible');
                 L.DomEvent.disableScrollPropagation(div);
                 L.DomEvent.disableClickPropagation(div);
                 return div;
             },
-            onRemove: function(map){}
+            onRemove: function (map) {
+            }
         });
     };
 
-    load_poi_content = function(id, container) {
+    let load_poi_content = function (id, container) {
         let target = container || "section-infobox-content";
         let $target = $('#' + container);
         let url = '/ajax/get:poi/' + id;
@@ -95,18 +89,18 @@
             url: url,
             type: 'GET',
             async: false
-        }).done(function(data){
+        }).done(function (data) {
             $target.html(data).show();
         });
 
         return {
             type: 'poi',
-            id:   id
+            id: id
         };
     };
 
-    __CreateMap = function(target, location) {
-        var __LatLngCenter
+    let __CreateMap = function (target, location) {
+        const __LatLngCenter
             = !!(location.city_lat && location.city_lng)
             ? new L.LatLng(location.city_lat, location.city_lng)
             : new L.LatLng(location.ip_lat, location.ip_lng);
@@ -122,8 +116,8 @@
         map.addControl(new L.Control.Zoomslider({position: 'bottomright'}));
 
         let map_provider = L.tileLayer(map_provider_data.href, {
-            maxZoom:        +map_provider_data.maxZoom,
-            attribution:    map_provider_data.attribution
+            maxZoom: +map_provider_data.maxZoom,
+            attribution: map_provider_data.attribution
         });
 
         map_provider.addTo(map);
@@ -144,7 +138,7 @@
     $(function(){
         // GetUserGeolocation();
 
-        var map = __CreateMap("map", userlocation);
+        let map = __CreateMap("map", user_location);
 
         createControl_InfoBox();
 
@@ -154,7 +148,7 @@
         createControl_ButtonActorList();
         map.addControl( new L.Control.ButtonActorList() );
 
-        var layer_ows = L.markerClusterGroup();
+        let layer_ows = L.markerClusterGroup();
         layer_ows.addTo(map);
 
         $.each(clubs_list, function(index, data){
@@ -219,4 +213,4 @@
         });
     });*/
 
-}(userlocation, clubs_list, map_providers, $));
+}(user_location, clubs_list, map_providers, $));

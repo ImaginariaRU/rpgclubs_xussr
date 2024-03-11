@@ -8,11 +8,9 @@
  * Date: 03.02.2018, time: 18:51
  */
 
-namespace RPGCAtlas\Units;
 
-use Pecee\Http\Request as Request;
-use RPGCAtlas\Classes\Template;
 use RPGCAtlas\Classes\DBStatic;
+use RPGCAtlas\Classes\Template;
 
 class Profile
 {

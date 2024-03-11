@@ -8,9 +8,8 @@
  * Date: 14.02.2018, time: 2:16
  */
 
-namespace RPGCAtlas\Classes;
 
-class VisitLogger
+class isitLogger
 {
     const QUERY_TABLE_DEFINITION = <<<QUERY_TABLE_DEFINE
 CREATE TABLE IF NOT EXISTS `%s` (
