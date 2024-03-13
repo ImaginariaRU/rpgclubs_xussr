@@ -7,6 +7,6 @@
 composer.lock
 public/scripts.js
 public/styles.css
-
+cache
 vendor
 node_modules
