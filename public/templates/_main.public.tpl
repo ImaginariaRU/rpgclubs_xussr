@@ -81,9 +81,6 @@
         <link href="/styles.css" rel="stylesheet" />
         <script src="/scripts.js" type="text/javascript" ></script>
     {/if}
-
-
-
 </head>
 <body>
 <div tabindex="0" class="leaflet-container leaflet-fade-anim leaflet-grab leaflet-touch-drag" id="map"></div>
@@ -109,7 +106,7 @@
             Это совершенно некоммерческий проект и создатель не извлекает из него абсолютно никакой прибыли.
         </div>
         <div>
-            Если вы хотите добавить клуб на карту, <a href="{$href.unauth_add_vk_club}" target="_self">подайте заявку через форму</a> или напишите
+            Если вы хотите добавить клуб на карту, <a href="{Arris\AppRouter::getRouter('view.form.add.poi')}" target="_self">подайте заявку через форму</a> или напишите
             сюда: <a href="mailto:rpgclubsrf@yandex.ru">rpgclubsrf@yandex.ru</a>.
             Жалобы, комментарии и предложения тоже отправляйте, пожалуйста, почтой.
         </div>
@@ -121,7 +118,7 @@
             </div>
         {/if}
         <span style="font-size: small">
-            <a href="{$href.admin_clubs_list}" style="text-decoration: none; color: black;">©</a> Копирайты: Leaflet, OpenSteetMaps, Yandex Geocoder, ORDI
+            <a href="{Arris\AppRouter::getRouter('view.admin.page')}" style="text-decoration: none; color: black;">©</a> Копирайты: Leaflet, OpenSteetMaps, Yandex Geocoder, ООО Психотроника
         </span>
     </div>
 </section>

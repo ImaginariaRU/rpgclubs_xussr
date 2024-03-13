@@ -6,6 +6,7 @@ use RPGCAtlas\App;
 use RPGCAtlas\Common;
 use RPGCAtlas\Controllers\AjaxController;
 use RPGCAtlas\Controllers\MainController;
+use RPGCAtlas\Controllers\PublicFormController;
 use RPGCAtlas\Exceptions\AccessDeniedException;
 
 define('PATH_ROOT', dirname(__DIR__, 1));
@@ -57,20 +58,26 @@ try {
 
     AppRouter::get  ('/список', [ MainController::class, 'view_poi_list' ], 'view.poi.list');
 
+    /**
+     * Публичная форма добавления клуба
+     */
+    AppRouter::get  ('/add', [ PublicFormController::class, 'view_form_poi_add'], 'view.form.add.poi'); // form_unauth_add_vk_club
+    AppRouter::post ('/pend', [ PublicFormController::class, ''], 'callback.form.add.poi'); // callback_unauth_add_vk_club
+
+    //@todo
     AppRouter::get  ('/ajax/get:city:by:coords', [ AjaxController::class, 'get_city_by_coords'], 'ajax_get_city_by_coords' );
-    AppRouter::get  ('/ajax/get:vk:club:info', [ AjaxController::class, 'get_vk_club_info'], 'ajax_get_vk_club_info');
     AppRouter::get  ('/ajax/get:coords:by:address', [ AjaxController::class, 'get_coords_by_address'], 'ajax_get_coords_by_address');
+    AppRouter::get  ('/ajax/get:vk:club:info', [ AjaxController::class, 'get_vk_club_info'], 'ajax_get_vk_club_info');
 
     /*
      * Публичная форма добавления клуба
      */
     // легаси?
-    AppRouter::get  ('/public/add_any_club', [ PublicForm::class, '']); // form_unauth_add_any_club
-    AppRouter::post ('/public/add_any_club', [ PublicForm::class, '']); // callback_unauth_add_any_club
+    // AppRouter::get  ('/public/add_any_club', [ PublicForm::class, '']); // form_unauth_add_any_club
+    // AppRouter::post ('/public/add_any_club', [ PublicForm::class, '']); // callback_unauth_add_any_club
 
     // используемая
-    AppRouter::get  ('/public/add_vk_club', [ PublicForm::class, '']); // form_unauth_add_vk_club
-    AppRouter::post ('/public/add_vk_club', [ PublicForm::class, '']); // callback_unauth_add_vk_club
+
 
     // Auth (login)
     AppRouter::get   ('/auth/login', 'Auth@form_login', 'auth_form_login');
@@ -78,6 +85,9 @@ try {
 
     AppRouter::get   ('/auth/logout', 'Auth@form_logout', 'auth_form_logout');
     AppRouter::post  ('/auth/logout', 'Auth@callback_logout', 'auth_callback_logout');
+
+    // главная страница админки (или роут входа)
+    AppRouter::get('/admin/', [ AdminController::class, ''], 'view.admin.page');
 
     AppRouter::group([
         'before'    =>  '\RPGCAtlas\Middlewares\AuthMiddleware@check_logged_in',

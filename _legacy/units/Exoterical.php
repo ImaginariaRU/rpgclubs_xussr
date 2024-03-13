@@ -19,24 +19,6 @@ class Exoterical
     /* ===================================================== */
     /* ============   анонимное добавление данных ========== */
     /* ===================================================== */
-    public function form_unauth_add_any_club() {
-        $template = new Template('form_unauth_add_any_club.html', '$/templates/clubs');
-
-        $template->set('html/title', "Добавление клуба неавторизованным пользователем");
-
-        $template->set('href', [
-            'frontpage'         =>  \RPGCAtlas\Units\url('frontpage'),
-            'form_action_submit'=>  \RPGCAtlas\Units\url('club_callback_unauth_add_any_club'),
-            'ajax_get_city'     =>  \RPGCAtlas\Units\url('ajax_get_city_by_coords')
-        ]);
-        $template->set('options', [
-            'captcha_enabled'   =>  StaticConfig::get('google_recaptcha/enable'),
-            'captcha_sitekey'   =>  StaticConfig::get('google_recaptcha/site_key')
-        ]);
-
-        return $template->render();
-    }
-
     public function callback_unauth_add_any_club()
     {
         $dbi = DBStatic::getInstance();

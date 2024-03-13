@@ -27,26 +27,7 @@ function array_fill_like_list(array &$target_array, array $indexes, array $sourc
     }
 }
 
-/**
- * @package KarelWintersky/CoreFunctions
- *
- * @return null|string
- */
-function getIp() {
-    if (!isset ($_SERVER['REMOTE_ADDR'])) {
-        return NULL;
-    }
 
-    if (array_key_exists("HTTP_X_FORWARDED_FOR", $_SERVER)) {
-        $http_x_forwared_for = explode(",", $_SERVER["HTTP_X_FORWARDED_FOR"]);
-        $client_ip = trim(end($http_x_forwared_for));
-        if (filter_var($client_ip, FILTER_VALIDATE_IP)) {
-            return $client_ip;
-        }
-    }
-
-    return filter_var($_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP) ? $_SERVER['REMOTE_ADDR'] : NULL;
-}
 
 /**
  *
@@ -170,99 +151,9 @@ if ($debug) dd($response);
 
 }
 
-/**
- * Определяет город по координатам, используя АПИ Яндекс-геокодера
- *
- * @dependancy php-curl-class/php-curl-class AS Curl
- * @param $lat
- * @param $lng
- * @return array|null
- */
-function getCityByCoords($lat, $lng) {
-    if (!($lat&&$lng)) return NULL;
 
-    /**
-     * @var stdClass $response
-     */
 
-    $url =  "https://geocode-maps.yandex.ru/1.x/";
-    $request_params = [
-        'sco'       =>  'latlong',
-        'kind'      =>  'locality',
-        'format'    =>  'json',
-        'geocode'   =>  "{$lat},{$lng}"
-    ];
 
-    $curl = new Curl();
-
-    $curl->get($url, $request_params);
-    if ($curl->error) return NULL;
-
-    $response = $curl->response;
-    if (!$response) return NULL;
-    $curl->close();
-
-    $feature_member = $response->response->GeoObjectCollection->featureMember;
-
-    if (empty($feature_member)) return NULL;
-
-    $geo_object = $feature_member[0]->GeoObject;
-
-    // note Yandex returns string coords as LNG-LAT
-    $coords = explode(' ', $geo_object->Point->pos);
-
-    return [
-        'city'      =>  $geo_object->name ?? NULL,
-        'city_lat'  =>  $coords[1] ?? NULL,
-        'city_lng'  =>  $coords[0] ?? NULL
-    ];
-}
-
-function getCoordsByAddress($address)
-{
-    /**
-     * @var stdClass $response
-     */
-
-    if (!$address) return NULL;
-
-    $url =  "https://geocode-maps.yandex.ru/1.x/";
-    $request_params = [
-        'format'    =>  'json',
-        'geocode'   =>  "$address"
-    ];
-
-    $curl = new Curl();
-
-    $curl->get($url, $request_params);
-    if ($curl->error) return NULL;
-
-    $response = $curl->response;
-    if (!$response) return NULL;
-    $curl->close();
-
-    $feature_member = $response->response->GeoObjectCollection->featureMember;
-
-    if (empty($feature_member)) return NULL;
-
-    $geo_object = $feature_member[0]->GeoObject;
-
-    $address_array = array_filter([
-        $geo_object->description ?? NULL,
-        $geo_object->name ?? NULL
-    ], function($item){
-        return !!($item);
-    });
-
-    // note Yandex returns string coords as LNG-LAT
-    $coords = explode(' ', $geo_object->Point->pos);
-
-    return [
-        'city'      =>  implode(', ', $address_array),
-        'city_lat'  =>  $coords[1] ?? NULL,
-        'city_lng'  =>  $coords[0] ?? NULL
-    ];
-}
 
 function doSendMail($destination, $subject, $text)
 {

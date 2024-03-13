@@ -1,8 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>{*html.title*}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Добавление клуба</title>
     <link   href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" />
     <link   href="/frontend/colorbox/colorbox.css" rel="stylesheet" />
     <script src="/frontend/jquery/jquery-3.2.1_min.js" type="text/javascript" ></script>
@@ -10,7 +14,7 @@
     <script src="/frontend/jquery/jquery.jgrowl.min.js" type="text/javascript"></script>
     <link   href="/frontend/jquery/jquery.jgrowl.min.css" rel="stylesheet" />
 
-    <style type="text/css">
+    <style>
         input[required] {
             background-image: radial-gradient(#F00 15%, transparent 16%), radial-gradient(#F00 15%, transparent 16%);
             background-size: 1em 1em;
@@ -49,27 +53,26 @@
     <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
-<h2>{*html.title*}</h2>
+<h2>Добавление клуба</h2>
 
-<form action="{*href.form_action_submit*}" method="POST" id="form-unautharized-add-club">
+<form action="{Arris\AppRouter::getRouter('callback.form.add.poi')}" method="POST" id="form-unautharized-add-club">
     <table border="1" width="100%">
+{*
         <tr>
             <td colspan="100">
                 <strong>ВАЖНО:</strong>
-                На сайте не используется SSL-сертификат (пока что это не имеет смысла). Поэтому гуглокапча иногда начинает глючить и браузер паникует:
-                <em>"Подтвердите действие, нет интернет-соединения, повторите попытку.</em>. Всё у вас есть! Только гуглокапча не работает.
-                <br/>
                 В этом случае просто отправьте письмо на ящик <a href="mailto:rpgclubsrf@yandex.ru">rpgclubsrf@yandex.ru</a>,
                 сообщив нам про свой клуб всё, что ввели бы в эту форму (скорее всего достаточно будет только адреса клуба).
             </td>
         </tr>
+*}
         <!--<tr>
             <td>&nbsp;</td>
             <td>&nbsp;</td>
             <td rowspan="100" width="40%">карта</td>
         </tr>-->
         <tr>
-            <td>Email <br/> (для обратной связи)</td>
+            <td>Email <br> (для обратной связи)</td>
             <td>
                 <input type="email" value="" size="80" name="club:unauthadd:owner_email" required>
             </td>
@@ -77,7 +80,7 @@
         <tr>
             <td>Кто вы</td>
             <td>
-                <small>Расскажите немного о себе. Кто вы? Кого вы представляете? Как с вами связаться кроме электронной почты?</small><br/>
+                <small>Расскажите немного о себе. Кто вы? Кого вы представляете? Как с вами связаться кроме электронной почты?</small><br>
                 <input type="text" size="80" name="club:unauthadd:owner_about" />
             </td>
         </tr>
@@ -85,10 +88,10 @@
             <td>URL сайта клуба</td>
             <td>
                 <small>Пожалуйста, укажите здесь URL страницы вашего клуба в VKontakte. Если таковой нет - укажите просто сайт.
-                    Дополнительные сайты нужно указывать <strong>описании</strong>.</small> <br/>
-                <input type="text" value="" size="80" name="club:unauthadd:url_site"> <br/>
+                    Дополнительные сайты нужно указывать <strong>описании</strong>.</small> <br>
+                <input type="text" value="" size="80" name="club:unauthadd:url_site"> <br>
 
-                <button id="actor-resolve-vk-data" data-url="{*href.ajax_get_vk_club_info*}" data-source="club:unauthadd:url_site">Попробовать извлечь информацию о клубе из VKontakte</button>
+                <button id="actor-resolve-vk-data" data-url="{Arris\AppRouter::getRouter('ajax_get_vk_club_info')}" data-source="club:unauthadd:url_site">Попробовать извлечь информацию о клубе из VKontakte</button>
             </td>
         </tr>
 
@@ -105,13 +108,13 @@
         <tr>
             <td>Адрес:</td>
             <td>
-                <small>Укажите здесь адрес клуба: </small><br/>
-                <input type="text" value="" size="70" name="club:unauthadd:address"><br/>
+                <small>Укажите здесь адрес клуба: </small><br>
+                <input type="text" value="" size="70" name="club:unauthadd:address"><br>
                 <small>А здесь, если есть какие-то особенности адреса (домофон, охрана в бизнес-центре или
                     третий поворот направо во втором дворе в доме напротив памятника Радагасту) укажите их. Это поможет людям найти вас!</small>
                 <textarea cols="70" rows="7" name="club:unauthadd:address_hint"></textarea>
                 <br />
-                <button id="actor-parse-address" data-url="{*href.ajax_get_coords_by_address*}">Попытаться определить координаты и город по адресу</button>
+                <button id="actor-parse-address" data-url="{Arris\AppRouter::getRouter('ajax_get_coords_by_address')}">Попытаться определить координаты и город по адресу</button>
             </td>
         </tr>
         <tr>
@@ -126,13 +129,13 @@
                     <br>
                     <small>
                         Где найти координаты? Например, на <a href="https://yandex.ru/maps/" target="_blank">яндекс-карте</a> (откроется в новой вкладке).</br>
-                        <img src="/public/images/coord_at_yandex_map.png"><br/>
+                        <img src="/frontend/coord_at_yandex_map.png"> <br>
                         Найдите свой клуб, кликните на здание с клубом, а потом скопируйте координаты в это поле:
                     </small>
-                    <br/>
-                    <input type="text" size="20" value="" name="club:unauthadd:latlng"> <br/>
+                    <br>
+                    <input type="text" size="20" value="" name="club:unauthadd:latlng"> <br>
 
-                    <button id="actor-resolve-city" data-url="{*href.ajax_get_city_by_coords*}" data-target="club:unauthadd:address_city">Определить по координатам город</button><br/>
+                    <button id="actor-resolve-city" data-url="{Arris\AppRouter::getRouter('ajax_get_city_by_coords')}" data-target="club:unauthadd:address_city">Определить по координатам город</button><br>
                     <small>Если вы не знаете координаты и не смогли узнать по координатам город - оставьте поля пустыми.</small>
                 </div>
             </td>
@@ -140,46 +143,46 @@
         <tr>
             <td>VK-banner</td>
             <td>
-                <small>Горизонтальный баннер 795×200 пикселей, обычно из группы ВКонтакте (<a href="https://vk.com/blackforrest" target="_blank">пример</a>)<br/>
-                    Если вы не знаете как указать ссылку на эту картинку - просто напишите сюда: "из группы ВК"</small><br/>
+                <small>Горизонтальный баннер 795×200 пикселей, обычно из группы ВКонтакте (<a href="https://vk.com/blackforrest" target="_blank">пример</a>)<br>
+                    Если вы не знаете как указать ссылку на эту картинку - просто напишите сюда: "из группы ВК"</small><br>
                 <input type="text" value="" size="80" name="club:unauthadd:vk_banner">
             </td>
         </tr>
         <tr>
             <td>Баннер (другой)</td>
             <td>
-                <small>Если у вас нет баннера для группы ВК - укажите хоть какой-нибудь. Мы подумаем, как его показать.</small><br/>
+                <small>Если у вас нет баннера для группы ВК - укажите хоть какой-нибудь. Мы подумаем, как его показать.</small><br>
                 <input type="text" value="" size="80" name="club:unauthadd:banner_other">
             </td>
         </tr>
-<!--
-        <tr>
-            <td>Формат <br>инфобокса</td>
-            <td>
-                <small>Тут всё просто. Если вы указали баннер из группы ВК - ничего не меняйте. На самом деле вы можете указать оба
-                    баннера, а этой опцией позднее можно будет выбрать режим отображения информации о клубе.</small><br/>
-                <label>VK Style<input type="radio" name="club:unauthadd:infobox_layout" value="VKBanner" checked></label><br>
-                <label>Other<input type="radio" name="club:unauthadd:infobox_layout" value="Other"></label>
-            </td>
-        </tr>
--->
-        {?*options.captcha_enabled*}
+        <!--
+                <tr>
+                    <td>Формат <br>инфобокса</td>
+                    <td>
+                        <small>Тут всё просто. Если вы указали баннер из группы ВК - ничего не меняйте. На самом деле вы можете указать оба
+                            баннера, а этой опцией позднее можно будет выбрать режим отображения информации о клубе.</small><br>
+                        <label>VK Style<input type="radio" name="club:unauthadd:infobox_layout" value="VKBanner" checked></label><br>
+                        <label>Other<input type="radio" name="club:unauthadd:infobox_layout" value="Other"></label>
+                    </td>
+                </tr>
+        -->
         <tr>
             <td>
                 Разумеется, капча:
             </td>
             <td>
-                <div id="recaptcha" class="g-recaptcha" data-sitekey="{*options.captcha_sitekey*}"></div>
+                <img src="/kcaptcha.php" id="captcha" alt="captcha" onclick="$('#captcha').attr('src', '/kcaptcha.php?r='+Math.random()); return false;" ><br >
+                <input type="text" name="captcha" class="small" id="captcha" tabindex="8" style="width: 120px; display: inline-block;" >
+                {*<div id="recaptcha" class="g-recaptcha" data-sitekey="*}{*options.captcha_sitekey*}{*"></div>
                 <small>Есть маленький нюанс. Это временная форма добавления данных, поэтому если вы не пройдете гуглокапчу, но
-                    нажмете на "подать заявку на рассмотрение", скорее всего вы потеряете все данные, которые сейчас ввели. <br/>
-                    Будьте внимательны!!!</small>
+                    нажмете на "подать заявку на рассмотрение", скорее всего вы потеряете все данные, которые сейчас ввели. <br>
+                    Будьте внимательны!!!</small>*}
             </td>
         </tr>
-        {?}
         <tr>
             <td colspan="2">
                 <span style="color: navy">Вы же понимаете, что я не могу сразу взять и показать ваш клуб на карте? Информацию нужно проверить.
-                    <br/>
+                    <br>
                     При необходимости мы свяжемся с вами и уточним детали. После этого, скорее всего, ваш клуб появится на карте.
                     Произойдет это в течение суток.
                 </span>
@@ -187,22 +190,23 @@
         </tr>
         <tr>
             <td>
-                <button data-url="{*href.frontpage*}" id="actor-quit">НАЗАД,<br/>НА КАРТУ</button>
+                <button data-url="{Arris\AppRouter::getRouter('view.main.page')}" id="actor-quit">НАЗАД,<br>НА КАРТУ</button>
             </td>
             <td>
                 <span style="float: right">
-                    <button type="submit" tabindex="8">ПОДАТЬ ЗАЯВКУ<br/> НА РАССМОТРЕНИЕ</button>
+                    <button type="submit" tabindex="8">ПОДАТЬ ЗАЯВКУ<br> НА РАССМОТРЕНИЕ</button>
                 </span>
             </td>
         </tr>
     </table>
 </form>
-<form action="{*href.frontpage*}" method="POST" id="form-unautharized-add-result" class="invisible">
+{*
+<form action="{Arris\AppRouter::getRouter('view.main.page')}" method="POST" id="form-unautharized-add-result" class="invisible">
     <div class="text-align:center">
         <button style="height: 200px; width: 200px; font-size: 600%"></button>
     </div>
-
 </form>
+*}
 
 <script type="text/javascript">
     ;$(function(){
@@ -281,8 +285,8 @@
 
 
     }).on('submit', '#form-unautharized-add-club', function(event){
-        // сабмит формы
-        let $captcha = $( '#recaptcha' );
+        // сабмит формы - мы не используем гуглокапчу
+        /*let $captcha = $( '#recaptcha' );
         let response = grecaptcha.getResponse();
 
         if (response.length === 0) {
@@ -293,7 +297,7 @@
         } else {
             $captcha.removeClass( "error" );
             return true;
-        }
+        }*/
     });
 </script>
 
