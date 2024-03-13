@@ -4,10 +4,10 @@
 
 /* Map full */
 html, body, #map {
-    height:100%;
-    width:100%;
-    padding:0px;
-    margin:0px;
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
 }
 
 .invisible {
@@ -21,8 +21,8 @@ html, body, #map {
 
 .section-infobox-wrapper {
     padding: 8px 8px;
-    background: rgba(255,255,255,1);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
 }
 
@@ -32,8 +32,8 @@ html, body, #map {
 
 .section-infobox-button-close {
     font-size: x-large;
-    background: rgba(255,255,255,1);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     float: right;
 }
@@ -73,16 +73,18 @@ html, body, #map {
 /* === Section ABOUT === */
 .section-about-wrapper {
     padding: 8px 8px;
-    background: rgba(255,255,255,1);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
 }
+
 .section-about-button-toggle {
     font-size: x-large;
-    background: rgba(255,255,255,1);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
 }
+
 .section-about-content {
     margin: 10px 5px 10px 5px;
     font-size: 140%;
@@ -106,15 +108,15 @@ html, body, #map {
 /* === Section: CLUBS LIST ACTOR BUTTON === */
 .section-actorlistbutton-wrapper {
     padding: 8px 8px;
-    background: rgba(255,255,255,1);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
 }
 
 .section-actorlistbutton-wrapper button {
     font-size: x-large;
-    background: rgba(255,255,255,1);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
 }
 

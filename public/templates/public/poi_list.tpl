@@ -26,19 +26,20 @@
             <td width="33%" style="text-align: left">
             </td>
             <td width="33%" style="text-align: center">
-                Всего клубов: <span style="color: blue">{*summary.clubs_total*}</span><br>
-                На карте клубов: <span style="color: blue">{*summary.clubs_visible*}</span>
+                Всего клубов: <span style="color: blue">{$summary.clubs_total}</span><br>
+                На карте клубов: <span style="color: blue">{$summary.clubs_visible}</span>
             </td>
             <td width="33%" style="text-align: right">
-                <button id="actor-back-to-frontpage" data-url="{*href.frontpage*}">НА КАРТУ</button>
+                <button id="actor-back-to-frontpage" data-url="{Arris\AppRouter::getRouter('view.main.page')}">НА КАРТУ</button>
             </td>
         </tr>
     </table>
+    <hr>
 
     <table border="1" width="100%" id="public_clubs" cellspacing="0" class="display table table-striped table-bordered">
         <thead>
         <tr>
-            /* <th>Одобрено</th> */
+            {* <th>Одобрено</th> *}
             <th>Город</th>
             <th>Название</th>
             <th>Адрес</th>
@@ -47,7 +48,7 @@
         </thead>
         <tfoot>
         <tr>
-            /* <th>Одобрено</th> */
+            {* <th>Одобрено</th> *}
             <th>Город</th>
             <th>Название</th>
             <th>Адрес</th>
@@ -56,18 +57,30 @@
         </tfoot>
 
         <tbody>
-        {%*dataset*}
-        <tr>
-            /* <td align="center">{?*dataset:is_public*}<h1>+</h1>{?}{?!*dataset:is_public*}<h1>-</h1>{?}</td> */
-            <td>{*dataset:address_city*}</td>
-            <td>{*dataset:title*}</td>
-            <td>{*dataset:address*}</td>
-            <td>
-                {?*dataset:url_site*}<a href="{*dataset:url_site*}" target="_blank">{*dataset:url_site*}</a>{?}
-                {?!*dataset:url_site*}не указан{?}
-            </td>
-        </tr>
-        {%}
+        {foreach $dataset as $row}
+
+            <tr>
+                {*<td align="center">
+                    {if $row.is_public}
+                        <h1>+</h1>
+                    {else}
+                        <h1>-</h1>
+                    {/if}
+                </td>*}
+                <td>{$row.address_city}</td>
+                <td>{$row.title}</td>
+                <td>{$row.address}</td>
+                <td>
+                    {if $row.url_site}
+                        <a href="{$row.url_site}" target="_blank">{$row.url_site}</a>
+                    {else}
+                        Не указан
+                    {/if}
+                </td>
+            </tr>
+
+        {/foreach}
+
         </tbody>
 
     </table>
@@ -78,7 +91,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#public_clubs').DataTable({
-            "pageLength": 6,
+            "pageLength": 8,
             "lengthChange": false
         });
     } );

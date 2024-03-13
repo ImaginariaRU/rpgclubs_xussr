@@ -52,7 +52,11 @@ try {
     /**
      * AJAX-запросы
      */
-    AppRouter::get  ('/ajax/get:poi/{id}', [ AjaxController::class, 'view_poi_page']); // get_info_poi
+    AppRouter::get  ('/ajax/poi:get/[{id}]', [ AjaxController::class, 'view_poi_page'], 'ajax.view.poi.info');
+    AppRouter::get  ('/ajax/poi:list/', [ AjaxController::class, 'ajax_view_poi_list'], 'ajax.view.poi.list' );
+
+    AppRouter::get  ('/список', [ MainController::class, 'view_poi_list' ], 'view.poi.list');
+
     AppRouter::get  ('/ajax/get:city:by:coords', [ AjaxController::class, 'get_city_by_coords'], 'ajax_get_city_by_coords' );
     AppRouter::get  ('/ajax/get:vk:club:info', [ AjaxController::class, 'get_vk_club_info'], 'ajax_get_vk_club_info');
     AppRouter::get  ('/ajax/get:coords:by:address', [ AjaxController::class, 'get_coords_by_address'], 'ajax_get_coords_by_address');
@@ -67,10 +71,6 @@ try {
     // используемая
     AppRouter::get  ('/public/add_vk_club', [ PublicForm::class, '']); // form_unauth_add_vk_club
     AppRouter::post ('/public/add_vk_club', [ PublicForm::class, '']); // callback_unauth_add_vk_club
-
-    // список клубов
-    AppRouter::get   ('/list', [ ClubsController::class, 'public_clubs_list']);
-    AppRouter::get   ('/list_colorbox', [ ClubsController::class, 'public_clubs_list_colorbox']);
 
     // Auth (login)
     AppRouter::get   ('/auth/login', 'Auth@form_login', 'auth_form_login');
@@ -129,6 +129,9 @@ try {
 $render = App::$template->render();
 if (!empty($render)) {
     App::$template->headers->send();
+
+    // return preg_replace('/^\h*\v+/m', '', $template->render()); - ?
+
     echo $render;
 }
 

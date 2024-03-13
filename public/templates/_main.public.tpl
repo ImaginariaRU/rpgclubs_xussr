@@ -41,11 +41,16 @@
             {/foreach}
         ];
 
-        var map_providers = {
+        var map_provider = {
             "use": "{$map_provider.use}",
             "href" : '{$map_provider.href}',
             "attribution": '{$map_provider.attribution}',
-            "max_zoom" : "{$map_provider.max_zoom}",
+            "max_zoom" : "{$map_provider.zoom}",
+        };
+        {* @todo: через getRouter() *}
+        var urls = {
+            'poi_get': '{Arris\AppRouter::getRouter('ajax.view.poi.info')}',
+            'poi_list': '{Arris\AppRouter::getRouter('ajax.view.poi.list')}'
         };
     </script>
 
@@ -71,6 +76,7 @@
         <link href="/frontend/leaflet/L.Control.Zoomslider.css" rel="stylesheet" />
 
         <script src="/frontend/front.js" type="text/javascript"></script>
+        <link href="/frontend/front.css" rel="stylesheet" />
     {else}
         <link href="/styles.css" rel="stylesheet" />
         <script src="/scripts.js" type="text/javascript" ></script>
@@ -84,7 +90,7 @@
 
 <section id="section-actorlistbutton" class="section-actorlistbutton-wrapper invisible" data-leaflet-control-position="bottomleft">
     <span id="section-act"></span>
-    <button id="actor-list-popup" data-actor-url="{*href.colorbox_clubs_list*}">Клубы на карте</button>
+    <button id="actor-list-popup" data-actor-url="{Arris\AppRouter::getRouter('ajax.view.poi.list')}">Клубы на карте</button>
 </section>
 
 <section id="section-infobox" class="section-infobox-wrapper invisible" data-leaflet-control-position="{$section.infobox_position}"></section>
@@ -97,13 +103,13 @@
         <h2>Ролевые клубы на карте России</h2>
         <div>
             <strong>Здравствуйте!</strong><br/><br/>
-            На этой карте можно найти <a href="{*href.public_clubs_list*}">ролевые клубы</a> России. Нажав на иконку на карте, вы узнаете, где этот клуб находится и
+            На этой карте можно найти <a href="{Arris\AppRouter::getRouter('view.poi.list')}">ролевые клубы</a> России. Нажав на иконку на карте, вы узнаете, где этот клуб находится и
             что предлагают его создатели. Ссылка на сайт клуба или группу ВКонтакте прилагается.
             <br/><br/>
             Это совершенно некоммерческий проект и создатель не извлекает из него абсолютно никакой прибыли.
         </div>
         <div>
-            Если вы хотите добавить клуб на карту, <a href="{*href.unauth_add_vk_club*}" target="_self">подайте заявку через форму</a> или напишите
+            Если вы хотите добавить клуб на карту, <a href="{$href.unauth_add_vk_club}" target="_self">подайте заявку через форму</a> или напишите
             сюда: <a href="mailto:rpgclubsrf@yandex.ru">rpgclubsrf@yandex.ru</a>.
             Жалобы, комментарии и предложения тоже отправляйте, пожалуйста, почтой.
         </div>
@@ -115,7 +121,7 @@
             </div>
         {/if}
         <span style="font-size: small">
-            <a href="{*href.admin_clubs_list*}" style="text-decoration: none; color: black;">©</a> Копирайты: Leaflet, OpenSteetMaps, Yandex Geocoder, ORDI
+            <a href="{$href.admin_clubs_list}" style="text-decoration: none; color: black;">©</a> Копирайты: Leaflet, OpenSteetMaps, Yandex Geocoder, ORDI
         </span>
     </div>
 </section>

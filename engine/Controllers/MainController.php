@@ -2,10 +2,12 @@
 
 namespace RPGCAtlas\Controllers;
 
+use Arris\AppRouter;
 use Psr\Log\LoggerInterface;
 use RPGCAtlas\AbstractClass;
 use RPGCAtlas\MapProviders;
 use RPGCAtlas\Units\Map;
+use RPGCAtlas\Units\POI;
 
 class MainController extends AbstractClass
 {
@@ -14,6 +16,13 @@ class MainController extends AbstractClass
         parent::__construct($options, $logger);
 
         $this->template->setTemplate("_main.public.tpl");
+
+        $this->template->assign('href', [
+            'colorbox_clubs_list'       =>  '/get',
+            'public_clubs_list'         =>  '/get',
+            'unauth_add_vk_club'        =>  '/get',
+            'admin_clubs_list'          =>  '/get'
+        ]);
     }
 
     public function view_main_page()
@@ -23,8 +32,8 @@ class MainController extends AbstractClass
             'lng'   =>  60.334709,
         ];
         $city_location = [
-            'city_lat'  =>  56.769540,
-            'city_lng'  =>  60.334709,
+            'city_lat'  =>  0,
+            'city_lng'  =>  0,
             'zoom'  =>  4
         ];
 
@@ -58,7 +67,6 @@ class MainController extends AbstractClass
             'href'          =>  MapProviders::PROVIDERS[ $use_map_provider ]['href'],
             'attribution'   =>  MapProviders::PROVIDERS[ $use_map_provider ]['attr'],
             'zoom'          =>  getenv('MAP.ZOOM')
-
         ]);
 
         $poi_dataset = (new Map())->getClubs();
@@ -69,6 +77,19 @@ class MainController extends AbstractClass
             'total'     =>  count($poi_dataset),
             'visible'   =>  count( array_filter($poi_dataset, static function($row) { return !!$row['is_public']; }) )
         ]);
+    }
+
+    public function view_poi_list()
+    {
+        $dataset = (new POI())->getPOIList();
+
+        $this->template->assign('dataset', $dataset);
+        $this->template->assign('summary', [
+            'clubs_total'   =>  count($dataset),
+            'clubs_visible' =>  count(array_filter($dataset, function($data){ return !!$data['is_public']; }) )
+        ]);
+
+        $this->template->setTemplate("public/poi_list.tpl");
     }
 
 }

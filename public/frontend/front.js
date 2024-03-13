@@ -9,9 +9,9 @@
     });
 };
 
-;(function(user_location, clubs_list, map_providers, map){
+;(function(user_location, clubs_list, map_provider, map){
     let is_infobox_present = false;
-    let map_provider_data = map_providers;
+    let map_provider_data = map_provider;
 
     let /**
      * Создает в объекте L область для справочного окна (по всему проекту)
@@ -78,10 +78,13 @@
         });
     };
 
+    //@todo: обрабатывать hashed URL !!!
+
+    //@todo: менять hashed URL в адресной строке
     let load_poi_content = function (id, container) {
         let target = container || "section-infobox-content";
         let $target = $('#' + container);
-        let url = '/ajax/get:poi/' + id;
+        let url = window.urls['poi_get'] + id;
 
         $target.html('').scrollTop(0);
 
@@ -213,4 +216,4 @@
         });
     });*/
 
-}(user_location, clubs_list, map_providers, $));
+}(user_location, clubs_list, map_provider, $));
