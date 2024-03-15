@@ -27,7 +27,8 @@
         "yandex/geo": "^1.2",
         "nette/mail": "^3.1",
         "karelwintersky/arris.template": "^0.9.2",
-        "ajur-media/kcaptcha": "^1.1"
+        "ajur-media/kcaptcha": "^1.1",
+        "maxh/php-nominatim": "^2.3"
     },
     "autoload": {
         "files": [

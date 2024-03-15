@@ -6,6 +6,8 @@ use Arris\AppRouter;
 use Arris\Helpers\Server;
 use Psr\Log\LoggerInterface;
 use RPGCAtlas\AbstractClass;
+use RPGCAtlas\Units\GeoCoder;
+use RPGCAtlas\Units\Mailer;
 
 class PublicFormController extends AbstractClass
 {
@@ -22,38 +24,24 @@ class PublicFormController extends AbstractClass
     public function view_form_poi_add()
     {
         $this->template->setTemplate('public/form_add_club.tpl');
-
-        /*$template->set('options', [
-            'captcha_enabled'   =>  StaticConfig::get('google_recaptcha/enabled'),
-            'captcha_sitekey'   =>  StaticConfig::get('google_recaptch/site_key')
-        ]);*/
     }
 
-    /**
-     * Коллбэк формы добавления нового клуба
-     *
-     * see /var/www/47news/engine/Units/Site/Feedback.php
-     */
     public function callback_club_add()
     {
-        if ($_REQUEST['captcha'] != $_SESSION['captcha_keystring']) {
-            $ERRORS[] = "Вы неправильно ввели надпись с картинки";
-        }
-
-        var_dump($ERRORS);
-        die;
-
         $query = "
         INSERT INTO {$this->tables->clubs}
         (
           `id_owner`,
           `is_public`,
-          `lat`,
-          `lng`,
+          `owner_email`,
+          `owner_about`,
           `title`,
           `desc`,
-          `address`,
+          `lat`,
+          `lng`,
+          `zoom`,
           `address_city`,
+          `address`,
           `banner_horizontal`,
           `banner_vertical`,
           `url_site`,
@@ -63,37 +51,55 @@ class PublicFormController extends AbstractClass
         (
           :id_owner,
           :is_public,
-          :lat,
-          :lng,
+          :owner_email,
+          :owner_about,
           :title,
           :desc,
-          :address,
+          :lat,
+          :lng,
+          :zoom,
           :address_city,
+          :address,
           :banner_horizontal,
           :banner_vertical,
           :url_site,
           INET_ATON(:ipv4_add)
         )
         ";
-
         $sth = $this->pdo->prepare($query);
 
         $dataset = [
-            "id_owner"  =>  1,
-            "is_public" =>  input('club:add:is_public') ? 1 : 0,
-            "lat"       =>  input('club:add:lat'),
-            "lng"       =>  input('club:add:lng'),
-            "title"     =>  input('club:add:title'),
-            "desc"      =>  input('club:add:desc'),
-            "address"   =>  input('club:add:address'),
-            "address_city" => input('club:add:address_city'),
-            "banner_horizontal" =>  input('club:add:banner_horizontal'),
-            "banner_vertical"   =>  input('club:add:banner_vertical'),
-            "url_site"       =>  input('club:add:url_site'),
-            "ipv4_add"  =>  Server::getIP()
+            "id_owner"      =>  0,
+            "is_public"     =>  0,
+            "owner_email"   =>  input('club:owner_email'),
+            "owner_about"   =>  input('club:owner_about'),
+            "title"         =>  input('club:title'),
+            "desc"          =>  input('club:description'),
+            "zoom"          =>  12,                                     //@todo: фронтэнд-обработка (зум карты меняет значение в поле)
+            "address_city"  =>  input('club:address_city'),
+            "address"       =>  input('club:address'),
+            "banner_horizontal" =>  input('club:vk_banner'),
+            "banner_vertical"   =>  input('club:banner_other'),
+            "url_site"      =>  input('club:url_site'),
+            "ipv4_add"      =>  Server::getIP()
         ];
+        if (!(input('club:lat') && input('club:lng')) && (input('club:latlng'))) {
+            // координаты заданы строкой с карты
+            // '59.925483, 30.259649'
+            // trim, explode by ', '
+            $set = explode(', ', trim(input('club:latlng')));
+            $dataset['lat'] = $set[0];
+            $dataset['lng'] = $set[1];
+        } else {
+            // координаты заданы полями
+            $dataset['lat'] = input('club:lat');
+            $dataset['lng'] = input('club:lng');
+        }
+
         if (!$dataset['address_city']) {
-            $dataset['address_city'] = getCityByCoords($dataset['lat'], $dataset['lng'])['city'];
+            $_r = (new GeoCoder())->getCityByCoords($dataset['lat'], $dataset['lng']);
+
+            $dataset['address_city'] = $_r->__get('city');
         }
 
         try {
@@ -102,7 +108,9 @@ class PublicFormController extends AbstractClass
             dd($e->getMessage()); //@todo: MONOLOG
         }
 
-        $this->template->setRedirect( AppRouter::getRouter('view.poi.list'));
+        (new Mailer())->mailToAdmin("Новый клуб", "Некто с адресом {$dataset['owner_email']} подал заявку на добавление клуба {$dataset['title']}");
+
+        $this->template->setRedirect( AppRouter::getRouter('view.main.page'));
     }
 
 

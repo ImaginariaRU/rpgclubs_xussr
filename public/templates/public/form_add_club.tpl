@@ -2,7 +2,6 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -48,9 +47,8 @@
         .invisible {
             display: none;
         }
-
     </style>
-    <script src='https://www.google.com/recaptcha/api.js'></script>
+    {*<script src='https://www.google.com/recaptcha/api.js'></script>*}
 </head>
 <body>
 <h2>Добавление клуба</h2>
@@ -74,14 +72,14 @@
         <tr>
             <td>Email <br> (для обратной связи)</td>
             <td>
-                <input type="email" value="" size="80" name="club:unauthadd:owner_email" required>
+                <input type="email" value="" size="80" name="club:owner_email" required>
             </td>
         </tr>
         <tr>
             <td>Кто вы</td>
             <td>
                 <small>Расскажите немного о себе. Кто вы? Кого вы представляете? Как с вами связаться кроме электронной почты?</small><br>
-                <input type="text" size="80" name="club:unauthadd:owner_about" />
+                <input type="text" size="80" name="club:owner_about" />
             </td>
         </tr>
         <tr>
@@ -89,7 +87,7 @@
             <td>
                 <small>Пожалуйста, укажите здесь URL страницы вашего клуба в VKontakte. Если таковой нет - укажите просто сайт.
                     Дополнительные сайты нужно указывать <strong>описании</strong>.</small> <br>
-                <input type="text" value="" size="80" name="club:unauthadd:url_site"> <br>
+                <input type="text" value="" size="80" name="club:url_site"> <br>
 
                 <button id="actor-resolve-vk-data" data-url="{Arris\AppRouter::getRouter('ajax_get_vk_club_info')}" data-source="club:unauthadd:url_site">Попробовать извлечь информацию о клубе из VKontakte</button>
             </td>
@@ -97,22 +95,22 @@
 
         <tr>
             <td>Название клуба</td>
-            <td><input type="text" value="" size="80" name="club:unauthadd:title" required></td>
+            <td><input type="text" value="" size="80" name="club:title" required></td>
         </tr>
         <tr>
             <td>Описание клуба</td>
             <td>
-                <textarea cols="70" rows="7" name="club:unauthadd:description" id="textarea_club_description" required></textarea>
+                <textarea cols="70" rows="7" name="club:description" id="textarea_club_description" required></textarea>
             </td>
         </tr>
         <tr>
             <td>Адрес:</td>
             <td>
                 <small>Укажите здесь адрес клуба: </small><br>
-                <input type="text" value="" size="70" name="club:unauthadd:address"><br>
+                <input type="text" value="" size="70" name="club:address"><br>
                 <small>А здесь, если есть какие-то особенности адреса (домофон, охрана в бизнес-центре или
                     третий поворот направо во втором дворе в доме напротив памятника Радагасту) укажите их. Это поможет людям найти вас!</small>
-                <textarea cols="70" rows="7" name="club:unauthadd:address_hint"></textarea>
+                <textarea cols="70" rows="7" name="club:address_hint"></textarea>
                 <br />
                 <button id="actor-parse-address" data-url="{Arris\AppRouter::getRouter('ajax_get_coords_by_address')}">Попытаться определить координаты и город по адресу</button>
             </td>
@@ -120,11 +118,11 @@
         <tr>
             <td>Координаты</td>
             <td>
-                Lat: <input type="text" value="" size="20" name="club:unauthadd:lat">
+                Lat: <input type="text" value="" size="20" name="club:lat">
                 /
-                Lng: <input type="text" value="" size="20" name="club:unauthadd:lng">
+                Lng: <input type="text" value="" size="20" name="club:lng">
                 /
-                Город: <input type="text" value="" size="40" name="club:unauthadd:address_city">
+                Город: <input type="text" value="" size="40" name="club:address_city">
                 <div id="set-coords-manually">
                     <br>
                     <small>
@@ -133,9 +131,9 @@
                         Найдите свой клуб, кликните на здание с клубом, а потом скопируйте координаты в это поле:
                     </small>
                     <br>
-                    <input type="text" size="20" value="" name="club:unauthadd:latlng"> <br>
+                    <input type="text" size="20" value="" name="club:latlng"> <br>
 
-                    <button id="actor-resolve-city" data-url="{Arris\AppRouter::getRouter('ajax_get_city_by_coords')}" data-target="club:unauthadd:address_city">Определить по координатам город</button><br>
+                    <button id="actor-resolve-city" data-url="{Arris\AppRouter::getRouter('ajax_get_city_by_coords')}" data-target="club:address_city">Определить по координатам город</button><br>
                     <small>Если вы не знаете координаты и не смогли узнать по координатам город - оставьте поля пустыми.</small>
                 </div>
             </td>
@@ -145,14 +143,14 @@
             <td>
                 <small>Горизонтальный баннер 795×200 пикселей, обычно из группы ВКонтакте (<a href="https://vk.com/blackforrest" target="_blank">пример</a>)<br>
                     Если вы не знаете как указать ссылку на эту картинку - просто напишите сюда: "из группы ВК"</small><br>
-                <input type="text" value="" size="80" name="club:unauthadd:vk_banner">
+                <input type="text" value="" size="80" name="club:vk_banner">
             </td>
         </tr>
         <tr>
             <td>Баннер (другой)</td>
             <td>
                 <small>Если у вас нет баннера для группы ВК - укажите хоть какой-нибудь. Мы подумаем, как его показать.</small><br>
-                <input type="text" value="" size="80" name="club:unauthadd:banner_other">
+                <input type="text" value="" size="80" name="club:banner_other">
             </td>
         </tr>
         <!--
@@ -209,8 +207,8 @@
 *}
 
 <script type="text/javascript">
-    ;$(function(){
-        $("input[name='club:unauthadd:owner_email']").focus();
+    $(function(){
+        $("input[name='club:owner_email']").focus();
     }).on('click', '#actor-quit', function(event){
 
         event.preventDefault();
@@ -225,8 +223,8 @@
         let target = $(this).data('target');
 
         $.get(url, {
-            lat: $("input[name='club:unauthadd:lat']").val(),
-            lng: $("input[name='club:unauthadd:lng']").val(),
+            lat: $("input[name='club:lat']").val(),
+            lng: $("input[name='club:lng']").val(),
         }, function(data){
             $("input[name='" + target +"']").val( data );
         });
@@ -252,13 +250,13 @@
             if (data.state != 'error') {
                 $.jGrowl("Данные из сети ВКонтакте загружены", { header: 'ВАЖНО', position: 'top-right', life: 3000, theme: 'success' });
                 // раскладываем данные
-                $("input[name='club:unauthadd:title']").val( data.name );
-                $("input[name='club:unauthadd:address']").val(data.address);
-                $("input[name='club:unauthadd:address_city']").val(data.city);
-                $("textarea[name='club:unauthadd:description']").html(data.description);
-                $("input[name='club:unauthadd:lat']").val(data.lat);
-                $("input[name='club:unauthadd:lng']").val(data.lon);
-                $("input[name='club:unauthadd:vk_banner']").val(data.picture);
+                $("input[name='club:title']").val( data.name );
+                $("input[name='club:address']").val(data.address);
+                $("input[name='club:address_city']").val(data.city);
+                $("textarea[name='club:description']").html(data.description);
+                $("input[name='club:lat']").val(data.lat);
+                $("input[name='club:lng']").val(data.lon);
+                $("input[name='club:vk_banner']").val(data.picture);
                 $("#set-coords-manually").hide();
 
             } else {
@@ -270,7 +268,7 @@
         event.stopPropagation();
 
         let request_url = $(this).data('url');
-        let address = $("input[name='club:unauthadd:address']").val();
+        let address = $("input[name='club:address']").val();
 
         $.getJSON(request_url, { club_address: address }, function(data){
             if (!data) {
@@ -278,26 +276,13 @@
             } else {
                 $.jGrowl("Нам удалось определить координаты по адресу", { header: 'ВАЖНО', position: 'top-right', life: 5000, theme: 'success', speed: 'slow' });
 
-                $("input[name='club:unauthadd:lat']").val(data.city_lat);
-                $("input[name='club:unauthadd:lng']").val(data.city_lng);
+                $("input[name='club:lat']").val(data.city_lat);
+                $("input[name='club:lng']").val(data.city_lng);
             }
         });
 
 
     }).on('submit', '#form-unautharized-add-club', function(event){
-        // сабмит формы - мы не используем гуглокапчу
-        /*let $captcha = $( '#recaptcha' );
-        let response = grecaptcha.getResponse();
-
-        if (response.length === 0) {
-            if( !$captcha.hasClass( "error" ) ){
-                $captcha.addClass( "error" );
-            }
-            return false;
-        } else {
-            $captcha.removeClass( "error" );
-            return true;
-        }*/
     });
 </script>
 

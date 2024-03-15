@@ -11,9 +11,9 @@ class AbstractClass
 {
     public ?\Arris\App $app;
 
-    public DBWrapper $pdo;
+    public ?DBWrapper $pdo;
 
-    public Template $template;
+    public ?Template $template;
 
     public array $options = [];
 

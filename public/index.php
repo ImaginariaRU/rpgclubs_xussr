@@ -62,7 +62,7 @@ try {
      * Публичная форма добавления клуба
      */
     AppRouter::get  ('/add', [ PublicFormController::class, 'view_form_poi_add'], 'view.form.add.poi'); // form_unauth_add_vk_club
-    AppRouter::post ('/pend', [ PublicFormController::class, ''], 'callback.form.add.poi'); // callback_unauth_add_vk_club
+    AppRouter::post ('/pend', [ PublicFormController::class, 'callback_club_add'], 'callback.form.add.poi'); // callback_unauth_add_vk_club
 
     //@todo
     AppRouter::get  ('/ajax/get:city:by:coords', [ AjaxController::class, 'get_city_by_coords'], 'ajax_get_city_by_coords' );
