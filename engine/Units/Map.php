@@ -15,12 +15,12 @@ class Map extends AbstractClass
     public function getClubs()
     {
         $query = "
-        SELECT `id`, `lat`, `lng`
+        SELECT id, lat, lng, title 
 FROM {$this->tables->clubs}
-WHERE `is_public` = 1 
-  AND `lat` IS NOT NULL 
-  AND `lng` IS NOT NULL
-ORDER BY `id`
+WHERE is_public = 1 
+  AND lat IS NOT NULL 
+  AND lng IS NOT NULL
+ORDER BY id
         ";
         $dataset = [];
 

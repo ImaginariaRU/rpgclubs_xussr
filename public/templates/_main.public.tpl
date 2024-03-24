@@ -24,22 +24,46 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
 
     <script type="text/javascript" id="data">
+        window.engine_options = {
+            zoom: {
+                default: {$config.geo.default_zoom|default:5},
+                close: {$config.geo.close_zoom|default:14},
+                current: {$config.geo.default_zoom|default:5}
+            },
+            geolocation: {
+                maximumAge: {$config.geo.location.maximumAge|default:10000},
+                detectionTimeout: {$config.geo.location.detectionTimeout|default:30000},
+                enableHighAccuracy: {$config.geo.location.enableHighAccuracy|default:true}
+            },
+            titles: {
+                main: "{$config.app.title|default:''}",
+                sub: "{$config.app.title_sub|default:''}",
+                mdash: "—"
+            }
+        };
+
+        var clubs_list = {
+        {foreach $dataset_clubs_list as $club}
+            "{$club.id}": {
+                id: {$club.id},
+                lat: {$club.lat},
+                lng: {$club.lng},
+                location: [ {$club.lat}, {$club.lng} ],
+                type: 'cubes',
+                title: `{$club.title|escape:'quotes'}`
+            },
+        {/foreach}
+        };
+
         var user_location = {
-            ip_lat: '{$location.ip_lat}',
-            ip_lng: '{$location.ip_lng}',
-            zoom: 4,
+            lat: {$location.ip_lat},
+            lng: {$location.ip_lng},
+            zoom: engine_options.zoom.default,
             city: '{$location.city}',
+            state: 'Geolocation disabled',
             city_lat: {$location.city_lat},
             city_lng: {$location.city_lng}
         };
-        var clubs_list = [
-            {foreach $dataset_clubs_list as $club} {
-                id: {$club.id},
-                lat: {$club.lat},
-                lng: {$club.lng}
-            },
-            {/foreach}
-        ];
 
         var map_provider = {
             "use": "{$map_provider.use}",
@@ -49,9 +73,10 @@
         };
         {* @todo: через getRouter() *}
         var urls = {
-            'poi_get': '{Arris\AppRouter::getRouter('ajax.view.poi.info')}',
-            'poi_list': '{Arris\AppRouter::getRouter('ajax.view.poi.list')}'
+            'poi.get': '{Arris\AppRouter::getRouter('ajax.view.poi.info')}',
+            'poi.list': '{Arris\AppRouter::getRouter('ajax.view.poi.list')}'
         };
+
     </script>
 
     {if getenv('ENV_STATE') == 'dev'}
@@ -62,21 +87,24 @@
         <script src="/frontend/colorbox/jquery.colorbox-min.js" type="text/javascript"></script>
         <link href="/frontend/colorbox/colorbox.css" rel="stylesheet">
 
-        <!-- danwild/leaflet-fa-markers -->
+        {* danwild/leaflet-fa-markers *}
         <script src="/frontend/leaflet/L.Icon.FontAwesome.js" type="text/javascript"></script>
         <link href="/frontend/leaflet/L.Icon.FontAwesome.css" rel="stylesheet" />
 
-        <!-- marker clusters -->
+        {* marker clusters *}
         <link href="/frontend/leaflet/MarkerCluster.css" rel="stylesheet" />
         <link href="/frontend/leaflet/MarkerCluster.Default.css" rel="stylesheet" />
         <script src="/frontend/leaflet/leaflet.markercluster.js" type="text/javascript"></script>
 
-        <!-- zoom slider -->
+        {* zoom slider *}
         <script src="/frontend/leaflet/L.Control.Zoomslider.js" type="text/javascript"></script>
         <link href="/frontend/leaflet/L.Control.Zoomslider.css" rel="stylesheet" />
 
-        <script src="/frontend/front.js" type="text/javascript"></script>
-        <link href="/frontend/front.css" rel="stylesheet" />
+        {* project styles and scripts *}
+        <script src="frontend/MapBoxes.js"></script>
+        <script src="/frontend/MapActions.js"></script>
+        <script src="/frontend/index.js"></script>
+        <link href="/frontend/styles.css" rel="stylesheet">
     {else}
         <link href="/styles.css" rel="stylesheet" />
         <script src="/scripts.js" type="text/javascript" ></script>
@@ -85,7 +113,7 @@
 <body>
 <div tabindex="0" class="leaflet-container leaflet-fade-anim leaflet-grab leaflet-touch-drag" id="map"></div>
 
-<section id="section-actorlistbutton" class="section-actorlistbutton-wrapper invisible" data-leaflet-control-position="bottomleft">
+<section id="section-poi-list" class="section-poi-list invisible" data-leaflet-control-position="bottomleft">
     <span id="section-act"></span>
     <button id="actor-list-popup" data-actor-url="{Arris\AppRouter::getRouter('ajax.view.poi.list')}">Клубы на карте</button>
 </section>

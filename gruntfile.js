@@ -31,7 +31,7 @@ module.exports = function(grunt) {
                         'frontend/leaflet/MarkerCluster.Default.css',
                         'frontend/leaflet/L.Control.Zoomslider.css',
 
-                        'frontend/front.css'
+                        'frontend/styles.css'
                     ]
                 }
             }
