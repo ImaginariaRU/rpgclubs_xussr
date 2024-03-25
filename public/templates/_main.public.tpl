@@ -5,7 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Ролевые клубы на карте мира</title>
+    <title>{config key='application.meta.title'} — {config key='application.meta.title_sub'}</title>
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
     <meta name="keywords" content="{config key='application.meta.keywords'}">
@@ -18,7 +18,6 @@
     <meta name="author" content="{config key='application.meta.author'}">
     <meta name="url" content="">
 
-    {* always remote *}
     <link href="https://fonts.googleapis.com/css?family=PT+Serif" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
@@ -33,26 +32,26 @@
             geolocation: {
                 maximumAge: {$config.geo.location.maximumAge|default:10000},
                 detectionTimeout: {$config.geo.location.detectionTimeout|default:30000},
-                enableHighAccuracy: {$config.geo.location.enableHighAccuracy|default:true}
+                enableHighAccuracy: true
             },
             titles: {
-                main: "{$config.app.title|default:''}",
-                sub: "{$config.app.title_sub|default:''}",
+                main: "{config key='application.meta.title'}",
+                sub: "{config key='application.meta.title_sub'}",
                 mdash: "—"
             }
         };
 
         var poi_list = {
-        {foreach $dataset_poi_list as $club}
+{foreach $dataset_poi_list as $club}
             "{$club.id}": {
-                id: {$club.id},
-                lat: {$club.lat},
-                lng: {$club.lng},
-                location: [ {$club.lat}, {$club.lng} ],
-                type: 'cubes',
-                title: `{$club.title|escape:'quotes'}`
-            },
-        {/foreach}
+                    id: {$club.id},
+                    lat: {$club.lat},
+                    lng: {$club.lng},
+                    location: [ {$club.lat}, {$club.lng} ],
+                    type: 'cubes',
+                    title: `{$club.title|escape:'quotes'}`
+                },
+{/foreach}
         };
 
         var user_location = {
@@ -71,7 +70,6 @@
             "attribution": '{$map_provider.attribution}',
             "max_zoom" : "{$map_provider.zoom}",
         };
-        {* @todo: через getRouter() *}
         var urls = {
             'poi.get': '{Arris\AppRouter::getRouter('ajax.view.poi.info')}',
             'poi.list': '{Arris\AppRouter::getRouter('ajax.view.poi.list')}'
@@ -101,7 +99,7 @@
         <link href="/frontend/leaflet/L.Control.Zoomslider.css" rel="stylesheet" />
 
         <!-- project styles and scripts -->
-        <script src="frontend/MapBoxes.js"></script>
+        <script src="/frontend/MapBoxes.js"></script>
         <script src="/frontend/MapActions.js"></script>
         <script src="/frontend/index.js"></script>
 

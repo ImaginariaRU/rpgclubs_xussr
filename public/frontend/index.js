@@ -10,7 +10,7 @@
 };
 
 ;(function(user_location, poi_list, map_provider, $){
-    let is_infobox_visible = false;
+    let is_infobox_visible = 0;
     let map_provider_data = map_provider;
     let map = null;
 
@@ -91,13 +91,13 @@
         $("#section-infobox").hide();
         history.pushState('', document.title, window.location.pathname + window.location.search);
         // document.title = `${__frontpage_title} ${__frontpage_title_mdash} ${__frontpage_title_sub}`;
-        is_infobox_visible = false;
+        is_infobox_visible = 0;
 
     }).on('click', '#actor-infobox-close', function() {
 
         $("#section-infobox").hide();
         history.pushState('', document.title, window.location.pathname + window.location.search);
-        is_infobox_visible = false;
+        is_infobox_visible = 0;
         // document.title = `${__frontpage_title} ${__frontpage_title_mdash} ${__frontpage_title_sub}`;
 
     }).on('click', '#actor-list-popup', function () {
@@ -128,15 +128,15 @@
             // document.title = `${window.engine_options.titles.main} ${window.engine_options.titles.mdash} ${title}`;
 
             if (!is_infobox_visible) {
-                is_infobox_visible = true;
+                is_infobox_visible = id;
                 // map.addControl( new L.Control.AddInfoBox() );
             }
 
+            // load POI content
             MapActions.poiShowContent(id);
 
-            // load POI content
+            // focus
             map.setView([lat, lng], window.engine_options.zoom.close, { animate: true });
-
         }
 
     }, false);

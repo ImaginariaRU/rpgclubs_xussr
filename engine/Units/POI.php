@@ -29,4 +29,18 @@ class POI extends AbstractClass
         return $dataset;
     }
 
+    /**
+     * @param $id
+     * @return array
+     */
+    public function getPOIItem($id)
+    {
+        $query = "SELECT * FROM {$this->tables->poi} WHERE id = :id ORDER BY id DESC LIMIT 1";
+
+        $sth = $this->pdo->prepare($query);
+        $sth->execute([ 'id' => $id ]);
+
+        return $sth->fetch() ?: [];
+    }
+
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace RPGCAtlas\Units;
+namespace _old;
 
 use Arris\Entity\Result;
 use GuzzleHttp\Exception\GuzzleException;

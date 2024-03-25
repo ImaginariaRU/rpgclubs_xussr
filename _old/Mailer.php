@@ -1,6 +1,6 @@
 <?php
 
-namespace RPGCAtlas\Units;
+namespace _old;
 
 use Psr\Log\LoggerInterface;
 use RPGCAtlas\AbstractClass;

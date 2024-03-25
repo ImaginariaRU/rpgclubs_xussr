@@ -1,10 +1,10 @@
 <?php
 
-namespace RPGCAtlas\Middlewares;
+namespace _old\Middlewares;
 
+use _old\Exceptions\AccessDeniedException;
 use Arris\DelightAuth\Auth\Role;
 use RPGCAtlas\App;
-use RPGCAtlas\Exceptions\AccessDeniedException;
 
 class AuthMiddleware
 {

@@ -2,7 +2,6 @@
 
 namespace RPGCAtlas\Controllers;
 
-use Arris\AppRouter;
 use Psr\Log\LoggerInterface;
 use RPGCAtlas\AbstractClass;
 use RPGCAtlas\MapProviders;
@@ -16,17 +15,11 @@ class MainController extends AbstractClass
         parent::__construct($options, $logger);
 
         $this->template->setTemplate("_main.public.tpl");
-
-        $this->template->assign('href', [
-            'colorbox_clubs_list'       =>  '/get',
-            'public_clubs_list'         =>  '/get',
-            'unauth_add_vk_club'        =>  '/get',
-            'admin_clubs_list'          =>  '/get'
-        ]);
     }
 
     public function view_main_page()
     {
+        // detect location by IP
         $ip_location = [
             'lat'   =>  56.769540,
             'lng'   =>  60.334709,

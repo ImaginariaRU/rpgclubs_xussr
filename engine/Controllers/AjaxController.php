@@ -13,17 +13,17 @@ class AjaxController extends AbstractClass
         parent::__construct($options, $logger);
     }
 
+    /**
+     * @param $id
+     * @return void
+     */
     public function view_poi_page($id)
     {
-        $query = "SELECT * FROM {$this->tables->poi} WHERE id = :id ORDER BY id DESC LIMIT 1";
+        $poi = (new POI())->getPOIItem($id);
 
-        $sth = $this->pdo->prepare($query);
-        $sth->execute([ 'id' => $id ]);
+        $poi['title'] = htmlspecialchars($poi['title'], ENT_QUOTES | ENT_HTML5);
 
-        $club = $sth->fetch();
-        $club['title'] = htmlspecialchars($club['title'], ENT_QUOTES | ENT_HTML5);
-
-        $this->template->assign('dataset', $club);
+        $this->template->assign('dataset', $poi);
         $this->template->setTemplate("public/ajax_poi_info.tpl");
     }
 

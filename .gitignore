@@ -1,4 +1,5 @@
 .idea
+_old
 .config
 .config/config.ini
 .config/db.ini

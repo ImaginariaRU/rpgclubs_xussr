@@ -12,7 +12,6 @@ use Arris\Template\TemplateInterface;
 use Kuria\Error\ErrorHandler;
 use Kuria\Error\Screen\WebErrorScreen;
 use Kuria\Error\Screen\WebErrorScreenEvents;
-use Smarty;
 
 class App extends \Arris\App
 {
@@ -53,20 +52,20 @@ class App extends \Arris\App
             'storage'           =>  getenv('PATH.STORAGE')
         ]);
 
-        config('domains', [
+/*        config('domains', [
             'scheme'    =>  getenv('SCHEME'),
             'site'      =>  getenv('DOMAIN'),
             'fqdn'      =>  getenv('DOMAIN.FQDN')
-        ]);
+        ]);*/
 
-        config('limits', [
+/*        config('limits', [
             'MAX_UPLOAD_SIZE'   =>  \min(
                 Common::get_ini_value('post_max_size'),
                 Common::get_ini_value('upload_max_filesize'),
                 Common::return_bytes(_env('MAX_UPLOAD_SIZE', '64M')
                 )
             )
-        ]);
+        ]);*/
 
         config('application.meta', [
             'keywords'          =>  'map, rpg, clubs, ролевые клубы, карта, настольные, ролевые, игры, поиграть, НРИ, антикафе, игротеки',
@@ -74,7 +73,17 @@ class App extends \Arris\App
             'copyright'         =>  'Karel Wintersky, 2018-2024',
             'revised'           =>  '', // на стадии сборки патчим в файле шаблона %%application_meta_revised%% на дату сборки из чейнжлога
             'author'            =>  'Karel Wintersky, rpgclubsrf@yandex.ru',
+            'title'             =>  'ролевыеклубы.рф',
+            'title_sub'         =>  'Ролевые клубы на карте мира',
+        ]);
 
+        config('geo', [
+            'default_zoom'  =>  5,
+            'close_zoom'    =>  14,
+            'location'  =>  [
+                'maximumAge'    =>  10000,
+                'detectionTimeout'  =>  30000,
+            ],
         ]);
     }
 
@@ -125,7 +134,7 @@ class App extends \Arris\App
             }, false)
 
             ->registerPlugin(TemplateInterface::PLUGIN_MODIFIER, 'getenv', 'getenv', false)
-
+            ->registerClass("Arris\AppRouter", "Arris\AppRouter")
             ;
 
 

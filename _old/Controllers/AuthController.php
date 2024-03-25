@@ -1,6 +1,6 @@
 <?php
 
-namespace RPGCAtlas\Controllers;
+namespace _old\Controllers;
 
 use RPGCAtlas\AbstractClass;
 
