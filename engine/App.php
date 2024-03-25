@@ -67,6 +67,15 @@ class App extends \Arris\App
                 )
             )
         ]);
+
+        config('application.meta', [
+            'keywords'          =>  'map, rpg, clubs, ролевые клубы, карта, настольные, ролевые, игры, поиграть, НРИ, антикафе, игротеки',
+            'description'       =>  'Ролевые клубы на карте России и ближайшего зарубежья',
+            'copyright'         =>  'Karel Wintersky, 2018-2024',
+            'revised'           =>  '', // на стадии сборки патчим в файле шаблона %%application_meta_revised%% на дату сборки из чейнжлога
+            'author'            =>  'Karel Wintersky, rpgclubsrf@yandex.ru',
+
+        ]);
     }
 
     public static function initLogger()
@@ -113,7 +122,12 @@ class App extends \Arris\App
             ->registerPlugin(TemplateInterface::PLUGIN_FUNCTION, "config", static function($params)
             {
                 return empty($params['key']) ? config() : config($params['key']);
-            }, false);
+            }, false)
+
+            ->registerPlugin(TemplateInterface::PLUGIN_MODIFIER, 'getenv', 'getenv', false)
+
+            ;
+
 
         App::$template->setTemplate("_main_template.tpl");
 

@@ -69,9 +69,9 @@ class MainController extends AbstractClass
             'zoom'          =>  getenv('MAP.ZOOM')
         ]);
 
-        $poi_dataset = (new Map())->getClubs();
+        $poi_dataset = (new Map())->getPOIs();
 
-        $this->template->assign('dataset_clubs_list', $poi_dataset);
+        $this->template->assign('dataset_poi_list', $poi_dataset);
 
         $this->template->assign("summary", [
             'total'     =>  count($poi_dataset),

@@ -9,7 +9,7 @@
     });
 };
 
-;(function(user_location, clubs_list, map_provider, $){
+;(function(user_location, poi_list, map_provider, $){
     let is_infobox_visible = false;
     let map_provider_data = map_provider;
     let map = null;
@@ -41,7 +41,7 @@
         layer_ows.addTo(map);
 
         // события мы привяжем ниже
-        $.each(clubs_list, function (index, data) {
+        $.each(poi_list, function (index, data) {
             let fa = MapActions.getFAIconStyle(data);
             let marker = L.marker(new L.latLng( data.location ), {
                 title: data.title,
@@ -67,9 +67,7 @@
         layer_ows.on('click', function (owner) {
             let data = owner.layer.options.data;
 
-            window.location.hash = "#place=" + data.id;
-            // map.setView([data.lat, data.lng], window.engine_options.zoom.close, { animate: true });
-            // на изменение location.hash мы повесим ниже событие загрузки POI и открытие инфобокса
+            window.location.hash = "#poi=" + data.id;
         });
 
         // openPlaceCardByWLH(map, items_list); // ONLOAD-анализ window.location.hash и показ модалки при необходимости
@@ -113,7 +111,7 @@
 
     });
 
-    window.addEventListener(`hashchange`, function (clubs_list) {
+    window.addEventListener(`hashchange`, function () {
         let default_zoom = window.engine_options.zoom.close;
 
         let wlh_options = MapActions.wlhParseAction();
@@ -121,7 +119,7 @@
 
         if (wlh_options.id_region > 0) {
             let id = wlh_options.id_region;
-            let poi_record = window.clubs_list[ id ];
+            let poi_record = window.poi_list[ id ];
             let lat = poi_record.lat;
             let lng = poi_record.lng;
             let zoom = poi_record.zoom || window.engine_options.zoom.close;
@@ -144,4 +142,4 @@
     }, false);
 
 
-}(user_location, clubs_list, map_provider, $));
+}(user_location, poi_list, map_provider, $));

@@ -29,7 +29,7 @@ class PublicFormController extends AbstractClass
     public function callback_club_add()
     {
         $query = "
-        INSERT INTO {$this->tables->clubs}
+        INSERT INTO {$this->tables->poi}
         (
           `id_owner`,
           `is_public`,

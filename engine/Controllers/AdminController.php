@@ -6,6 +6,7 @@ use Arris\AppRouter;
 use Arris\Helpers\Server;
 use Psr\Log\LoggerInterface;
 use RPGCAtlas\AbstractClass;
+use RPGCAtlas\Units\GeoCoder;
 
 class AdminController extends AbstractClass
 {
@@ -26,7 +27,7 @@ class AdminController extends AbstractClass
         }
 
         $query = "
-        INSERT INTO {$this->tables->clubs}
+        INSERT INTO {$this->tables->poi}
         (
           `id_owner`,
           `is_public`,
@@ -75,7 +76,7 @@ class AdminController extends AbstractClass
             "ipv4_add"  =>  Server::getIP()
         ];
         if (!$dataset['address_city']) {
-            $dataset['address_city'] = getCityByCoords($dataset['lat'], $dataset['lng'])['city'];
+            $dataset['address_city'] = (new GeoCoder())->getCityByCoords($dataset['lat'], $dataset['lng'])['city'];
         }
 
         dd($dataset);

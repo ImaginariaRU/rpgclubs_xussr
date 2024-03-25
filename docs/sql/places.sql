@@ -1,4 +1,4 @@
-CREATE TABLE `clubs` (
+CREATE TABLE `poi` (
      `id` int NOT NULL AUTO_INCREMENT COMMENT 'id',
      `id_owner` int DEFAULT 1,
      `id_approver` int DEFAULT 1,

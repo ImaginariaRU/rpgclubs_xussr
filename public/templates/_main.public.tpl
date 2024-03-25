@@ -8,14 +8,14 @@
     <title>Ролевые клубы на карте мира</title>
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-    <meta name="keywords" content="map, rpg, clubs, ролевые клубы, карта, настольные, ролевые, игры, поиграть, НРИ, антикафе, игротеки"/>
-    <meta name="description" content="Ролевые клубы на карте России и ближайшего зарубежья"/>
-    <meta name="subject" content="Ролевые клубы на карте России и ближайшего зарубежья" />
-    <meta name="copyright" content="Karel Wintersky, 2018-2044" />
+    <meta name="keywords" content="{config key='application.meta.keywords'}">
+    <meta name="description" content="{config key='application.meta.description'}">
+    <meta name="subject" content="{config key='application.meta.description'}">
+    <meta name="copyright" content="{config key='application.meta.copyright'}">
     <meta name="language" content="RU">
-    <meta name="robots" content="index,follow" />
-    <meta name="revised" content="March 10th, 2024" />
-    <meta name="author" content="Karel Wintersky, rpgclubsrf@yandex.ru">
+    <meta name="robots" content="index,follow">
+    <meta name="revised" content="%%application_meta_revised%%">
+    <meta name="author" content="{config key='application.meta.author'}">
     <meta name="url" content="">
 
     {* always remote *}
@@ -42,8 +42,8 @@
             }
         };
 
-        var clubs_list = {
-        {foreach $dataset_clubs_list as $club}
+        var poi_list = {
+        {foreach $dataset_poi_list as $club}
             "{$club.id}": {
                 id: {$club.id},
                 lat: {$club.lat},
@@ -87,23 +87,24 @@
         <script src="/frontend/colorbox/jquery.colorbox-min.js" type="text/javascript"></script>
         <link href="/frontend/colorbox/colorbox.css" rel="stylesheet">
 
-        {* danwild/leaflet-fa-markers *}
+        <!-- danwild/leaflet-fa-markers -->
         <script src="/frontend/leaflet/L.Icon.FontAwesome.js" type="text/javascript"></script>
         <link href="/frontend/leaflet/L.Icon.FontAwesome.css" rel="stylesheet" />
 
-        {* marker clusters *}
+        <!-- marker clusters -->
         <link href="/frontend/leaflet/MarkerCluster.css" rel="stylesheet" />
         <link href="/frontend/leaflet/MarkerCluster.Default.css" rel="stylesheet" />
         <script src="/frontend/leaflet/leaflet.markercluster.js" type="text/javascript"></script>
 
-        {* zoom slider *}
+        <!--zoom slider -->
         <script src="/frontend/leaflet/L.Control.Zoomslider.js" type="text/javascript"></script>
         <link href="/frontend/leaflet/L.Control.Zoomslider.css" rel="stylesheet" />
 
-        {* project styles and scripts *}
+        <!-- project styles and scripts -->
         <script src="frontend/MapBoxes.js"></script>
         <script src="/frontend/MapActions.js"></script>
         <script src="/frontend/index.js"></script>
+
         <link href="/frontend/styles.css" rel="stylesheet">
     {else}
         <link href="/styles.css" rel="stylesheet" />

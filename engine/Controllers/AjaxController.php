@@ -15,7 +15,7 @@ class AjaxController extends AbstractClass
 
     public function view_poi_page($id)
     {
-        $query = "SELECT * FROM {$this->tables->clubs} WHERE id = :id ORDER BY id DESC LIMIT 1";
+        $query = "SELECT * FROM {$this->tables->poi} WHERE id = :id ORDER BY id DESC LIMIT 1";
 
         $sth = $this->pdo->prepare($query);
         $sth->execute([ 'id' => $id ]);

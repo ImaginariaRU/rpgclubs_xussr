@@ -76,6 +76,12 @@ class MapActions {
         console.log('Leaflet_SetView : ', location.state);
     }
 
+    /**
+     * По типу объекта определяет иконку
+     *
+     * @param data
+     * @returns {{iconXOffset: number, markerColor: string, icon: string, iconColor: string, iconYOffset: number}}
+     */
     static getFAIconStyle = function (data) {
         let style = {};
         data.type = 'any';
@@ -103,7 +109,7 @@ class MapActions {
      */
     static wlhParseAction() {
         let wlh = window.location.hash;
-        let wlh_params = wlh.match(/(place)=(.*)/);
+        let wlh_params = wlh.match(/(poi)=(.*)/);
         let options = {
             id_region: -1
         };
@@ -111,7 +117,7 @@ class MapActions {
         if (
             ((wlh.length > 1) && (wlh_params !== null))
             &&
-            ((wlh_params[1] == 'place') && (wlh_params[2] != ''))
+            ((wlh_params[1] == 'poi') && (wlh_params[2] != ''))
         ) {
             options.action = wlh_params[1]; // place
             options.id_region = wlh_params[2]; // 17

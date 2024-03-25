@@ -12,11 +12,11 @@ class Map extends AbstractClass
         parent::__construct($options, $logger);
     }
 
-    public function getClubs()
+    public function getPOIs()
     {
         $query = "
         SELECT id, lat, lng, title 
-FROM {$this->tables->clubs}
+FROM {$this->tables->poi}
 WHERE is_public = 1 
   AND lat IS NOT NULL 
   AND lng IS NOT NULL

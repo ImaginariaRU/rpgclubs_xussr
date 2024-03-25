@@ -17,7 +17,7 @@ class POI extends AbstractClass
      */
     public function getPOIList()
     {
-        $query = "SELECT * FROM {$this->tables->clubs} WHERE `is_public` = 1 ORDER BY `is_public` DESC, `address_city`, `title` ";
+        $query = "SELECT * FROM {$this->tables->poi} WHERE `is_public` = 1 ORDER BY `is_public` DESC, `address_city`, `title` ";
         $dataset = [];
 
         foreach ($this->pdo->query($query)->fetchAll() as $row) {
