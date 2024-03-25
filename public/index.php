@@ -55,7 +55,7 @@ try {
     AppRouter::get  ('/ajax/poi:get/[{id}]', [ AjaxController::class, 'view_poi_page'], 'ajax.view.poi.info');
     AppRouter::get  ('/ajax/poi:list/', [ AjaxController::class, 'ajax_view_poi_list'], 'ajax.view.poi.list' );
 
-    AppRouter::get  ('/список', [ MainController::class, 'view_poi_list' ], 'view.poi.list');
+    AppRouter::get  ('/list', [ MainController::class, 'view_poi_list' ], 'view.poi.list');
 
     /**
      * Публичная форма добавления клуба

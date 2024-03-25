@@ -6,6 +6,11 @@ https://ipinfo.io/pricing
 
 https://ipinfo.io/account/home?service=google&loginState=create
 
+Env: 
+```
+IPINFO.TOKEN = ...
+```
+
 ```sh
 curl "ipinfo.io/188.143.207.215?token=<token>"
 ```

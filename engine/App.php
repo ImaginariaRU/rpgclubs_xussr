@@ -4,6 +4,8 @@ namespace RPGCAtlas;
 
 use AJUR\Template\FlashMessages;
 use Arris\AppLogger;
+use Arris\Cache\Cache;
+use Arris\Cache\CacheInterface;
 use Arris\Database\DBWrapper;
 use Arris\DelightAuth\Auth\Auth;
 use Arris\Path;
@@ -251,13 +253,19 @@ class App extends \Arris\App
 
     public static function initRedis()
     {
-        \Arris\Cache\Cache::init([
+        Cache::init([
             'enabled'   =>  getenv('REDIS.ENABLED'),
             'host'      =>  getenv('REDIS.HOST'),
             'port'      =>  getenv('REDIS.PORT'),
             'password'  =>  getenv('REDIS.PASSWORD'),
             'database'  =>  getenv('REDIS.DATABASE')
         ], [ ], App::$pdo, AppLogger::scope('redis'));
+
+        Cache::addRule('poi_types', [
+            'source'    =>  CacheInterface::RULE_SOURCE_CALLBACK,
+            'action'    =>  [ "\RPGCAtlas\Units\POITypes@getIcons" ],
+            'ttl'       =>  CacheInterface::TIME_DAY
+        ]);
     }
 
     public static function addCustomServices()
