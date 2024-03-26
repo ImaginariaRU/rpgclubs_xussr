@@ -85,9 +85,6 @@
         <script src="/frontend/colorbox/jquery.colorbox-min.js"></script>
         <link href="/frontend/colorbox/colorbox.css" rel="stylesheet">
 
-        <script src="/frontend/jquery/jquery.notifyBar.js"></script>
-        <link href="/frontend/jquery/jquery.notifyBar.css" rel="stylesheet">
-
         <!-- danwild/leaflet-fa-markers -->
         <script src="/frontend/leaflet/L.Icon.FontAwesome.js"></script>
         <link href="/frontend/leaflet/L.Icon.FontAwesome.css" rel="stylesheet">

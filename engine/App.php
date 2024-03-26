@@ -141,7 +141,7 @@ class App extends \Arris\App
             ;
 
 
-        App::$template->setTemplate("_main_template.tpl");
+        App::$template->setTemplate("_main.public.tpl");
 
         App::$flash = new FlashMessages();
     }

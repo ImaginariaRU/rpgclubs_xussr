@@ -4,9 +4,12 @@ use Arris\AppLogger;
 use Arris\AppRouter;
 use RPGCAtlas\App;
 use RPGCAtlas\Common;
+use RPGCAtlas\Controllers\AdminController;
 use RPGCAtlas\Controllers\AjaxController;
+use RPGCAtlas\Controllers\AuthController;
 use RPGCAtlas\Controllers\MainController;
 use RPGCAtlas\Exceptions\AccessDeniedException;
+use RPGCAtlas\Middlewares\AuthMiddleware;
 
 define('PATH_ROOT', dirname(__DIR__, 1));
 define('ENGINE_START_TIME', microtime(true));
@@ -47,15 +50,20 @@ try {
 
     AppRouter::setDefaultNamespace("\RPGCAtlas\Controllers");
 
-    AppRouter::get('/', [ MainController::class, 'view_main_page'], 'view.main.page');
+    // AppRouter::get('/', [ MainController::class, 'view_main_page'], 'view.main.page');
+    AppRouter::get('/', 'MainController@view_main_page', 'view.main.page');
 
     /**
      * AJAX-запросы
      */
     AppRouter::get  ('/ajax/poi:get/[{id}]', [ AjaxController::class, 'view_poi_page'], 'ajax.view.poi.info');
-    AppRouter::get  ('/ajax/poi:list/', [ AjaxController::class, 'ajax_view_poi_list'], 'ajax.view.poi.list' );
+    // AppRouter::get  ('/ajax/poi:list/', [ AjaxController::class, 'ajax_view_poi_list'], 'ajax.view.poi.list' );
 
-    AppRouter::get  ('/list', [ MainController::class, 'view_poi_list' ], 'view.poi.list');
+    // AppRouter::get  ('/list', [ MainController::class, 'view_poi_list' ], 'view.poi.list');
+
+    AppRouter::get('/closure', static function() {
+
+    }, 'test');
 
     /**
      * Публичная форма добавления клуба
@@ -76,25 +84,21 @@ try {
     // AppRouter::post ('/public/add_any_club', [ PublicForm::class, '']); // callback_unauth_add_any_club
 
     // Auth (login)
-    AppRouter::get('/auth/login', 'AuthController@view_form_login', 'view.form.login');
-    AppRouter::post('/auth/login', 'AuthController@callback_login', 'callback.form.login');
-    AppRouter::get('/auth/logout', 'AuthController@callback_logout', 'view.form.logout');
+    AppRouter::get('/auth/login[/]', [ AuthController::class, 'view_form_login'], 'view.form.login');
+    AppRouter::post('/auth/login[/]', [ AuthController::class, 'callback_login'], 'callback.form.login');
+    AppRouter::get('/auth/logout[/]', [ AuthController::class, 'callback_logout'], 'view.form.logout');
 
-
-    // AppRouter::get   ('/auth/login', 'Auth@form_login', 'auth_form_login');
-    // AppRouter::post  ('/auth/login', 'Auth@callback_login', 'auth_callback_login');
-
-    // AppRouter::get   ('/auth/logout', 'Auth@form_logout', 'auth_form_logout');
-    // AppRouter::post  ('/auth/logout', 'Auth@callback_logout', 'auth_callback_logout');
 
     // главная страница админки (или роут входа)
     // AppRouter::get('/admin/', [ AdminController::class, ''], 'view.admin.page');
 
     AppRouter::group([
         'prefix'    =>  '/admin',
-        'before'    =>  '\RPGCAtlas\Middlewares\AuthMiddleware@check_is_logged_in'
+        // 'before'    =>  '\RPGCAtlas\Middlewares\AuthMiddleware@check_is_logged_in'
+        'before'    =>  [ \RPGCAtlas\Middlewares\AuthMiddleware::class, 'check_is_logged_in'],
     ], static function(){
-        AppRouter::get  ('', [ \_old\Controllers\AdminController::class, 'view_main_page'], 'view.admin.page'); // главная страница админки
+        AppRouter::get  ('', [ AdminController::class, 'view_admin_page_main'], 'view.admin.page.main'); // главная страница админки
+        AppRouter::get  ('/poi:types', [ AdminController::class, 'view_admin_page_types'], 'view.admin.page.types'); // типы POI
     });
 
     /*AppRouter::group([
@@ -127,6 +131,7 @@ try {
     App::$template->assign("_auth", \config('auth'));
     App::$template->assign("_config", \config());
     App::$template->assign("_request", $_REQUEST);
+    \RPGCAtlas\TemplateHelper::assignInnerButtons();
 
 } catch (AccessDeniedException $e) {
 

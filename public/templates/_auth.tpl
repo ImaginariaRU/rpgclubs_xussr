@@ -5,6 +5,12 @@
     <title>{$title}</title>
 
     <script src="/frontend/jquery/jquery-3.2.1_min.js"></script>
+    <script src="/frontend/jquery/jquery.notifyBar.js"></script>
+    <link rel="stylesheet" href="/frontend/jquery/jquery.notifyBar.css">
+    <script src="/frontend/colorbox/jquery.colorbox-min.js"></script>
+    <link rel="stylesheet" href="/frontend/colorbox/colorbox.css">
+    <script src="/frontend/NotifyBarHelper.js"></script>
+
     <style>
         .content-center {
             display: flex;
@@ -24,21 +30,8 @@
     </style>
     <script>
         const flash_messages = {$flash_messages};
-        $(document).ready(function() {
-            notifyFlashMessages(flash_messages);
-
-            $("[data-action='redirect']").on('click', function (event) {
-                let url = $(this).data('url');
-                let target = $(this).data('target');
-
-                if (target == "_blank") {
-                    window.open(url, '_blank').focus();
-                } else {
-                    window.location.href = url;
-                }
-            });
-        });
     </script>
+    <script src="/frontend/admin.js"></script>
 </head>
 <body>
 <div class="content-center">
