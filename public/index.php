@@ -71,34 +71,43 @@ try {
     // AppRouter::get  ('/add', [ PublicFormController::class, 'view_form_poi_add'], 'view.form.add.poi'); // form_unauth_add_vk_club
     // AppRouter::post ('/pend', [ PublicFormController::class, 'callback_club_add'], 'callback.form.add.poi'); // callback_unauth_add_vk_club
 
+    // аякс-методы, общие для добавления/удаления POI
+
     //@todo
     // AppRouter::get  ('/ajax/get:city:by:coords', [ AjaxController::class, 'get_city_by_coords'], 'ajax_get_city_by_coords' );
     // AppRouter::get  ('/ajax/get:coords:by:address', [ AjaxController::class, 'get_coords_by_address'], 'ajax_get_coords_by_address');
     // AppRouter::get  ('/ajax/get:vk:club:info', [ AjaxController::class, 'get_vk_club_info'], 'ajax_get_vk_club_info');
 
-    /*
-     * Публичная форма добавления клуба
-     */
-    // легаси?
-    // AppRouter::get  ('/public/add_any_club', [ PublicForm::class, '']); // form_unauth_add_any_club
-    // AppRouter::post ('/public/add_any_club', [ PublicForm::class, '']); // callback_unauth_add_any_club
-
-    // Auth (login)
+    // Auth (login). Не закрываем
     AppRouter::get('/auth/login[/]', [ AuthController::class, 'view_form_login'], 'view.form.login');
     AppRouter::post('/auth/login[/]', [ AuthController::class, 'callback_login'], 'callback.form.login');
     AppRouter::get('/auth/logout[/]', [ AuthController::class, 'callback_logout'], 'view.form.logout');
 
 
-    // главная страница админки (или роут входа)
-    // AppRouter::get('/admin/', [ AdminController::class, ''], 'view.admin.page');
-
     AppRouter::group([
         'prefix'    =>  '/admin',
-        // 'before'    =>  '\RPGCAtlas\Middlewares\AuthMiddleware@check_is_logged_in'
         'before'    =>  [ \RPGCAtlas\Middlewares\AuthMiddleware::class, 'check_is_logged_in'],
-    ], static function(){
+    ], static function() {
         AppRouter::get  ('', [ AdminController::class, 'view_admin_page_main'], 'view.admin.page.main'); // главная страница админки
         AppRouter::get  ('/poi:types', [ AdminController::class, 'view_admin_page_types'], 'view.admin.page.types'); // типы POI
+
+        // форма добавления POI
+        // коллбэкп добавления POI
+
+        // форма редактирования
+        // коллбэк обновления
+        // коллбэк удаления
+
+        // форма добавления типа POI
+        // коллбэк добавления типа POI
+        // форма редактирования типа POI
+        // коллбэк обновления типа POI
+        // коллбэк удаления типа POI
+        // аякс запрос на получение списка POI для селекта
+
+        // пользователи?
+
+        // статистика?
     });
 
     /*AppRouter::group([
