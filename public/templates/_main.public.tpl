@@ -19,10 +19,10 @@
     <meta name="url" content="">
 
     <link href="https://fonts.googleapis.com/css?family=PT+Serif" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" />
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet">
 
-    <script type="text/javascript" id="data">
+    <script id="data">
         window.engine_options = {
             zoom: {
                 default: {$config.geo.default_zoom|default:5},
@@ -78,25 +78,28 @@
     </script>
 
     {if getenv('ENV_STATE') == 'dev'}
-        <script src="/frontend/jquery/jquery.min.js" type="text/javascript"></script>
-        <script src="/frontend/leaflet/leaflet.js" type="text/javascript"></script>
-        <link href="/frontend/leaflet/leaflet.css" rel="stylesheet" />
+        <script src="/frontend/jquery/jquery.min.js"></script>
+        <script src="/frontend/leaflet/leaflet.js"></script>
+        <link href="/frontend/leaflet/leaflet.css" rel="stylesheet">
 
-        <script src="/frontend/colorbox/jquery.colorbox-min.js" type="text/javascript"></script>
+        <script src="/frontend/colorbox/jquery.colorbox-min.js"></script>
         <link href="/frontend/colorbox/colorbox.css" rel="stylesheet">
 
+        <script src="/frontend/jquery/jquery.notifyBar.js"></script>
+        <link href="/frontend/jquery/jquery.notifyBar.css" rel="stylesheet">
+
         <!-- danwild/leaflet-fa-markers -->
-        <script src="/frontend/leaflet/L.Icon.FontAwesome.js" type="text/javascript"></script>
-        <link href="/frontend/leaflet/L.Icon.FontAwesome.css" rel="stylesheet" />
+        <script src="/frontend/leaflet/L.Icon.FontAwesome.js"></script>
+        <link href="/frontend/leaflet/L.Icon.FontAwesome.css" rel="stylesheet">
 
         <!-- marker clusters -->
-        <link href="/frontend/leaflet/MarkerCluster.css" rel="stylesheet" />
-        <link href="/frontend/leaflet/MarkerCluster.Default.css" rel="stylesheet" />
-        <script src="/frontend/leaflet/leaflet.markercluster.js" type="text/javascript"></script>
+        <link href="/frontend/leaflet/MarkerCluster.css" rel="stylesheet">
+        <link href="/frontend/leaflet/MarkerCluster.Default.css" rel="stylesheet">
+        <script src="/frontend/leaflet/leaflet.markercluster.js"></script>
 
         <!--zoom slider -->
-        <script src="/frontend/leaflet/L.Control.Zoomslider.js" type="text/javascript"></script>
-        <link href="/frontend/leaflet/L.Control.Zoomslider.css" rel="stylesheet" />
+        <script src="/frontend/leaflet/L.Control.Zoomslider.js"></script>
+        <link href="/frontend/leaflet/L.Control.Zoomslider.css" rel="stylesheet">
 
         <!-- project styles and scripts -->
         <script src="/frontend/MapBoxes.js"></script>
@@ -105,8 +108,8 @@
 
         <link href="/frontend/styles.css" rel="stylesheet">
     {else}
-        <link href="/styles.css" rel="stylesheet" />
-        <script src="/scripts.js" type="text/javascript" ></script>
+        <link href="/styles.css" rel="stylesheet">
+        <script src="/scripts.js"></script>
     {/if}
 </head>
 <body>
@@ -145,7 +148,7 @@
             </div>
         {/if}
         <span style="font-size: small">
-            <a href="{Arris\AppRouter::getRouter('view.admin.page')}" style="text-decoration: none; color: black;">©</a> Копирайты: Leaflet, OpenSteetMaps, Yandex Geocoder, ООО Психотроника
+            <a href="{Arris\AppRouter::getRouter('view.form.login')}" style="text-decoration: none; color: black;">©</a> Копирайты: Leaflet, OpenSteetMaps, Yandex Geocoder, ООО Психотроника
         </span>
     </div>
 </section>

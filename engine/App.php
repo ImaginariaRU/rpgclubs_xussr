@@ -8,6 +8,7 @@ use Arris\Cache\Cache;
 use Arris\Cache\CacheInterface;
 use Arris\Database\DBWrapper;
 use Arris\DelightAuth\Auth\Auth;
+use Arris\DelightAuth\Auth\Role;
 use Arris\Path;
 use Arris\Template\Template;
 use Arris\Template\TemplateInterface;
@@ -200,6 +201,7 @@ class App extends \Arris\App
             'is_curator'    =>  App::$auth->hasRole(\AjurMedia\MediaBox\Role::CURATOR),     // куратор: статистика
             'is_admin'      =>  App::$auth->hasRole(\AjurMedia\MediaBox\Role::ADMIN),       // админ
             */
+            'is_admin'      =>  App::$auth->hasRole(Role::ADMIN)
         ]);
     }
 

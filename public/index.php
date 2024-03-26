@@ -1,12 +1,12 @@
 <?php
 
-use _old\Exceptions\AccessDeniedException;
 use Arris\AppLogger;
 use Arris\AppRouter;
 use RPGCAtlas\App;
 use RPGCAtlas\Common;
 use RPGCAtlas\Controllers\AjaxController;
 use RPGCAtlas\Controllers\MainController;
+use RPGCAtlas\Exceptions\AccessDeniedException;
 
 define('PATH_ROOT', dirname(__DIR__, 1));
 define('ENGINE_START_TIME', microtime(true));
@@ -75,10 +75,12 @@ try {
     // AppRouter::get  ('/public/add_any_club', [ PublicForm::class, '']); // form_unauth_add_any_club
     // AppRouter::post ('/public/add_any_club', [ PublicForm::class, '']); // callback_unauth_add_any_club
 
-    // используемая
-
-
     // Auth (login)
+    AppRouter::get('/auth/login', 'AuthController@view_form_login', 'view.form.login');
+    AppRouter::post('/auth/login', 'AuthController@callback_login', 'callback.form.login');
+    AppRouter::get('/auth/logout', 'AuthController@callback_logout', 'view.form.logout');
+
+
     // AppRouter::get   ('/auth/login', 'Auth@form_login', 'auth_form_login');
     // AppRouter::post  ('/auth/login', 'Auth@callback_login', 'auth_callback_login');
 
@@ -87,6 +89,13 @@ try {
 
     // главная страница админки (или роут входа)
     // AppRouter::get('/admin/', [ AdminController::class, ''], 'view.admin.page');
+
+    AppRouter::group([
+        'prefix'    =>  '/admin',
+        'before'    =>  '\RPGCAtlas\Middlewares\AuthMiddleware@check_is_logged_in'
+    ], static function(){
+        AppRouter::get  ('', [ \_old\Controllers\AdminController::class, 'view_main_page'], 'view.admin.page'); // главная страница админки
+    });
 
     /*AppRouter::group([
         'before'    =>  '\RPGCAtlas\Middlewares\AuthMiddleware@check_logged_in',

@@ -1,6 +1,6 @@
 <?php
 
-namespace _old\Exceptions;
+namespace RPGCAtlas\Exceptions;
 
 use Arris\AppRouter;
 use Throwable;
