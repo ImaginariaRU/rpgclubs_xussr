@@ -8,6 +8,7 @@ use RPGCAtlas\Controllers\AdminController;
 use RPGCAtlas\Controllers\AjaxController;
 use RPGCAtlas\Controllers\AuthController;
 use RPGCAtlas\Controllers\MainController;
+use RPGCAtlas\Controllers\PublicFormController;
 use RPGCAtlas\Exceptions\AccessDeniedException;
 use RPGCAtlas\Middlewares\AuthMiddleware;
 
@@ -50,38 +51,36 @@ try {
 
     AppRouter::setDefaultNamespace("\RPGCAtlas\Controllers");
 
-    // AppRouter::get('/', [ MainController::class, 'view_main_page'], 'view.main.page');
-    AppRouter::get('/', 'MainController@view_main_page', 'view.main.page');
+    AppRouter::get('/', [ MainController::class, 'view_main_page'], 'view.main.page');
 
     /**
      * AJAX-запросы
      */
     AppRouter::get  ('/ajax/poi:get/[{id}]', [ AjaxController::class, 'view_poi_page'], 'ajax.view.poi.info');
-    // AppRouter::get  ('/ajax/poi:list/', [ AjaxController::class, 'ajax_view_poi_list'], 'ajax.view.poi.list' );
+    AppRouter::get  ('/ajax/poi:list/', [ AjaxController::class, 'ajax_view_poi_list'], 'ajax.view.poi.list' );
 
     // AppRouter::get  ('/list', [ MainController::class, 'view_poi_list' ], 'view.poi.list');
-
-    AppRouter::get('/closure', static function() {
-
-    }, 'test');
 
     /**
      * Публичная форма добавления клуба
      */
-    // AppRouter::get  ('/add', [ PublicFormController::class, 'view_form_poi_add'], 'view.form.add.poi'); // form_unauth_add_vk_club
-    // AppRouter::post ('/pend', [ PublicFormController::class, 'callback_club_add'], 'callback.form.add.poi'); // callback_unauth_add_vk_club
+    AppRouter::get  ('/add', [ PublicFormController::class, 'view_form_poi_add'], 'view.form.add.poi'); // form_unauth_add_vk_club
+    AppRouter::post ('/pend', [ PublicFormController::class, 'callback_club_add'], 'callback.form.add.poi'); // callback_unauth_add_vk_club
 
     // аякс-методы, общие для добавления/удаления POI
 
     //@todo
-    // AppRouter::get  ('/ajax/get:city:by:coords', [ AjaxController::class, 'get_city_by_coords'], 'ajax_get_city_by_coords' );
-    // AppRouter::get  ('/ajax/get:coords:by:address', [ AjaxController::class, 'get_coords_by_address'], 'ajax_get_coords_by_address');
-    // AppRouter::get  ('/ajax/get:vk:club:info', [ AjaxController::class, 'get_vk_club_info'], 'ajax_get_vk_club_info');
+    AppRouter::get  ('/ajax/get:city:by:coords', [ AjaxController::class, 'get_city_by_coords'], 'ajax_get_city_by_coords' );
+    AppRouter::get  ('/ajax/get:coords:by:address', [ AjaxController::class, 'get_coords_by_address'], 'ajax_get_coords_by_address');
+    AppRouter::get  ('/ajax/get:vk:club:info', [ AjaxController::class, 'get_vk_club_info'], 'ajax_get_vk_club_info');
 
     // Auth (login). Не закрываем
     AppRouter::get('/auth/login[/]', [ AuthController::class, 'view_form_login'], 'view.form.login');
     AppRouter::post('/auth/login[/]', [ AuthController::class, 'callback_login'], 'callback.form.login');
     AppRouter::get('/auth/logout[/]', [ AuthController::class, 'callback_logout'], 'view.form.logout');
+
+    // функционал добавления букмарки на карту (клуба?)
+    // коллбэк добавления (
 
 
     AppRouter::group([

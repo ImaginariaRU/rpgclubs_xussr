@@ -2,8 +2,12 @@
 
 namespace RPGCAtlas\Controllers;
 
+use Arris\Entity\Result;
+use Arris\Template\TemplateInterface;
 use Psr\Log\LoggerInterface;
 use RPGCAtlas\AbstractClass;
+use RPGCAtlas\Units\GeoCoderDadata;
+use RPGCAtlas\Units\GeoCoderNominatim;
 use RPGCAtlas\Units\POI;
 
 class AjaxController extends AbstractClass
@@ -38,6 +42,16 @@ class AjaxController extends AbstractClass
         ]);
 
         $this->template->setTemplate("public/ajax_poi_list.tpl");
+    }
+
+    public function get_coords_by_address()
+    {
+        $address = $_REQUEST['poi_address'];
+
+        $r = (new GeoCoderDadata())->getCoordsByAddress($address);
+
+        $this->template->setRenderType(TemplateInterface::CONTENT_TYPE_JSON_RAW);
+        $this->template->setJSON($r);
     }
 
 }

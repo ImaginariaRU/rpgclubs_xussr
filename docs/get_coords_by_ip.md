@@ -49,3 +49,7 @@ $ curl -H "Accept: application/json" ipinfo.io/8.8.8.8
 
 ipinfo.io/[IP address]?token=<token>
 ```
+
+?
+
+https://packagist.org/packages/davidepastore/ipinfo

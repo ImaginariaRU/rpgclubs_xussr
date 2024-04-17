@@ -18,17 +18,18 @@
         "karelwintersky/arris.router": "^1.5",
         "karelwintersky/arris.delight-php-auth": "^0.9.1",
         "karelwintersky/arris.cache": "^0.7.1",
+        "karelwintersky/arris.template": "^0.11",
         "vlucas/phpdotenv": "3.3",
         "kuria/error": "^4.2",
         "psr/log": "^1.1",
         "mobiledetect/mobiledetectlib": "^3.74",
         "spatie/regex": "^1.4",
         "ajur-media/template.flash": "^0.1.0",
-        "yandex/geo": "^1.2",
         "nette/mail": "^3.1",
-        "karelwintersky/arris.template": "^0.9.2",
+
         "ajur-media/kcaptcha": "^1.1",
-        "maxh/php-nominatim": "^2.3"
+        "hflabs/dadata": "^22.3",
+        "riverside/php-nominatim": "^1.2"
     },
     "autoload": {
         "files": [

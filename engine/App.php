@@ -88,6 +88,8 @@ class App extends \Arris\App
                 'detectionTimeout'  =>  30000,
             ],
         ]);
+
+
     }
 
     public static function initLogger()
@@ -208,11 +210,10 @@ class App extends \Arris\App
     public static function initMobileDetect()
     {
         $MOBILE_DETECT_INSTANCE = new \Detection\MobileDetect();
-        config('features', [
-            'is_cli'        =>  PHP_SAPI === "cli",
-            'is_mobile'     =>  PHP_SAPI !== "cli" && $MOBILE_DETECT_INSTANCE->isMobile(),
-            'is_iphone'     =>  $MOBILE_DETECT_INSTANCE->is('iPhone'),
-            'is_android'    =>  $MOBILE_DETECT_INSTANCE->is('Android'),
+        config('features.is_mobile', [
+            'cli'       =>  PHP_SAPI === "cli",
+            'device'    =>  PHP_SAPI !== "cli" && $MOBILE_DETECT_INSTANCE->isMobile(),
+            'domain'    =>  (bool)\preg_match("/^m\.(.*)/i", $_SERVER['HTTP_HOST'])
         ]);
     }
 
