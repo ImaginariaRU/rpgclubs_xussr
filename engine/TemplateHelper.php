@@ -13,7 +13,7 @@ class TemplateHelper
         self::$inner_buttons = [
             [
                 'text'      =>  'POI List',
-                'url'       =>  AppRouter::getRouter('view.places.list'),
+                'url'       =>  AppRouter::getRouter('view.poi.list'),
                 'class'     =>  '',
                 'disabled'  =>  false
             ],

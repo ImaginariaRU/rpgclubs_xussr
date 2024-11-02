@@ -33,7 +33,7 @@
     <hr>
     <button type="button"
             data-action="redirect"
-            data-url="{Arris\AppRouter::getRouter('view.places.list')}"
+            data-url="{Arris\AppRouter::getRouter('view.poi.list')}"
     >К списку объектов</button>
 </div>
 </body>

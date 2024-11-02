@@ -118,7 +118,7 @@ class PlacesController extends \RPGCAtlas\AbstractClass
 
         $target
             = App::$auth->isLoggedIn()
-            ? AppRouter::getRouter('view.places.list')
+            ? AppRouter::getRouter('view.poi.list')
             : AppRouter::getRouter('view.main.page');
 
         $this->template->setRedirect( $target );
@@ -179,7 +179,7 @@ class PlacesController extends \RPGCAtlas\AbstractClass
 
         $target
             = App::$auth->isLoggedIn()
-            ? AppRouter::getRouter('view.places.list')
+            ? AppRouter::getRouter('view.poi.list')
             : AppRouter::getRouter('view.main.page');
 
         $this->template->setRedirect( $target );

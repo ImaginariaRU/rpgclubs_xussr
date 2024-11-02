@@ -57,7 +57,7 @@ class TicketsController extends \RPGCAtlas\AbstractClass
             dd($e);
         }
 
-        $this->template->setRedirect( AppRouter::getRouter('view.places.list') );
+        $this->template->setRedirect( AppRouter::getRouter('view.poi.list') );
     }
 
 

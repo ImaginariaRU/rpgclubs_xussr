@@ -48,7 +48,7 @@ try {
     AppRouter::get('/ajax/poi:get/[{id}]', [ \RPGCAtlas\Controllers\AjaxController::class, 'view_poi_page'], 'ajax.view.poi.info');
     AppRouter::get('/ajax/poi:list/', [ \RPGCAtlas\Controllers\AjaxController::class, 'ajax_view_poi_list'], 'ajax.view.poi.list' );
 
-    AppRouter::get('/places', [ \RPGCAtlas\Controllers\PlacesController::class, 'viewList'], 'view.places.list');
+    AppRouter::get('/places', [ \RPGCAtlas\Controllers\PlacesController::class, 'viewList'], 'view.poi.list');
     AppRouter::get('/places/add', [ \RPGCAtlas\Controllers\PlacesController::class, 'formAdd' ], 'form.add.poi');
     AppRouter::post('/places/insert', [ \RPGCAtlas\Controllers\PlacesController::class, 'callbackAdd' ], 'callback.add.poi');
 

@@ -133,17 +133,17 @@
             Это совершенно некоммерческий проект и создатель не извлекает из него абсолютно никакой прибыли.
         </div>
         <div>
-            Если вы хотите добавить клуб на карту, <a href="{Arris\AppRouter::getRouter('view.form.add.poi')}" target="_self">подайте заявку через форму</a> или напишите
+            Если вы хотите добавить клуб на карту, <a href="{Arris\AppRouter::getRouter('form.add.poi')}" target="_self">подайте заявку через форму</a> или напишите
             сюда: <a href="mailto:rpgclubsrf@yandex.ru">rpgclubsrf@yandex.ru</a>.
             Жалобы, комментарии и предложения тоже отправляйте, пожалуйста, почтой.
         </div>
-        {if $publish_options.allow_donate}
+        {*{if $publish_options.allow_donate}
             <hr>
             <div>
                 Если вы хотите помочь в поддержке и развитии атласа:<br>
                 <iframe frameborder="0" allowtransparency="true" scrolling="no" src="https://money.yandex.ru/embed/donate.xml?account=41001445086806&quickpay=donate&payment-type-choice=on&mobile-payment-type-choice=on&default-sum=100&targets=%D0%9D%D0%B0+%D1%80%D0%B0%D0%B7%D0%B2%D0%B8%D1%82%D0%B8%D0%B5+%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D0%B0+%D0%B0%D1%82%D0%BB%D0%B0%D1%81%D0%B0+%22%D0%A0%D0%BE%D0%BB%D0%B5%D0%B2%D1%8B%D0%B5+%D0%BA%D0%BB%D1%83%D0%B1%D1%8B+%D0%BD%D0%B0+%D0%BA%D0%B0%D1%80%D1%82%D0%B5+%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D0%B8%22&target-visibility=on&project-name=%D0%90%D1%82%D0%BB%D0%B0%D1%81%3A+%D0%A0%D0%BE%D0%BB%D0%B5%D0%B2%D1%8B%D0%B5+%D0%BA%D0%BB%D1%83%D0%B1%D1%8B+%D0%BD%D0%B0+%D0%BA%D0%B0%D1%80%D1%82%D0%B5+%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D0%B8&project-site=http%3A%2F%2F%D1%80%D0%BE%D0%BB%D0%B5%D0%B2%D1%8B%D0%B5%D0%BA%D0%BB%D1%83%D0%B1%D1%8B.%D1%80%D1%84&button-text=05&successURL=" width="508" height="120"></iframe>
             </div>
-        {/if}
+        {/if}*}
         <span style="font-size: small">
             <a href="{Arris\AppRouter::getRouter('view.form.login')}" style="text-decoration: none; color: black;">©</a> Копирайты: Leaflet, OpenSteetMaps, Yandex Geocoder, ООО Психотроника
         </span>

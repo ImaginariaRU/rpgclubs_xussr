@@ -2,8 +2,10 @@
 
 namespace RPGCAtlas\Controllers;
 
+use Arris\Helpers\Server;
 use Psr\Log\LoggerInterface;
 use RPGCAtlas\AbstractClass;
+use RPGCAtlas\Common;
 use RPGCAtlas\MapProviders;
 use RPGCAtlas\Units\POI;
 
@@ -28,15 +30,18 @@ class MainController extends AbstractClass
             'city_lng'  =>  0,
             'zoom'  =>  4
         ];
+        $ip_location = Common::getCoordsByIP(Server::getIP());
 
         $this->template->assign("location", [
             'ip_lat'    =>  $ip_location['lat'],
             'ip_lng'    =>  $ip_location['lng'],
-            'zoom'      =>  $city_location['zoom'],
+            'zoom'      =>  4 /*$city_location['zoom']*/,
 
-            'city'      =>  $city_location['city']  ?? 'Center',
-            'city_lat'  =>  $city_location['city_lat'],
-            'city_lng'  =>  $city_location['city_lng']
+            'city'     =>   $ip_location['city'],
+
+            // 'city'      =>  $city_location['city']  ?? 'Center',
+            /*'city_lat'  =>  $city_location['city_lat'],
+            'city_lng'  =>  $city_location['city_lng']*/
         ]);
 
         $this->template->assign('publish_options', [

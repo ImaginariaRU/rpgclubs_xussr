@@ -171,7 +171,7 @@
     <table width="100%">
         <tr>
             <td width="50%" style="text-align: center">
-                <button type="button" data-action="redirect" data-url="{Arris\AppRouter::getRouter('view.places.list')}">НАЗАД,<br>К СПИСКУ</button>
+                <button type="button" data-action="redirect" data-url="{Arris\AppRouter::getRouter('view.poi.list')}">НАЗАД,<br>К СПИСКУ</button>
             </td>
             <td width="50%" style="text-align: center">
                 <button type="submit" tabindex="8">СОХРАНИТЬ</button>

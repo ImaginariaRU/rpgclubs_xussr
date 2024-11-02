@@ -63,7 +63,7 @@ class AuthController extends \RPGCAtlas\AbstractClass
 
         App::$flash->addMessage("success", "Успешно залогинились");
 
-        App::$template->setRedirect(AppRouter::getRouter('view.places.list') );
+        App::$template->setRedirect(AppRouter::getRouter('view.poi.list') );
     }
 
     /**
