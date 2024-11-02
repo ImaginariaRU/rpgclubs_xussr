@@ -11,11 +11,10 @@ use Arris\DelightAuth\Auth\Exceptions\InvalidEmailException;
 use Arris\DelightAuth\Auth\Exceptions\InvalidPasswordException;
 use Arris\DelightAuth\Auth\Exceptions\TooManyRequestsException;
 use Psr\Log\LoggerInterface;
-use RPGCAtlas\AbstractClass;
 use RPGCAtlas\App;
 use RPGCAtlas\Exceptions\AccessDeniedException;
 
-class AuthController extends AbstractClass
+class AuthController extends \RPGCAtlas\AbstractClass
 {
     public function __construct($options = [], LoggerInterface $logger = null)
     {
@@ -90,7 +89,6 @@ class AuthController extends AbstractClass
 
         App::$template->setRedirect( AppRouter::getRouter('view.main.page') );
     }
-
 
 
 }

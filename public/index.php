@@ -5,13 +5,7 @@ use Arris\AppRouter;
 use Dotenv\Dotenv;
 use RPGCAtlas\App;
 use RPGCAtlas\Common;
-use RPGCAtlas\Controllers\AdminController;
-use RPGCAtlas\Controllers\AjaxController;
-use RPGCAtlas\Controllers\AuthController;
-use RPGCAtlas\Controllers\MainController;
-use RPGCAtlas\Controllers\PublicFormController;
 use RPGCAtlas\Exceptions\AccessDeniedException;
-use RPGCAtlas\Middlewares\AuthMiddleware;
 
 define('PATH_ROOT', dirname(__DIR__, 1));
 define('ENGINE_START_TIME', microtime(true));
@@ -25,15 +19,13 @@ try {
     require_once __DIR__ . '/../vendor/autoload.php';
     Dotenv::createUnsafeImmutable(PATH_ENV, ['site.conf'])->load();
 
-    $app = App::factory();
+    App::factory();
 
     App::init();
 
     App::initErrorHandler();
 
     App::initLogger();
-
-    App::initManticore();
 
     App::initTemplate();
 
@@ -51,26 +43,33 @@ try {
 
     AppRouter::setDefaultNamespace("\RPGCAtlas\Controllers");
 
-    AppRouter::get('/', [ MainController::class, 'view_main_page'], 'view.main.page');
-    AppRouter::get('/ajax/poi:get/[{id}]', [ AjaxController::class, 'view_poi_page'], 'ajax.view.poi.info');
-    AppRouter::get('/ajax/poi:list/', [ AjaxController::class, 'ajax_view_poi_list'], 'ajax.view.poi.list' );
+    AppRouter::get('/', [ \RPGCAtlas\Controllers\MainController::class, 'view_main_page'], 'view.main.page');
 
+    AppRouter::get('/ajax/poi:get/[{id}]', [ \RPGCAtlas\Controllers\AjaxController::class, 'view_poi_page'], 'ajax.view.poi.info');
+    AppRouter::get('/ajax/poi:list/', [ \RPGCAtlas\Controllers\AjaxController::class, 'ajax_view_poi_list'], 'ajax.view.poi.list' );
 
-    AppRouter::get('/places/list', [], 'список мест');
-    AppRouter::get('/places/add', [], 'форма: добавить место');
-    AppRouter::post('/places/add', [], 'коллбэк: добавить место');
+    AppRouter::get('/places/list', [ \RPGCAtlas\Controllers\PlacesController::class, ''], 'список мест');
+    AppRouter::get('/places/add', [ \RPGCAtlas\Controllers\PlacesController::class, '' ], 'форма: добавить место');
+    AppRouter::get('/places/insert', [ \RPGCAtlas\Controllers\PlacesController::class, '' ], 'коллбэк: добавить место');
 
-    AppRouter::get('/auth/login[/]', [ AuthController::class, 'view_form_login'], 'view.form.login');
-    AppRouter::post('/auth/login[/]', [ AuthController::class, 'callback_login'], 'callback.form.login');
-    AppRouter::get('/auth/logout[/]', [ AuthController::class, 'callback_logout'], 'view.form.logout');
+    // сообщить о неточности о месте (2 энтрипоинта)
+    AppRouter::get('/places/complain', [ \RPGCAtlas\Controllers\PlacesController::class, ''], 'форма: подать жалобу или замечание'); // вместо EDIT
+    AppRouter::post('/places/complain', [ \RPGCAtlas\Controllers\PlacesController::class, ''], 'коллбэк: подать жалобу или замечание'); // вместо EDIT
 
+    // авторизация
+    AppRouter::get('/auth/login[/]', [ \RPGCAtlas\Controllers\AuthController::class, 'view_form_login'], 'view.form.login');
+    AppRouter::post('/auth/login[/]', [ \RPGCAtlas\Controllers\AuthController::class, 'callback_login'], 'callback.form.login');
+    AppRouter::get('/auth/logout[/]', [ \RPGCAtlas\Controllers\AuthController::class, 'callback_logout'], 'view.form.logout');
 
     AppRouter::group(
         [
             'before'    =>  '\Confmap\Middlewares\AuthMiddleware@check_is_logged_in'
         ], static function() {
 
-        AppRouter::get('/places/delete', []); // удаление
+        AppRouter::get('/places/edit', [ \RPGCAtlas\Controllers\PlacesController::class, '' ], 'форма: редактировать место');
+        AppRouter::get('/places/update', [ \RPGCAtlas\Controllers\PlacesController::class, '' ], 'коллбэк: обновить место');
+
+        AppRouter::get('/places/delete', [ \RPGCAtlas\Controllers\PlacesController::class, '' ]); // удаление
 
             /* аякс-запросы для формы добавления клуба */
         AppRouter::get('/ajax/get:city:by:coords', [ AjaxController::class, 'get_city_by_coords'], 'ajax_get_city_by_coords' );

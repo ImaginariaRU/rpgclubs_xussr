@@ -7,6 +7,7 @@ use Arris\Cache\Cache;
 use Arris\Cache\CacheInterface;
 use Arris\Database\DBWrapper;
 use Arris\DelightAuth\Auth\Auth;
+use Arris\DelightAuth\Auth\Exceptions\DatabaseError;
 use Arris\DelightAuth\Auth\Role;
 use Arris\Path;
 use Arris\Template\FlashMessages;
@@ -60,15 +61,6 @@ class App extends \Arris\App
             'fqdn'      =>  getenv('DOMAIN.FQDN')
         ]);*/
 
-/*        config('limits', [
-            'MAX_UPLOAD_SIZE'   =>  \min(
-                Common::get_ini_value('post_max_size'),
-                Common::get_ini_value('upload_max_filesize'),
-                Common::return_bytes(_env('MAX_UPLOAD_SIZE', '64M')
-                )
-            )
-        ]);*/
-
         config('application.meta', [
             'keywords'          =>  'map, rpg, clubs, ролевые клубы, карта, настольные, ролевые, игры, поиграть, НРИ, антикафе, игротеки',
             'description'       =>  'Ролевые клубы на карте России и ближайшего зарубежья',
@@ -91,9 +83,12 @@ class App extends \Arris\App
 
     }
 
+    /**
+     * @throws \Exception
+     */
     public static function initLogger()
     {
-        AppLogger::init("mediaBox", bin2hex(random_bytes(4)), [
+        AppLogger::init("rpgClubs", bin2hex(random_bytes(4)), [
             'default_logfile_path'      =>  config('path.monolog'),
             'default_logfile_prefix'    =>  date_format(date_create(), 'Y-m-d') . '__'
         ]);
@@ -105,7 +100,7 @@ class App extends \Arris\App
      */
     public static function initTemplate()
     {
-        $app = self::factory();
+        self::factory();
 
         config('smarty', [
             'path_template'     =>  config('path.web') . 'templates/',
@@ -170,6 +165,9 @@ class App extends \Arris\App
         App::$pdo = new DBWrapper(config('db_credentials'), [ 'slow_query_threshold' => 100 ], AppLogger::scope('mysql') );
     }
 
+    /**
+     * @throws DatabaseError
+     */
     public static function initAuth()
     {
         $app = self::factory();
@@ -241,9 +239,12 @@ class App extends \Arris\App
 
     public static function initManticore()
     {
-        // SphinxToolkit::init(getenv('SEARCH.HOST'), getenv('SEARCH.PORT'), []);
+        return true;
     }
 
+    /**
+     * @throws \JsonException
+     */
     public static function initRedis()
     {
         Cache::init([
@@ -264,6 +265,7 @@ class App extends \Arris\App
     public static function addCustomServices()
     {
         $app = self::factory();
+        return true;
     }
 
 

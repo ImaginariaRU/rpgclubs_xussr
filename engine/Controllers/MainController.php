@@ -5,7 +5,6 @@ namespace RPGCAtlas\Controllers;
 use Psr\Log\LoggerInterface;
 use RPGCAtlas\AbstractClass;
 use RPGCAtlas\MapProviders;
-use RPGCAtlas\Units\Map;
 use RPGCAtlas\Units\POI;
 
 class MainController extends AbstractClass
@@ -44,13 +43,14 @@ class MainController extends AbstractClass
             'allow_donate'  =>  _env('FRONTEND.ALLOW_DONATE', 0)
         ]);
 
+        // для десктопа будем показывать секции, для мобилки - colorbox
+        $this->template->assign("publish_options", [
+            'is_mobile' =>  config('features.is_mobile.device')
+        ]);
+
         $this->template->assign('section', [
             'infobox_position'  =>  'topleft',
             'about_position'    =>  'topright'
-        ]);
-
-        $this->template->assign("features", [
-            'yandex_metrika_enabled'    =>  _env('FRONTEND.METRIC.YANDEX', 0)
         ]);
 
         $use_map_provider = getenv('MAP.USE');
@@ -62,7 +62,13 @@ class MainController extends AbstractClass
             'zoom'          =>  getenv('MAP.ZOOM')
         ]);
 
-        $poi_dataset = (new Map())->getPOIs();
+        /*
+        $this->template->assign("features", [
+            'yandex_metrika_enabled'    =>  _env('FRONTEND.METRIC.YANDEX', 0)
+        ]);
+        */
+
+        $poi_dataset = (new POI())->getList();
 
         $this->template->assign('dataset_poi_list', $poi_dataset);
 
@@ -72,9 +78,12 @@ class MainController extends AbstractClass
         ]);
     }
 
+    /**
+     * @return void
+     */
     public function view_poi_list()
     {
-        $dataset = (new POI())->getPOIList();
+        $dataset = (new POI())->getList();
 
         $this->template->assign('dataset', $dataset);
         $this->template->assign('summary', [

@@ -21,6 +21,7 @@
         "karelwintersky/arris.entity": "^0.9.10",
         "karelwintersky/arris.template": "^0.99",
         "karelwintersky/arris.database": "^1.0",
+        "karelwintersky/arris.toolkit.cli-console": "^1.0",
 
         "vlucas/phpdotenv": "^5.6",
         "kuria/error": "^4.2",
@@ -32,6 +33,7 @@
         "ajur-media/kcaptcha": "^1.1",
         "hflabs/dadata": "^22.3",
         "riverside/php-nominatim": "^1.2"
+
     },
     "autoload": {
         "files": [

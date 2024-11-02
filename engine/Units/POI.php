@@ -13,27 +13,41 @@ class POI extends AbstractClass
     }
 
     /**
+     * Возвращает массив точек интереса
+     *
      * @return array
      */
-    public function getPOIList()
+    public function getList()
     {
-        $query = "SELECT * FROM {$this->tables->poi} WHERE `is_public` = 1 ORDER BY `is_public` DESC, `address_city`, `title` ";
+        $query = "
+SELECT * 
+FROM {$this->tables->poi} 
+WHERE is_public = 1 
+  AND lat IS NOT NULL 
+  AND lng IS NOT NULL
+ORDER BY is_public DESC, `address_city`, `title` 
+";
         $dataset = [];
 
-        foreach ($this->pdo->query($query)->fetchAll() as $row) {
-            $data = $row;
-            $data['coords'] = "{$row['lat']} / {$row['lng']}";
-            $dataset[ $row['id'] ] = $data;
+        foreach ($this->pdo->query($query)->fetchAll() as &$row) {
+            $row['coords'] = "{$row['lat']} / {$row['lng']}";
+
+            // еще нужно определить реального владельца по айди (id_owner)
+            //@todo: реальный владелец (для админа показывает логин владельца, для владельца - "Я"
+
+            $dataset[ $row['id'] ] = $row;
         }
 
         return $dataset;
     }
 
     /**
+     * Возвращает данные по точке интереса
+     *
      * @param $id
      * @return array
      */
-    public function getPOIItem($id)
+    public function getItem($id)
     {
         $query = "SELECT * FROM {$this->tables->poi} WHERE id = :id ORDER BY id DESC LIMIT 1";
 
