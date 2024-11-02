@@ -2,9 +2,35 @@
 
 namespace RPGCAtlas;
 
+use Arris\AppRouter;
+
 class TemplateHelper
 {
     public static $inner_buttons = [];
+
+    public static function init()
+    {
+        self::$inner_buttons = [
+            [
+                'text'      =>  'POI List',
+                'url'       =>  AppRouter::getRouter('view.places.list'),
+                'class'     =>  '',
+                'disabled'  =>  false
+            ],
+            [
+                'text'      =>  'POI Types',
+                'url'       =>  AppRouter::getRouter('view.poi_types.list'),
+                'class'     =>  '',
+                'disabled'  =>  true
+            ],
+            [
+                'text'      =>  'Tickets',
+                'url'       =>  AppRouter::getRouter('view.ticket.list'),
+                'class'     =>  '',
+                'disabled'  =>  false
+            ]
+        ];
+    }
 
     /**
      * @return void

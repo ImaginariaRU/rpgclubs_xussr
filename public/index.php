@@ -78,7 +78,7 @@ try {
                 AppRouter::post('/tickets/update', [ \RPGCAtlas\Controllers\TicketsController::class, 'callbackUpdate'], 'callback.ticket.update'); // обновление (включая статус), удалить тикет нельзя
 
                 // типы мест (иконки)
-                AppRouter::get('/poi_types', []);
+                AppRouter::get('/poi_types', [], 'view.poi_types.list');
                 AppRouter::get('/poi_types/add', []);
                 AppRouter::post('/poi_types/insert', []);
                 AppRouter::get('/poi_types/edit/{id}', []);
@@ -114,6 +114,7 @@ try {
     App::$template->assign("is_can_edit", App::$auth->isLoggedIn());
 
 
+    \RPGCAtlas\TemplateHelper::init();
     \RPGCAtlas\TemplateHelper::assignInnerButtons();
 
     $render = App::$template->render();

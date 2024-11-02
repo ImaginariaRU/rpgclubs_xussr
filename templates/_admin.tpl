@@ -12,6 +12,7 @@
     <script src="/frontend/jquery/jquery.notifyBar.js"></script>
     <link rel="stylesheet" href="/frontend/jquery/jquery.notifyBar.css">
     <script src="/frontend/NotifyBarHelper.js"></script>
+    <script src="/frontend/jq_data_action.js"></script>
 
     <script type="text/javascript">
         const flash_messages = {$flash_messages};
@@ -68,22 +69,12 @@
     </style>
 </head>
 <body>
-<ul>
-    <li>список мест /places</li>
-    <li>список типов /admin/poi_types </li>
-    <li>список комплейнов /admin/tickets </li>
-    <li>страница статистики /admin/stat -- или тут? </li>
-    <li></li>
-</ul>
-{*
 <div id="global_wrapper">
     <div id="left-column">
         <div class="top">
             <ul class="non-marked-list left-menu">
                 {if $inner_buttons}
-                    *}
-{* рендер блока внутренних кнопок, заданных через хэлпер TemplateHelper *}{*
-
+                    {*рендер блока внутренних кнопок, заданных через хэлпер TemplateHelper*}
                     {foreach $inner_buttons as $button}
                         <li>
                             <button
@@ -103,11 +94,11 @@
         <div class="spacer"></div>
         <div class="bottom">
             <ul class="non-marked-list left-menu">
-                {if $_config.auth.is_admin}
+                {*{if $_config.auth.is_admin}
                     <li>
                         <button type="button" data-action="redirect" data-url="/admin/users/">Админка пользователей</button>
                     </li>
-                {/if}
+                {/if}*}
                 <li>
                     <button type="button" data-action="redirect" data-url="/auth/logout/">Logout</button>
                 </li>
@@ -122,10 +113,9 @@
         </div>
     </div>
     <div id="right-column">
-        {include file=$inner_template}
+       {* {include file=$inner_template}*}
     </div>
 </div>
-*}
 
 </body>
 </html>
