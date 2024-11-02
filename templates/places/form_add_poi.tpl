@@ -11,7 +11,7 @@
     <script src="/frontend/jquery/jquery.jgrowl.min.js" type="text/javascript"></script>
     <script src="/frontend/admin.js"></script>
     <script src="/frontend/jq_data_action.js"></script>
-    <link   href="/frontend/jquery/jquery.jgrowl.min.css" rel="stylesheet" />
+    <link href="/frontend/jquery/jquery.jgrowl.min.css" rel="stylesheet" />
     <style>
         input[required] {
             background-image: radial-gradient(#F00 15%, transparent 16%), radial-gradient(#F00 15%, transparent 16%);
@@ -169,7 +169,7 @@
     <table width="100%">
         <tr>
             <td width="50%" style="text-align: center">
-                <button data-action="redirect" data-url="{Arris\AppRouter::getRouter('view.main.page')}">НАЗАД,<br>НА КАРТУ</button>
+                <button type="button" data-action="redirect" data-url="{Arris\AppRouter::getRouter('view.main.page')}">НАЗАД,<br>НА КАРТУ</button>
             </td>
             <td width="50%" style="text-align: center">
                 {if $_auth.is_logged_in}

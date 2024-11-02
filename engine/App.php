@@ -49,7 +49,7 @@ class App extends \Arris\App
 
         config('path', [
             'install'           =>  $_path_install->toString(true),
-            'web'               =>  $_path_install->join('public')->toString('/'),
+            'public'            =>  $_path_install->join('public')->toString('/'),
             'cache'             =>  $_path_install->join('cache')->toString('/'),
             'monolog'           =>  $_path_monolog->toString(),
             'storage'           =>  getenv('PATH.STORAGE')
@@ -103,15 +103,15 @@ class App extends \Arris\App
         self::factory();
 
         config('smarty', [
-            'path_template'     =>  config('path.web') . 'templates/',
+            'path_template'     =>  config('path.install') . 'templates/',
             'path_cache'        =>  config('path.cache'),
             'force_compile'     =>  _env('DEBUG.SMARTY_FORCE_COMPILE', false, 'bool')
         ]);
 
         App::$template = new Template($_REQUEST, []);
         App::$template
-            ->setTemplateDir( config('path.web') . 'templates/' )
-            ->setCompileDir( config('path.cache') )
+            ->setTemplateDir( config('smarty.path_template') )
+            ->setCompileDir( config('smarty.path_cache') )
             ->setForceCompile( config('smarty.force_compile') )
             ->registerPlugin( Template::PLUGIN_MODIFIER, 'dd', 'dd', false)
             // ->registerPlugin( Template::PLUGIN_MODIFIER, 'size_format', 'size_format', false)
