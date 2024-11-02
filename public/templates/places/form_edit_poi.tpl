@@ -48,61 +48,63 @@
     </style>
 </head>
 <body>
-<h2>Добавление клуба</h2>
-<form method="post" action="{Arris\AppRouter::getRouter('callback.add.poi')}" id="form_add_poi">
+<h2>Редактирование клуба</h2>
+<form method="post" action="{Arris\AppRouter::getRouter('callback.edit.poi')}" id="form_add_poi">
+    <input type="hidden" name="id" value="{$item.id}">
     <table border="1" width="100%">
 
         <tr>
-            <td>Email <br> (для обратной связи)</td>
+            <td>E-Mail отправителя заявки</td>
             <td>
-                <input type="email" value="{if $_auth.is_logged_in}{$_auth.email}{/if}" size="80" name="owner_email" required>
+                <input type="email" size="80" name="owner_email" value="{$item.email}" required>
             </td>
         </tr>
 
         <tr>
-            <td>Кто вы</td>
+            <td>Информация об отправителе</td>
             <td>
-                <small>Расскажите немного о себе. Кто вы? Кого вы представляете? Как с вами связаться кроме электронной почты?</small><br>
-                <input type="text" size="80" name="owner_about" />
+                <input type="text" size="80" name="owner_about" value="{$item.owner_about}">
             </td>
         </tr>
 
         <tr>
             <td>URL сайта/группы клуба</td>
             <td>
-                <small>Пожалуйста, укажите здесь URL страницы вашего клуба в VKontakte. Если таковой нет - укажите просто сайт.
-                    Остальные ссылки (дискорд, тг, итд) указывайте, пожалуйста, в <strong>описании</strong>.</small> <br>
-                <input type="text" value="" size="80" name="url_site"> <br>
-                {if $_auth.is_logged_in}
-                    <button id="actor-resolve-vk-data" data-url="{Arris\AppRouter::getRouter('ajax.get_vk_club_info')}" data-source="url_site">Попробовать извлечь информацию о клубе из VKontakte</button>
-                {/if}
+                <input type="text" value="{$item.url_site}" size="80" name="url_site"> <br>
+                <button id="actor-resolve-vk-data" data-url="{Arris\AppRouter::getRouter('ajax.get_vk_club_info')}" data-source="url_site">Попробовать извлечь информацию о клубе из VKontakte</button>
             </td>
         </tr>
 
         <tr>
             <td>Название клуба</td>
-            <td><input type="text" value="" size="80" name="title" required></td>
+            <td><input type="text" value="{$item.title}" size="80" name="title" required></td>
         </tr>
 
         <tr>
             <td>Описание клуба</td>
             <td>
-                <textarea cols="70" rows="7" name="description" id="textarea_club_description" required></textarea>
+                <textarea cols="70" rows="7" name="description" id="textarea_club_description" required>{$item.description}</textarea>
+            </td>
+        </tr>
+
+        <tr>
+            <td>Тип объекта</td>
+            <td>
+                <select name="poi_type">
+                    <option value="club">Клуб</option>
+                    <option value="market">Магазин</option>
+                </select>
             </td>
         </tr>
 
         <tr>
             <td>Адрес:</td>
             <td>
-                <small>Укажите здесь адрес клуба: </small><br>
-                <input type="text" value="" size="70" name="address"><br>
-                <small>А здесь, если есть какие-то особенности адреса (домофон, охрана в бизнес-центре или
-                    третий поворот направо во втором дворе в доме напротив памятника Радагасту) укажите их. Это поможет людям найти вас!</small>
-                <textarea cols="70" rows="7" name="address_hint"></textarea>
+                <input type="text" value="{$item.address}" size="70" name="address"><br>
+                Особенности адреса: <br>
+                <textarea cols="70" rows="7" name="address_hint">{$item.address_hint}</textarea>
                 <br>
-                {if $_auth.is_logged_in}
-                    <button id="actor-parse-address" data-url="{Arris\AppRouter::getRouter('ajax.get_coords_by_address')}">Попытаться определить координаты и город по адресу</button>
-                {/if}
+                <button id="actor-parse-address" data-url="{Arris\AppRouter::getRouter('ajax.get_coords_by_address')}">Попытаться определить координаты и город по адресу</button>
             </td>
         </tr>
 
@@ -110,13 +112,11 @@
             <td>Координаты</td>
             <td>
                 <br>
-                <div  style="display: none">
-                    Lat: <input type="text" value="" size="20" name="lat">
-                    /
-                    Lng: <input type="text" value="" size="20" name="lng">
-                    /
-                </div>
-                <strong>Город:</strong> <input type="text" value="" size="40" name="address_city">
+                Lat: <input type="text" value="{$item.lat}" size="20" name="lat">
+                /
+                Lng: <input type="text" value="{$item.lng}" size="20" name="lng">
+                /
+                <strong>Город:</strong> <input type="text" value="{$item.address_city}" size="40" name="address_city">
                 <div id="set-coords-manually">
                     <br>
                     <small>
@@ -125,11 +125,9 @@
                         Найдите свой клуб, кликните на здание с клубом, а потом скопируйте координаты в это поле:<br>
                     </small>
                     <br>
-                    <strong>Координаты:</strong> <input type="text" size="20" value="" name="latlng"> <br><br>
-                    {if $_auth.is_logged_in}
+                    <strong>Координаты:</strong> <input type="text" size="20" value="{$item.lat}, {$item.lng}" name="latlng"> <br><br>
+
                     <button id="actor-resolve-city" data-url="{Arris\AppRouter::getRouter('ajax.get_city_by_coords')}" data-target="club:address_city">Определить по координатам город</button><br>
-                    {/if}
-                    {*<small>Если вы не знаете координаты и не смогли узнать по координатам город - оставьте поля пустыми.</small>*}
                 </div>
             </td>
         </tr>
@@ -139,43 +137,35 @@
             <td>
                 <small>Горизонтальный баннер 795×200 пикселей, обычно из группы ВКонтакте (<a href="https://vk.com/blackforrest" target="_blank">пример</a>)<br>
                     Если вы не знаете как указать ссылку на эту картинку - просто напишите сюда: "надо взять из группы ВК"</small><br>
-                <input type="text" value="" size="80" name="vk_banner"> <br>
-                <small>Если у вас нет баннера для группы ВК - укажите хоть какой-нибудь. Мы подумаем, как его показать.</small>
+                <input type="text" value="{$item.banner_url}" size="80" name="vk_banner"> <br>
             </td>
         </tr>
+        <tr>
+            <td>
+                Опубликовать?
+            </td>
+            <td>
+                <div style="font-size: x-large">
+                    <label>
+                        <input type="radio" name="is_public" value="Y" style="transform: scale(1.3)" {if $item.is_public eq 1}checked{/if}> Да
+                    </label>
+                    &nbsp;&nbsp;|&nbsp;&nbsp;
+                    <label>
+                        <input type="radio" name="is_public" value="N"  style="transform: scale(1.3)" {if $item.is_public eq 0}checked{/if}> Нет
+                    </label>
+                </div>
 
-        {if !$_auth.is_logged_in}
-        <tr>
-            <td>
-                Капча
-            </td>
-            <td>
-                <img src="/kcaptcha.php" id="captcha" alt="captcha" onclick="$('#captcha').attr('src', '/kcaptcha.php?r='+Math.random()); return false;" ><br>
-                <input type="text" name="captcha" class="small" id="captcha" tabindex="8" style="width: 120px; display: inline-block;" >
             </td>
         </tr>
-        <tr>
-            <td colspan="2">
-            <span style="color: navy">Вы же понимаете, что мы не можем сразу взять и показать ваш клуб на карте? Информацию нужно проверить.
-                    <br>
-                    При необходимости мы свяжемся с вами и уточним детали. После этого, скорее всего, ваш клуб появится на карте.
-                </span>
-            </td>
-        </tr>
-        {/if}
     </table>
     <br>
     <table width="100%">
         <tr>
             <td width="50%" style="text-align: center">
-                <button data-action="redirect" data-url="{Arris\AppRouter::getRouter('view.main.page')}">НАЗАД,<br>НА КАРТУ</button>
+                <button data-action="redirect" data-url="{Arris\AppRouter::getRouter('view.places.list')}">НАЗАД,<br>К СПИСКУ</button>
             </td>
             <td width="50%" style="text-align: center">
-                {if $_auth.is_logged_in}
-                    <button type="submit" tabindex="8">СОХРАНИТЬ</button>
-                {else}
-                    <button type="submit" tabindex="8">ПОДАТЬ ЗАЯВКУ<br> НА РАССМОТРЕНИЕ</button>
-                {/if}
+                <button type="submit" tabindex="8">СОХРАНИТЬ</button>
             </td>
         </tr>
     </table>

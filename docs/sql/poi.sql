@@ -9,6 +9,7 @@ CREATE TABLE `poi` (
      `title` varchar(250) DEFAULT '',
      `description` text,
      `address` text,
+     `address_hint` TEXT NULL COMMENT 'хинт для адреса',
      `address_city` varchar(250) DEFAULT '',
      `banner_type` enum('h','v') DEFAULT 'h',
      `banner_url` varchar(255) DEFAULT '',
@@ -16,7 +17,7 @@ CREATE TABLE `poi` (
      `url_site` varchar(255) DEFAULT '',
      `dt_create` datetime DEFAULT CURRENT_TIMESTAMP,
      `dt_update` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-     `type` varchar(100) DEFAULT '' COMMENT 'тип POI, технически - enum',
+     `poi_type` varchar(100) DEFAULT '' COMMENT 'тип POI, технически - enum',
      `owner_email` varchar(255) DEFAULT '' COMMENT 'EMail владельца (подавшего заявку)',
      `owner_about` text COMMENT 'Owner о себе',
      `ipv4_add` int unsigned DEFAULT '0',
@@ -27,3 +28,4 @@ CREATE TABLE `poi` (
      KEY `id_owner` (`id_owner`) USING BTREE,
      KEY `lat+lng` (`lat`,`lng`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+

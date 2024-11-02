@@ -6,6 +6,7 @@ use AJUR\FluentPDO\Exception;
 use AJUR\FluentPDO\Query;
 use Arris\AppRouter;
 use Arris\Helpers\Server;
+use PDOException;
 use Psr\Log\LoggerInterface;
 use RPGCAtlas\App;
 use RPGCAtlas\Units\GeoCoderDadata;
@@ -87,19 +88,18 @@ class PlacesController extends \RPGCAtlas\AbstractClass
             "title"         =>  input('title'),
             "description"   =>  input('description'),
             "address"       =>  $address,
+            "address_hint"  =>  input('address_hint'),
             "address_city"  =>  $address_city,
             "banner_url"    =>  input('vk_banner'),
             "url_site"      =>  input('url_site'),
 
-            "type"          =>  'club',
+            "poi_type"      =>  'club',
 
             "owner_email"   =>  input('owner_email'),
             "owner_about"   =>  input('owner_about'),
 
             "ipv4_add"      =>  ip2long(Server::getIP()),
         ];
-
-
 
         try {
             $query = $query
@@ -126,9 +126,61 @@ class PlacesController extends \RPGCAtlas\AbstractClass
     {
         $item = (new POI())->getItem($id);
 
+        if (empty($item['email'])) {
+            $item['email'] = App::$auth->getEmail();
+        }
+
         $this->template->assign('item', $item);
 
         $this->template->setTemplate('places/form_edit_poi.tpl');
+    }
+
+    public function callbackUpdate()
+    {
+        $query = new Query(App::$pdo, includeTableAliasColumns: false);
+
+        $dataset = [
+            "id_owner"      =>  config('auth.id'),
+            "is_public"     =>  input('is_public') == 'Y' ? 1: 0,
+            'lat'           =>  input('lat'),
+            'lng'           =>  input('lng'),
+            "zoom"          =>  12,
+            "title"         =>  input('title'),
+            "description"   =>  input('description'),
+            "address"       =>  input('address'),
+            "address_hint"  =>  input('address_hint'),
+            "address_city"  =>  input('address_city'),
+            "banner_url"    =>  input('vk_banner'),
+            "url_site"      =>  input('url_site'),
+
+            "poi_type"      =>  input('poi_type'),
+
+            "owner_email"   =>  input('owner_email'),
+            "owner_about"   =>  input('owner_about'),
+
+            "ipv4_update"      =>  ip2long(Server::getIP()),
+        ];
+
+        try {
+            $query = $query
+                ->update(
+                    $this->tables->poi,
+                    $dataset,
+                    primaryKey: input('id'));
+
+            $query->execute();
+
+        } catch (PDOException|Exception $e) {
+            d($dataset);
+            dd($e);
+        }
+
+        $target
+            = App::$auth->isLoggedIn()
+            ? AppRouter::getRouter('view.places.list')
+            : AppRouter::getRouter('view.main.page');
+
+        $this->template->setRedirect( $target );
     }
 
 }

@@ -67,7 +67,7 @@ try {
         ], static function() {
 
         AppRouter::get('/places/edit/[{id:\d+}]', [ \RPGCAtlas\Controllers\PlacesController::class, 'formEdit' ], 'form.edit.poi');
-        AppRouter::get('/places/update', [ \RPGCAtlas\Controllers\PlacesController::class, '' ], 'callback.edit.poi');
+        AppRouter::post('/places/update', [ \RPGCAtlas\Controllers\PlacesController::class, 'callbackUpdate' ], 'callback.edit.poi');
 
         AppRouter::get('/places/delete', [ \RPGCAtlas\Controllers\PlacesController::class, '' ]); // удаление
 
