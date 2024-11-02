@@ -69,12 +69,12 @@ try {
         AppRouter::get('/places/edit/[{id:\d+}]', [ \RPGCAtlas\Controllers\PlacesController::class, 'formEdit' ], 'form.edit.poi');
         AppRouter::post('/places/update', [ \RPGCAtlas\Controllers\PlacesController::class, 'callbackUpdate' ], 'callback.edit.poi');
 
-        AppRouter::get('/places/delete', [ \RPGCAtlas\Controllers\PlacesController::class, '' ]); // удаление
+        AppRouter::get('/places/delete/{id:\d+}', [ \RPGCAtlas\Controllers\PlacesController::class, 'callbackDelete' ], 'callback.delete.poi'); // удаление
 
             /* аякс-запросы для формы добавления клуба */
-        AppRouter::get('/ajax/get:city:by:coords', [ AjaxController::class, 'get_city_by_coords'], 'ajax.get_city_by_coords' ); // <--
-        AppRouter::get('/ajax/get:coords:by:address', [ AjaxController::class, 'get_coords_by_address'], 'ajax.get_coords_by_address'); // <--
-        AppRouter::get('/ajax/get:vk:club:info', [ AjaxController::class, 'get_vk_club_info'], 'ajax.get_vk_club_info'); // <--
+        AppRouter::get('/ajax/get:city:by:coords', [ \RPGCAtlas\Controllers\AjaxController::class, 'get_city_by_coords'], 'ajax.get_city_by_coords' ); // <--
+        AppRouter::get('/ajax/get:coords:by:address', [ \RPGCAtlas\Controllers\AjaxController::class, 'get_coords_by_address'], 'ajax.get_coords_by_address'); // <--
+        AppRouter::get('/ajax/get:vk:club:info', [ \RPGCAtlas\Controllers\AjaxController::class, 'get_vk_club_info'], 'ajax.get_vk_club_info'); // <--
 
 
         AppRouter::group([

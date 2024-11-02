@@ -183,4 +183,17 @@ class PlacesController extends \RPGCAtlas\AbstractClass
         $this->template->setRedirect( $target );
     }
 
+    public function callbackDelete($id)
+    {
+        $query = new Query(App::$pdo, includeTableAliasColumns: false);
+
+        try {
+            $query->delete($this->tables->poi, $id)->execute();
+        } catch (Exception $e) {
+            dd($e);
+        }
+
+        $this->template->setTemplate("places/form_deleted_poi.tpl");
+    }
+
 }

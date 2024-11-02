@@ -10,6 +10,7 @@
     <script src="/frontend/jquery/jquery-3.2.1_min.js" type="text/javascript" ></script>
     <script src="/frontend/jquery/jquery.jgrowl.min.js" type="text/javascript"></script>
     <script src="/frontend/admin.js"></script>
+    <script src="/frontend/jq_data_action.js"></script>
     <link   href="/frontend/jquery/jquery.jgrowl.min.css" rel="stylesheet" />
     <style>
         input[required] {
@@ -153,6 +154,14 @@
                     <label>
                         <input type="radio" name="is_public" value="N"  style="transform: scale(1.3)" {if $item.is_public eq 0}checked{/if}> Нет
                     </label>
+                </div>
+
+                <div style="float: right">
+                    <button type="button"
+                            data-action="redirect"
+                            data-confirm-message="Точно удалить?"
+                            data-url="{Arris\AppRouter::getRouter('callback.delete.poi', [ 'id' => $item.id ])}"
+                    >Удалить</button>
                 </div>
 
             </td>
