@@ -2,6 +2,7 @@
 
 namespace RPGCAtlas\Controllers;
 
+use Arris\Entity\Result;
 use Psr\Log\LoggerInterface;
 use RPGCAtlas\Common;
 use RPGCAtlas\Units\GeoCoderDadata;
@@ -26,7 +27,7 @@ class AjaxController extends \RPGCAtlas\AbstractClass
         $poi['title'] = htmlspecialchars($poi['title'], ENT_QUOTES | ENT_HTML5);
 
         $this->template->assign('dataset', $poi);
-        $this->template->setTemplate("public/ajax_poi_info.tpl");
+        $this->template->setTemplate("ajax/ajax_poi_info.tpl");
     }
 
     public function ajax_view_poi_list()
@@ -39,7 +40,7 @@ class AjaxController extends \RPGCAtlas\AbstractClass
             'clubs_visible' =>  count(array_filter($dataset, function($data){ return !!$data['is_public']; }) )
         ]);
 
-        $this->template->setTemplate("public/ajax_poi_list.tpl");
+        $this->template->setTemplate("ajax/ajax_poi_list.tpl");
     }
 
     public function get_coords_by_address()
@@ -82,6 +83,22 @@ class AjaxController extends \RPGCAtlas\AbstractClass
         $ip = input('ip');
 
         return Common::getCoordsByIP($ip);
+    }
+
+    /**
+     * Список параметров иконок для селекта (на будущее)
+     *
+     * @return void
+     */
+    public function get_poi_types()
+    {
+        $r = new Result();
+
+        $sth = $this->pdo->query("SELECT * FROM {$this->tables->poi_types} ORDER BY id DESC");
+        $data = $sth->fetchAll() ?? [];
+        $r->setData($data);
+
+        $this->template->assignResult($r);
     }
 
 

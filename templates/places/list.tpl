@@ -15,6 +15,7 @@
         <script src="/frontend/jquery/jquery.min.js"></script>
         <script src="/frontend/NotifyBarHelper.js"></script>
         <script src="/frontend/admin.js"></script>
+        <script src="/frontend/jq_data_action.js"></script>
     {else}
         <link href="/styles.css" rel="stylesheet">
         <script src="/scripts.js"></script>
@@ -93,10 +94,11 @@
                                 data-action="redirect"
                                 data-url="{Arris\AppRouter::getRouter('form.edit.poi', ['id' => $row.id])}">Редактировать</button>
                     {else}
-                        <button type="button"
-                                data-action="redirect"
-                                data-url="/places/complain/{$row.id}">Complain</button>
+
                     {/if}
+                    <button type="button"
+                            data-action="redirect"
+                            data-url="{Arris\AppRouter::getRouter('form.add.ticket', ['id' => $row.id]) }">Complain</button>
                 </td>
             </tr>
         {/foreach}

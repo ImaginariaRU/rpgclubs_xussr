@@ -1,5 +1,12 @@
 $(document).ready(function() {
-    // Action redirect
+    /**
+     * // Action redirect
+     *
+     * data-action="redirect"
+     * data-target : _blank|?
+     * data-url
+     * data-confirm-message
+     */
     $("*[data-action='redirect']").on('click', function (event) {
         let url = $(this).data('url');
         let target = $(this).data('target') || '';

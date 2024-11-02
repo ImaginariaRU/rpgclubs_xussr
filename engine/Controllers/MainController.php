@@ -91,7 +91,7 @@ class MainController extends AbstractClass
             'clubs_visible' =>  count(array_filter($dataset, function($data){ return !!$data['is_public']; }) )
         ]);
 
-        $this->template->setTemplate("public/poi_list.tpl");
+        $this->template->setTemplate("ajax/poi_list.tpl");
     }
 
 }

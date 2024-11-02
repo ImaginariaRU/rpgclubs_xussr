@@ -48,13 +48,13 @@ try {
     AppRouter::get('/ajax/poi:get/[{id}]', [ \RPGCAtlas\Controllers\AjaxController::class, 'view_poi_page'], 'ajax.view.poi.info');
     AppRouter::get('/ajax/poi:list/', [ \RPGCAtlas\Controllers\AjaxController::class, 'ajax_view_poi_list'], 'ajax.view.poi.list' );
 
-    AppRouter::get('/places/list', [ \RPGCAtlas\Controllers\PlacesController::class, 'viewList'], 'view.places.list');
+    AppRouter::get('/places', [ \RPGCAtlas\Controllers\PlacesController::class, 'viewList'], 'view.places.list');
     AppRouter::get('/places/add', [ \RPGCAtlas\Controllers\PlacesController::class, 'formAdd' ], 'form.add.poi');
     AppRouter::post('/places/insert', [ \RPGCAtlas\Controllers\PlacesController::class, 'callbackAdd' ], 'callback.add.poi');
 
     // сообщить о неточности о месте (2 энтрипоинта) - жалоба без ID - абстрактная, например запрос на добавление клуба (?)
-    AppRouter::get('/places/complain/[{id}]', [ \RPGCAtlas\Controllers\PlacesController::class, ''], 'форма: подать жалобу или замечание'); // вместо EDIT
-    AppRouter::post('/places/complain', [ \RPGCAtlas\Controllers\PlacesController::class, ''], 'коллбэк: подать жалобу или замечание'); // вместо EDIT
+    AppRouter::get('/places/complain/[{id}]', [ \RPGCAtlas\Controllers\TicketsController::class, 'formAdd'], 'form.add.ticket'); // вместо EDIT
+    AppRouter::post('/places/complain', [ \RPGCAtlas\Controllers\TicketsController::class, 'callbackAdd'], 'callback.add.ticket'); // вместо EDIT
 
     // авторизация
     AppRouter::get('/auth/', function () {
@@ -69,51 +69,37 @@ try {
             'before'    =>  '\RPGCAtlas\Middlewares\AuthMiddleware@check_is_logged_in'
         ], static function() {
 
-        AppRouter::get('/places/edit/[{id:\d+}]', [ \RPGCAtlas\Controllers\PlacesController::class, 'formEdit' ], 'form.edit.poi');
-        AppRouter::post('/places/update', [ \RPGCAtlas\Controllers\PlacesController::class, 'callbackUpdate' ], 'callback.edit.poi');
+            AppRouter::group(['prefix' => '/admin'], static function(){
+                AppRouter::get('', [ \RPGCAtlas\Controllers\AdminController::class, 'view_admin_page_main'], 'view.admin.page.main');
 
-        AppRouter::get('/places/delete/{id:\d+}', [ \RPGCAtlas\Controllers\PlacesController::class, 'callbackDelete' ], 'callback.delete.poi'); // удаление
+                // тикеты
+                AppRouter::get('/tickets', [ \RPGCAtlas\Controllers\TicketsController::class, 'viewList'], 'view.ticket.list'); // список
+                AppRouter::get('/tickets/view/{id}', [ \RPGCAtlas\Controllers\TicketsController::class, 'formView'], 'form.ticket.view'); // просмотр
+                AppRouter::post('/tickets/update', [ \RPGCAtlas\Controllers\TicketsController::class, 'callbackUpdate'], 'callback.ticket.update'); // обновление (включая статус), удалить тикет нельзя
 
-            /* аякс-запросы для формы добавления клуба */
-        AppRouter::get('/ajax/get:city:by:coords', [ \RPGCAtlas\Controllers\AjaxController::class, 'get_city_by_coords'], 'ajax.get_city_by_coords' ); // <--
-        AppRouter::get('/ajax/get:coords:by:address', [ \RPGCAtlas\Controllers\AjaxController::class, 'get_coords_by_address'], 'ajax.get_coords_by_address'); // <--
-        AppRouter::get('/ajax/get:vk:club:info', [ \RPGCAtlas\Controllers\AjaxController::class, 'get_vk_club_info'], 'ajax.get_vk_club_info'); // <--
+                // типы мест (иконки)
+                AppRouter::get('/poi_types', []);
+                AppRouter::get('/poi_types/add', []);
+                AppRouter::post('/poi_types/insert', []);
+                AppRouter::get('/poi_types/edit/{id}', []);
+                AppRouter::post('/poi_types/update', []); // удалить тип нельзя
+            });
 
+            AppRouter::get('/places/edit/[{id:\d+}]', [ \RPGCAtlas\Controllers\PlacesController::class, 'formEdit' ], 'form.edit.poi');
+            AppRouter::post('/places/update', [ \RPGCAtlas\Controllers\PlacesController::class, 'callbackUpdate' ], 'callback.edit.poi');
 
-        AppRouter::group([
-            'prefix'    =>  '/admin'
-        ], static function() {
+            AppRouter::get('/places/delete/{id:\d+}', [ \RPGCAtlas\Controllers\PlacesController::class, 'callbackDelete' ], 'callback.delete.poi'); // удаление
 
-            AppRouter::get  ('', [ AdminController::class, 'view_admin_page_main'], 'view.admin.page.main');
-            // главная страница админки - нужна ли??
-            //
+                /* аякс-запросы для формы добавления клуба */
+            AppRouter::get('/ajax/get:city:by:coords', [ \RPGCAtlas\Controllers\AjaxController::class, 'get_city_by_coords'], 'ajax.get_city_by_coords' );
+            AppRouter::get('/ajax/get:coords:by:address', [ \RPGCAtlas\Controllers\AjaxController::class, 'get_coords_by_address'], 'ajax.get_coords_by_address');
+            AppRouter::get('/ajax/get:vk:club:info', [ \RPGCAtlas\Controllers\AjaxController::class, 'get_vk_club_info'], 'ajax.get_vk_club_info');
 
-        });
+            AppRouter::get('/ajax/get:poi:types', [ \RPGCAtlas\Controllers\AjaxController::class, 'get_poi_types'], 'ajax.get_poi_types'); // Список параметров иконок для селекта (на будущее)
 
-
-    }
+            // пользователи?
+        }
     );
-
-    // dd(AppRouter::getRouter('form.edit.poi', [ 'id' => 123 ]));
-
-    /*AppRouter::group([
-        'prefix'    =>  '/admin',
-        'before'    =>  [ \RPGCAtlas\Middlewares\AuthMiddleware::class, 'check_is_logged_in'],
-    ], static function() {
-        AppRouter::get  ('/poi:types', [ AdminController::class, 'view_admin_page_types'], 'view.admin.page.types'); // типы POI
-
-        // форма добавления типа POI
-        // коллбэк добавления типа POI
-        // форма редактирования типа POI
-        // коллбэк обновления типа POI
-        // коллбэк удаления типа POI
-
-        // аякс запрос на получение списка POI для селекта
-
-        // пользователи?
-
-        // статистика?
-    });*/
 
     AppRouter::dispatch();
 

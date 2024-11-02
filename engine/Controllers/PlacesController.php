@@ -46,6 +46,8 @@ class PlacesController extends \RPGCAtlas\AbstractClass
 
     public function callbackAdd()
     {
+        // check kCaptcha (not for admins)
+
         $query = new Query(App::$pdo, includeTableAliasColumns: false);
         $geocoder = new GeoCoderDadata();
 

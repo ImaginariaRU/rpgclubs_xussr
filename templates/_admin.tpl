@@ -69,10 +69,10 @@
 </head>
 <body>
 <ul>
-    <li>список мест /places/list</li>
-    <li>список типов POI</li>
-    <li>список комплейнов (CRUD)</li>
-    <li>страница статистики</li>
+    <li>список мест /places</li>
+    <li>список типов /admin/poi_types </li>
+    <li>список комплейнов /admin/tickets </li>
+    <li>страница статистики /admin/stat -- или тут? </li>
     <li></li>
 </ul>
 {*
