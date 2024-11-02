@@ -68,12 +68,22 @@
     </style>
 </head>
 <body>
+<ul>
+    <li>список мест /places/list</li>
+    <li>список типов POI</li>
+    <li>список комплейнов (CRUD)</li>
+    <li>страница статистики</li>
+    <li></li>
+</ul>
+{*
 <div id="global_wrapper">
     <div id="left-column">
         <div class="top">
             <ul class="non-marked-list left-menu">
                 {if $inner_buttons}
-                    {* рендер блока внутренних кнопок, заданных через хэлпер TemplateHelper *}
+                    *}
+{* рендер блока внутренних кнопок, заданных через хэлпер TemplateHelper *}{*
+
                     {foreach $inner_buttons as $button}
                         <li>
                             <button
@@ -115,6 +125,7 @@
         {include file=$inner_template}
     </div>
 </div>
+*}
 
 </body>
 </html>

@@ -59,7 +59,7 @@ $(function (){
             $("input[name='lat']").val(data['lat']);
             $("input[name='lng']").val(data['lon']);
             $("input[name='vk_banner']").val(data['picture']);
-            $("#set-coords-manually").hide();
+            // $("#set-coords-manually").hide();
 
         } else {
             $.jGrowl("Данные из ВКонтакте загрузить не удалось, скорее всего нет такой группы!", { header: 'ВАЖНО', position: 'top-right', life: 10000, theme: 'error', speed: 'slow' });

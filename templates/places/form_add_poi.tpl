@@ -122,7 +122,7 @@
                     <br>
                     <small>
                         Где найти координаты? Например, на <a href="https://yandex.ru/maps/" target="_blank">яндекс-карте</a> (откроется в новой вкладке).<br>
-                        <img src="/frontend/coord_at_yandex_map.png"><br>
+                        <img src="/frontend/coord_at_yandex_map_new.png"><br>
                         Найдите свой клуб, кликните на здание с клубом, а потом скопируйте координаты в это поле:<br>
                     </small>
                     <br>
@@ -138,7 +138,7 @@
         <tr>
             <td>VK-banner</td>
             <td>
-                <small>Горизонтальный баннер 795×200 пикселей, обычно из группы ВКонтакте (<a href="https://vk.com/blackforrest" target="_blank">пример</a>)<br>
+                <small>Горизонтальный баннер 400×134 пикселей, обычно из группы ВКонтакте (<a href="https://vk.com/cherniy_les" target="_blank">пример</a>)<br>
                     Если вы не знаете как указать ссылку на эту картинку - просто напишите сюда: "надо взять из группы ВК"</small><br>
                 <input type="text" value="" size="80" name="vk_banner"> <br>
                 <small>Если у вас нет баннера для группы ВК - укажите хоть какой-нибудь. Мы подумаем, как его показать.</small>

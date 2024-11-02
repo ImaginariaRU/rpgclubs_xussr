@@ -121,7 +121,7 @@
 
 <section id="section-about" class="section-about-wrapper invisible" data-leaflet-control-position="{$section.about_position}">
     <div style="text-align: right">
-        <button id="actor-about-toggle" class="section-about-button-toggle" data-content="section-about-content" data-content-is-visible="false">?</button>
+        <button id="actor-about-toggle" class="section-about-button-toggle" data-content="section-about-content" data-content-is-visible="false">&nbsp;?&nbsp;</button>
     </div>
     <div id="section-about-content" class="invisible section-about-content">
         <h2>Ролевые клубы на карте России</h2>

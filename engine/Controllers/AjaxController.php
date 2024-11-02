@@ -2,7 +2,6 @@
 
 namespace RPGCAtlas\Controllers;
 
-use Arris\Core\Curl;
 use Psr\Log\LoggerInterface;
 use RPGCAtlas\Common;
 use RPGCAtlas\Units\GeoCoderDadata;
@@ -68,9 +67,14 @@ class AjaxController extends \RPGCAtlas\AbstractClass
     {
         $id = input('poi_id');
 
+        $info = Common::getVKGroupInfo($id);
+
+        $this->template->assignResult($info);
     }
 
     /**
+     * @useless
+     *
      * @return array
      */
     public function get_coords_by_ip()

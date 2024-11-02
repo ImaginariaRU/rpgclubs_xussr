@@ -121,15 +121,30 @@ class Common
         ];
     }
 
+    /**
+     * Нужен ключ авторизации
+     *
+     * Некоторые ссылки:
+     * https://dev.vk.com/ru/api/access-token/implicit-flow-user?ref=old_portal
+     * https://dev.vk.com/ru/method/groups.getById
+     * https://dev.vk.com/ru/api/access-token/getting-started#%D0%A1%D0%B5%D1%80%D0%B2%D0%B8%D1%81%D0%BD%D1%8B%D0%B9%20%D0%BA%D0%BB%D1%8E%D1%87%20%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%D0%B0
+     *
+     * https://dev.vk.com/ru/admin/apps-list
+     *
+     * @param $group_name
+     * @param $debug
+     * @return Result
+     */
     public static function getVKGroupInfo($group_name, $debug = false)
     {
         $r = new Result();
 
         $url = 'https://api.vk.com/method/groups.getById';
         $request_params = [
-            'group_ids' =>  $group_name,
+            'access_token' => _env('VK.SERVICE_KEY', ''),
+            'group_id' =>  $group_name,
             'fields'    =>  'id,name,screen_name,type,city,country,cover,place,description,site,verified',
-            'v'         =>  '5.71'
+            'v'         =>  '5.199'
         ];
         $curl = new Curl();
 
@@ -153,9 +168,38 @@ class Common
             $r->success("Response is valid");
         }
 
-        $data = $response->response[0];
+        $response = json_decode($response);
 
+        /**
+         * @var \stdClass $group
+         */
+        $group = $response->response->groups[0];
+
+        $image_url = '';
+        if ($group->cover->enabled) {
+            $image = array_filter($group->cover->images, function($i){
+                // return ($i->height > 194 && $i->height < 206);
+                return $i->width == 400;
+            });
+
+            $image_url = reset($image)->url ?? null;
+        }
+
+        $r->setData([
+            'id'            =>  $group->id,
+            'city'          =>  $group->city->title,
+            'description'   =>  $group->description,
+            'site'          =>  $group->site,
+            'name'          =>  $group->name,
+            'screen_name'   =>  $group->screen_name,
+            'group_type'    =>  $group->type,
+            'picture'       =>  $image_url,
+
+        ]);
+
+        /*
         // чистая магия: массив адреса будет содержать только те элементы исходного массива, которые не NULL (соотв. поля $data существуют)
+        $data = $response->response[0];
         $address_array = array_filter([
             $data->country->title ?? null,
             $data->city->title ?? null,
@@ -186,7 +230,7 @@ class Common
             'site'          =>  $data->site,
             'picture'       =>  $image_url,
             'group_type'    =>  $data->type
-        ]);
+        ]);*/
 
         return $r;
     }
