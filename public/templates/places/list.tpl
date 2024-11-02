@@ -91,7 +91,7 @@
                     {if $_auth.is_logged_in}
                         <button type="button"
                                 data-action="redirect"
-                                data-url="/places/edit/{$row.id}">Редактировать</button>
+                                data-url="{Arris\AppRouter::getRouter('form.edit.poi', ['id' => $row.id])}">Редактировать</button>
                     {else}
                         <button type="button"
                                 data-action="redirect"

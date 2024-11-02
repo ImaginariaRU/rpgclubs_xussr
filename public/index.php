@@ -63,11 +63,11 @@ try {
 
     AppRouter::group(
         [
-            'before'    =>  '\Confmap\Middlewares\AuthMiddleware@check_is_logged_in'
+            'before'    =>  '\RPGCAtlas\Middlewares\AuthMiddleware@check_is_logged_in'
         ], static function() {
 
-        AppRouter::get('/places/edit/{id}', [ \RPGCAtlas\Controllers\PlacesController::class, '' ], 'форма: редактировать место');
-        AppRouter::get('/places/update', [ \RPGCAtlas\Controllers\PlacesController::class, '' ], 'коллбэк: обновить место');
+        AppRouter::get('/places/edit/[{id:\d+}]', [ \RPGCAtlas\Controllers\PlacesController::class, 'formEdit' ], 'form.edit.poi');
+        AppRouter::get('/places/update', [ \RPGCAtlas\Controllers\PlacesController::class, '' ], 'callback.edit.poi');
 
         AppRouter::get('/places/delete', [ \RPGCAtlas\Controllers\PlacesController::class, '' ]); // удаление
 
@@ -88,6 +88,8 @@ try {
 
     }
     );
+
+    // dd(AppRouter::getRouter('form.edit.poi', [ 'id' => 123 ]));
 
 
     // AppRouter::get  ('/add', [ PublicFormController::class, 'view_form_poi_add'], 'view.form.add.poi'); // form_unauth_add_vk_club

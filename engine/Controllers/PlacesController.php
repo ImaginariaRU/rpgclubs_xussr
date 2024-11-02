@@ -122,4 +122,13 @@ class PlacesController extends \RPGCAtlas\AbstractClass
         $this->template->setRedirect( $target );
     }
 
+    public function formEdit($id)
+    {
+        $item = (new POI())->getItem($id);
+
+        $this->template->assign('item', $item);
+
+        $this->template->setTemplate('places/form_edit_poi.tpl');
+    }
+
 }
