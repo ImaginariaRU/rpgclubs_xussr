@@ -8,10 +8,17 @@ $(function (){
 
     let url = $(this).data('url');
     let target = $(this).data('target');
+    let lat = $("input[name='lat']").val();
+    let lng = $("input[name='lng']").val();
+
+    if (lat.length + lng.length == 0) {
+        $.jGrowl("Координаты не указаны", { header: 'ПРОБЛЕМА', position: 'top-right', life: 3000, theme: 'error' });
+        return false;
+    }
 
     $.get(url, {
-        lat: $("input[name='lat']").val(),
-        lng: $("input[name='lng']").val(),
+        lat: lat,
+        lng: lng,
     }, function(answer){
         if (answer.state != 'error') {
             let data = answer.data;
@@ -21,10 +28,8 @@ $(function (){
             $.jGrowl(`Определили город \n ${ answer['city'] }`, { header: 'ВАЖНО', position: 'top-right', life: 3000, theme: 'success' });
 
         } else {
-            $.jGrowl("Не удалось определить город по координатам", { header: 'ВАЖНО', position: 'top-right', life: 3000, theme: 'error' });
+            $.jGrowl("Не удалось определить город по координатам", { header: 'ОШИБКА', position: 'top-right', life: 3000, theme: 'error' });
         }
-
-
     });
 
 }).on('click', '#actor-resolve-vk-data', function(event){
@@ -38,7 +43,7 @@ $(function (){
     let poi_url = $(`input[name="${ src }"]`).val();
 
     if (poi_url == '') {
-        $.jGrowl("Нечего анализировать", { header: 'ВАЖНО', position: 'top-right', life: 3000, theme: 'error' });
+        $.jGrowl("Нечего анализировать", { header: 'ПРОБЛЕМА', position: 'top-right', life: 3000, theme: 'error' });
         return false;
     }
     let poi_url_parts = poi_url.split('/');
@@ -73,6 +78,17 @@ $(function (){
     let url = $(this).data('url');
     let address = $("input[name='address']").val();
 
+    if (address.length == 0) {
+        $.jGrowl('Адрес не указан', {
+            header: 'ПРОБЛЕМА',
+            position: 'top-right',
+            life: 5000,
+            theme: 'error',
+            speed: 'slow'
+        });
+        return false;
+    }
+
     $.ajax({
         url: url,
         type: 'GET',
@@ -100,7 +116,7 @@ $(function (){
 
             } else {
                 $.jGrowl("Не удалось получить координаты по адресу.", {
-                    header: 'ВАЖНО',
+                    header: 'ОШИБКА',
                     position: 'top-right',
                     life: 5000,
                     theme: 'error',
