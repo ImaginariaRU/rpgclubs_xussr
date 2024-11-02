@@ -9,12 +9,50 @@ class GeoCoderDadata
 {
     private DadataClient $geocoder;
 
-    public function __construct()
+    public function __construct($token = '', $secret = '')
     {
-        $this->geocoder = new DadataClient(_env('GEOCODER.DADATA.TOKEN',''), _env('GEOCODER.DADATA.SECRET', ''));
+        $this->geocoder = new DadataClient(_env('GEOCODER.DADATA.TOKEN',$token), _env('GEOCODER.DADATA.SECRET', $secret));
     }
 
-    public function getCoordsByAddress($address)
+    /**
+     * Возвращает город по координатам
+     *
+     * @param $lat
+     * @param $lng
+     * @return Result
+     */
+    public function getCityByCoords($lat, $lng):Result
+    {
+        $r = new Result();
+
+        try {
+            $response = $this->geocoder->geolocate("address", $lat, $lng, radiusMeters: 1, count: 1);
+
+            if (empty($response)) {
+                throw new \Exception("Empty result");
+            }
+
+            $response = array_shift($response);
+
+            $r->city
+                = array_key_exists('city', $response['data'])
+                ? $response['data']['city']
+                : $response['value'];
+
+        } catch (\Exception $e) {
+            $r->error($e->getMessage());
+        }
+
+        return $r;
+    }
+
+    /**
+     * Возвращает геокоординаты и прочие данные по адресу
+     *
+     * @param $address
+     * @return Result
+     */
+    public function getCoordsByAddress($address):Result
     {
         $r = new Result();
 
@@ -32,7 +70,7 @@ class GeoCoderDadata
             $r->setData([
                 '_'     =>  $response,
                 'lat'   =>  $response['geo_lat'],
-                'lon'   =>  $response['geo_lon'],
+                'lng'   =>  $response['geo_lon'],
                 'country'=> $response['country'],
                 'city'  =>  $response['region']
             ]);

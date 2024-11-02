@@ -40,18 +40,23 @@
     <table id="navigation" width="99%" border="0">
         <tr>
             <td style="text-align: center">
-                Всего клубов: <span style="color: blue">{$summary.clubs_visible}</span>
+                {if $_auth.is_logged_in}
+                    Всего мест: <span style="color: blue">{$summary.poi_total}</span>
+                    (одобрено: <span style="color: blue">{$summary.poi_visible}</span>)
+                {/if}
             </td>
         </tr>
     </table>
 
-    {if $_auth.is_logged_in}
-        Залогинен
-    {/if}
 
     <table border="1" width="100%" id="public_clubs" cellspacing="0" class="display table table-striped table-bordered">
         <thead>
         <tr>
+            {if $_auth.is_logged_in}
+                <th>
+                    Public?
+                </th>
+            {/if}
             <th>Город</th>
             <th>Название</th>
             <th>Адрес</th>
@@ -67,6 +72,11 @@
         <tbody>
         {foreach $dataset as $row}
             <tr>
+                {if $_auth.is_logged_in}
+                    <td>
+                        {if $row.is_public}Да{else}Нет{/if}
+                    </td>
+                {/if}
                 <td>{$row.address_city}</td>
                 <td>{$row.title}</td>
                 <td>{$row.address}</td>

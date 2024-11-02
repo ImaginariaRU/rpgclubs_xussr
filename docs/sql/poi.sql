@@ -7,7 +7,7 @@ CREATE TABLE `poi` (
      `lng` decimal(10,7) DEFAULT '0.0000000',
      `zoom` int DEFAULT 12,
      `title` varchar(250) DEFAULT '',
-     `desc` text,
+     `description` text,
      `address` text,
      `address_city` varchar(250) DEFAULT '',
      `banner_type` enum('h','v') DEFAULT 'h',

@@ -119,7 +119,16 @@ function return_bytes($val)
     return $val;
 }
 
-function input(string $key, string $default = '')
+/**
+ * @param string $key
+ * @param string $default
+ * @return mixed
+ */
+function input(string $key = '', string $default = ''):mixed
 {
+    if (empty($key)) {
+        return $_REQUEST;
+    }
+
     return $_REQUEST[$key] ?: $default;
 }

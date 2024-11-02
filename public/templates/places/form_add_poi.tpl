@@ -110,24 +110,26 @@
             <td>Координаты</td>
             <td>
                 <br>
-                Lat: <input type="text" value="" size="20" name="lat">
-                /
-                Lng: <input type="text" value="" size="20" name="lng">
-                /
-                Город: <input type="text" value="" size="40" name="address_city">
+                <div  style="display: none">
+                    Lat: <input type="text" value="" size="20" name="lat">
+                    /
+                    Lng: <input type="text" value="" size="20" name="lng">
+                    /
+                </div>
+                <strong>Город:</strong> <input type="text" value="" size="40" name="address_city">
                 <div id="set-coords-manually">
                     <br>
                     <small>
                         Где найти координаты? Например, на <a href="https://yandex.ru/maps/" target="_blank">яндекс-карте</a> (откроется в новой вкладке).<br>
                         <img src="/frontend/coord_at_yandex_map.png"><br>
-                        Найдите свой клуб, кликните на здание с клубом, а потом скопируйте координаты в это поле:
+                        Найдите свой клуб, кликните на здание с клубом, а потом скопируйте координаты в это поле:<br>
                     </small>
                     <br>
-                    <input type="text" size="20" value="" name="latlng"> <br>
+                    <strong>Координаты:</strong> <input type="text" size="20" value="" name="latlng"> <br><br>
                     {if $_auth.is_logged_in}
                     <button id="actor-resolve-city" data-url="{Arris\AppRouter::getRouter('ajax.get_city_by_coords')}" data-target="club:address_city">Определить по координатам город</button><br>
                     {/if}
-                    <small>Если вы не знаете координаты и не смогли узнать по координатам город - оставьте поля пустыми.</small>
+                    {*<small>Если вы не знаете координаты и не смогли узнать по координатам город - оставьте поля пустыми.</small>*}
                 </div>
             </td>
         </tr>
