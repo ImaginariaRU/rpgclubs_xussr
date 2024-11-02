@@ -48,12 +48,12 @@ try {
     AppRouter::get('/ajax/poi:get/[{id}]', [ \RPGCAtlas\Controllers\AjaxController::class, 'view_poi_page'], 'ajax.view.poi.info');
     AppRouter::get('/ajax/poi:list/', [ \RPGCAtlas\Controllers\AjaxController::class, 'ajax_view_poi_list'], 'ajax.view.poi.list' );
 
-    AppRouter::get('/places/list', [ \RPGCAtlas\Controllers\PlacesController::class, ''], 'список мест');
-    AppRouter::get('/places/add', [ \RPGCAtlas\Controllers\PlacesController::class, '' ], 'форма: добавить место');
-    AppRouter::get('/places/insert', [ \RPGCAtlas\Controllers\PlacesController::class, '' ], 'коллбэк: добавить место');
+    AppRouter::get('/places/list', [ \RPGCAtlas\Controllers\PlacesController::class, 'viewList'], 'список мест');
+    AppRouter::get('/places/add', [ \RPGCAtlas\Controllers\PlacesController::class, 'formAdd' ], 'form.add.poi');
+    AppRouter::post('/places/insert', [ \RPGCAtlas\Controllers\PlacesController::class, 'callbackAdd' ], 'callback.add.poi');
 
-    // сообщить о неточности о месте (2 энтрипоинта)
-    AppRouter::get('/places/complain', [ \RPGCAtlas\Controllers\PlacesController::class, ''], 'форма: подать жалобу или замечание'); // вместо EDIT
+    // сообщить о неточности о месте (2 энтрипоинта) - жалоба без ID - абстрактная, например запрос на добавление клуба (?)
+    AppRouter::get('/places/complain/[{id}]', [ \RPGCAtlas\Controllers\PlacesController::class, ''], 'форма: подать жалобу или замечание'); // вместо EDIT
     AppRouter::post('/places/complain', [ \RPGCAtlas\Controllers\PlacesController::class, ''], 'коллбэк: подать жалобу или замечание'); // вместо EDIT
 
     // авторизация
@@ -66,15 +66,15 @@ try {
             'before'    =>  '\Confmap\Middlewares\AuthMiddleware@check_is_logged_in'
         ], static function() {
 
-        AppRouter::get('/places/edit', [ \RPGCAtlas\Controllers\PlacesController::class, '' ], 'форма: редактировать место');
+        AppRouter::get('/places/edit/{id}', [ \RPGCAtlas\Controllers\PlacesController::class, '' ], 'форма: редактировать место');
         AppRouter::get('/places/update', [ \RPGCAtlas\Controllers\PlacesController::class, '' ], 'коллбэк: обновить место');
 
         AppRouter::get('/places/delete', [ \RPGCAtlas\Controllers\PlacesController::class, '' ]); // удаление
 
             /* аякс-запросы для формы добавления клуба */
-        AppRouter::get('/ajax/get:city:by:coords', [ AjaxController::class, 'get_city_by_coords'], 'ajax_get_city_by_coords' );
-        AppRouter::get('/ajax/get:coords:by:address', [ AjaxController::class, 'get_coords_by_address'], 'ajax_get_coords_by_address');
-        AppRouter::get('/ajax/get:vk:club:info', [ AjaxController::class, 'get_vk_club_info'], 'ajax_get_vk_club_info');
+        AppRouter::get('/ajax/get:city:by:coords', [ AjaxController::class, 'get_city_by_coords'], 'ajax.get_city_by_coords' ); // <--
+        AppRouter::get('/ajax/get:coords:by:address', [ AjaxController::class, 'get_coords_by_address'], 'ajax.get_coords_by_address'); // <--
+        AppRouter::get('/ajax/get:vk:club:info', [ AjaxController::class, 'get_vk_club_info'], 'ajax.get_vk_club_info'); // <--
 
 
         AppRouter::group([
@@ -138,6 +138,9 @@ try {
     App::$template->assign("_auth", \config('auth'));
     App::$template->assign("_config", \config());
     App::$template->assign("_request", $_REQUEST);
+    App::$template->assign("is_can_edit", App::$auth->isLoggedIn());
+
+
     \RPGCAtlas\TemplateHelper::assignInnerButtons();
 
     $render = App::$template->render();

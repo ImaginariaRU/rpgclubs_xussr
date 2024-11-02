@@ -1,5 +1,7 @@
 $(document).ready(function() {
-    NotifyBarHelper.notifyFlashMessages(flash_messages);
+    if (window.flash_messages) {
+        NotifyBarHelper.notifyFlashMessages(window.flash_messages);
+    }
 
     // Action redirect
     $("*[data-action='redirect']").on('click', function (event) {
