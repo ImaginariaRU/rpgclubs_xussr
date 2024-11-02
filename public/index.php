@@ -2,6 +2,7 @@
 
 use Arris\AppLogger;
 use Arris\AppRouter;
+use Dotenv\Dotenv;
 use RPGCAtlas\App;
 use RPGCAtlas\Common;
 use RPGCAtlas\Controllers\AdminController;
@@ -22,8 +23,7 @@ error_reporting(E_ERROR & ~E_NOTICE & ~E_DEPRECATED);
 
 try {
     require_once __DIR__ . '/../vendor/autoload.php';
-
-    foreach (['site.conf'] as $file) \Dotenv\Dotenv::create(PATH_ENV, $file)->load();
+    Dotenv::createUnsafeImmutable(PATH_ENV, ['site.conf'])->load();
 
     $app = App::factory();
 
@@ -52,42 +52,62 @@ try {
     AppRouter::setDefaultNamespace("\RPGCAtlas\Controllers");
 
     AppRouter::get('/', [ MainController::class, 'view_main_page'], 'view.main.page');
+    AppRouter::get('/ajax/poi:get/[{id}]', [ AjaxController::class, 'view_poi_page'], 'ajax.view.poi.info');
+    AppRouter::get('/ajax/poi:list/', [ AjaxController::class, 'ajax_view_poi_list'], 'ajax.view.poi.list' );
 
-    /**
-     * AJAX-запросы
-     */
-    AppRouter::get  ('/ajax/poi:get/[{id}]', [ AjaxController::class, 'view_poi_page'], 'ajax.view.poi.info');
-    AppRouter::get  ('/ajax/poi:list/', [ AjaxController::class, 'ajax_view_poi_list'], 'ajax.view.poi.list' );
 
-    // AppRouter::get  ('/list', [ MainController::class, 'view_poi_list' ], 'view.poi.list');
+    AppRouter::get('/places/list', [], 'список мест');
+    AppRouter::get('/places/add', [], 'форма: добавить место');
+    AppRouter::post('/places/add', [], 'коллбэк: добавить место');
 
-    /**
-     * Публичная форма добавления клуба
-     */
-    AppRouter::get  ('/add', [ PublicFormController::class, 'view_form_poi_add'], 'view.form.add.poi'); // form_unauth_add_vk_club
-    AppRouter::post ('/pend', [ PublicFormController::class, 'callback_club_add'], 'callback.form.add.poi'); // callback_unauth_add_vk_club
+    AppRouter::get('/auth/login[/]', [ AuthController::class, 'view_form_login'], 'view.form.login');
+    AppRouter::post('/auth/login[/]', [ AuthController::class, 'callback_login'], 'callback.form.login');
+    AppRouter::get('/auth/logout[/]', [ AuthController::class, 'callback_logout'], 'view.form.logout');
+
+
+    AppRouter::group(
+        [
+            'before'    =>  '\Confmap\Middlewares\AuthMiddleware@check_is_logged_in'
+        ], static function() {
+
+        AppRouter::get('/places/delete', []); // удаление
+
+            /* аякс-запросы для формы добавления клуба */
+        AppRouter::get('/ajax/get:city:by:coords', [ AjaxController::class, 'get_city_by_coords'], 'ajax_get_city_by_coords' );
+        AppRouter::get('/ajax/get:coords:by:address', [ AjaxController::class, 'get_coords_by_address'], 'ajax_get_coords_by_address');
+        AppRouter::get('/ajax/get:vk:club:info', [ AjaxController::class, 'get_vk_club_info'], 'ajax_get_vk_club_info');
+
+
+        AppRouter::group([
+            'prefix'    =>  '/admin'
+        ], static function() {
+
+            AppRouter::get  ('', [ AdminController::class, 'view_admin_page_main'], 'view.admin.page.main'); // главная страница админки
+
+        });
+
+
+    }
+    );
+
+
+    // AppRouter::get  ('/add', [ PublicFormController::class, 'view_form_poi_add'], 'view.form.add.poi'); // form_unauth_add_vk_club
+    // AppRouter::post ('/pend', [ PublicFormController::class, 'callback_club_add'], 'callback.form.add.poi'); // callback_unauth_add_vk_club
 
     // аякс-методы, общие для добавления/удаления POI
 
     //@todo
-    AppRouter::get  ('/ajax/get:city:by:coords', [ AjaxController::class, 'get_city_by_coords'], 'ajax_get_city_by_coords' );
-    AppRouter::get  ('/ajax/get:coords:by:address', [ AjaxController::class, 'get_coords_by_address'], 'ajax_get_coords_by_address');
-    AppRouter::get  ('/ajax/get:vk:club:info', [ AjaxController::class, 'get_vk_club_info'], 'ajax_get_vk_club_info');
 
     // Auth (login). Не закрываем
-    AppRouter::get('/auth/login[/]', [ AuthController::class, 'view_form_login'], 'view.form.login');
-    AppRouter::post('/auth/login[/]', [ AuthController::class, 'callback_login'], 'callback.form.login');
-    AppRouter::get('/auth/logout[/]', [ AuthController::class, 'callback_logout'], 'view.form.logout');
 
     // функционал добавления букмарки на карту (клуба?)
     // коллбэк добавления (
 
 
-    AppRouter::group([
+    /*AppRouter::group([
         'prefix'    =>  '/admin',
         'before'    =>  [ \RPGCAtlas\Middlewares\AuthMiddleware::class, 'check_is_logged_in'],
     ], static function() {
-        AppRouter::get  ('', [ AdminController::class, 'view_admin_page_main'], 'view.admin.page.main'); // главная страница админки
         AppRouter::get  ('/poi:types', [ AdminController::class, 'view_admin_page_types'], 'view.admin.page.types'); // типы POI
 
         // форма добавления POI
@@ -107,26 +127,6 @@ try {
         // пользователи?
 
         // статистика?
-    });
-
-    /*AppRouter::group([
-        'before'    =>  '\RPGCAtlas\Middlewares\AuthMiddleware@check_logged_in',
-        'prefix'    =>  '/admin'
-    ], static function() {
-        AppRouter::get   ('', [ ProfileController::class, 'view'], 'profile_view');
-        AppRouter::get   ('/edit', 'Profile@form_edit', 'profile_form_edit');
-        AppRouter::post  ('/edit', 'Profile@callback_edit', 'profile_callback_edit');
-
-        AppRouter::get   ('/clubs', 'Clubs@view_clubs', 'admin_clubs_list');
-
-        AppRouter::get   ('/clubs/add', 'Clubs@form_club_add', 'club_form_add');
-        AppRouter::post  ('/clubs/add', 'Clubs@callback_club_add', 'club_callback_add');
-
-        AppRouter::get   ('/clubs/edit/{id}', 'Clubs@form_club_edit', 'club_form_edit');
-        AppRouter::post  ('/clubs/edit/{id}', 'Clubs@callback_club_edit', 'club_callback_edit');
-
-        AppRouter::get   ('/clubs/delete/{id}', 'Clubs@callback_club_delete', 'club_callback_delete');
-        AppRouter::get   ('/clubs/toggle/{id}', 'Clubs@callback_club_visibility_toggle', 'club_toggle_callback');
     });*/
 
     AppRouter::dispatch();
@@ -141,31 +141,31 @@ try {
     App::$template->assign("_request", $_REQUEST);
     \RPGCAtlas\TemplateHelper::assignInnerButtons();
 
+    $render = App::$template->render();
+    if (!empty($render)) {
+        App::$template->headers->send();
+
+        $render = \preg_replace('/^\h*\v+/m', '', $render); // удаляем лишние переводы строк
+
+        echo $render;
+    }
+
+    Common::logSiteUsage( AppLogger::scope('site_usage') );
+
+    if (App::$template->isRedirect()) {
+        App::$template->makeRedirect();
+    }
+
 } catch (AccessDeniedException $e) {
 
     AppLogger::scope('access.denied')->notice($e->getMessage(), [ $_SERVER['REQUEST_URI'], config('auth.ipv4') ] );
     App::$template->assign('message', $e->getMessage());
     App::$template->setTemplate("_errors/403.tpl");
 
-}/* catch (\RuntimeException|\Exception $e) {
-    // \Arris\Util\Debug::dump($e);
-    var_dump($e);
+} catch (\RuntimeException|\Exception $e) {
+    \Arris\Util\Debug::dump($e);
     d($_REQUEST);
     d($_SERVER['REQUEST_URI']);
     dd($e);
-}*/
-
-$render = App::$template->render();
-if (!empty($render)) {
-    App::$template->headers->send();
-
-    // return preg_replace('/^\h*\v+/m', '', $template->render()); - ?
-
-    echo $render;
 }
 
-Common::logSiteUsage( AppLogger::scope('site_usage') );
-
-if (App::$template->isRedirect()) {
-    App::$template->makeRedirect();
-}

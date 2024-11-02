@@ -4,12 +4,12 @@ namespace RPGCAtlas\Controllers;
 
 use Arris\AppLogger;
 use Arris\AppRouter;
-use Arris\DelightAuth\Auth\AttemptCancelledException;
-use Arris\DelightAuth\Auth\AuthError;
-use Arris\DelightAuth\Auth\EmailNotVerifiedException;
-use Arris\DelightAuth\Auth\InvalidEmailException;
-use Arris\DelightAuth\Auth\InvalidPasswordException;
-use Arris\DelightAuth\Auth\TooManyRequestsException;
+use Arris\DelightAuth\Auth\Exceptions\AttemptCancelledException;
+use Arris\DelightAuth\Auth\Exceptions\AuthError;
+use Arris\DelightAuth\Auth\Exceptions\EmailNotVerifiedException;
+use Arris\DelightAuth\Auth\Exceptions\InvalidEmailException;
+use Arris\DelightAuth\Auth\Exceptions\InvalidPasswordException;
+use Arris\DelightAuth\Auth\Exceptions\TooManyRequestsException;
 use Psr\Log\LoggerInterface;
 use RPGCAtlas\AbstractClass;
 use RPGCAtlas\App;

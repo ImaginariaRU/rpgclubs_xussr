@@ -26,4 +26,4 @@ CREATE TABLE `poi` (
      KEY `is_public` (`is_public`) USING BTREE,
      KEY `id_owner` (`id_owner`) USING BTREE,
      KEY `lat+lng` (`lat`,`lng`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_ru_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

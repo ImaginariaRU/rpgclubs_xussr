@@ -15,7 +15,7 @@ class Map extends AbstractClass
     public function getPOIs()
     {
         $query = "
-        SELECT id, lat, lng, title 
+        SELECT id, lat, lng, zoom, type, title, is_public
 FROM {$this->tables->poi}
 WHERE is_public = 1 
   AND lat IS NOT NULL 

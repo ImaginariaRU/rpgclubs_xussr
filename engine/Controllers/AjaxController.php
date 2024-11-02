@@ -2,8 +2,7 @@
 
 namespace RPGCAtlas\Controllers;
 
-use Arris\Entity\Result;
-use Arris\Template\TemplateInterface;
+use Arris\Template\Template;
 use Psr\Log\LoggerInterface;
 use RPGCAtlas\AbstractClass;
 use RPGCAtlas\Units\GeoCoderDadata;
@@ -50,7 +49,7 @@ class AjaxController extends AbstractClass
 
         $r = (new GeoCoderDadata())->getCoordsByAddress($address);
 
-        $this->template->setRenderType(TemplateInterface::CONTENT_TYPE_JSON_RAW);
+        $this->template->setRenderType(Template::CONTENT_TYPE_JSON_RAW);
         $this->template->setJSON($r);
     }
 

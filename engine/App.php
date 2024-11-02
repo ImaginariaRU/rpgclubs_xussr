@@ -2,7 +2,6 @@
 
 namespace RPGCAtlas;
 
-use AJUR\Template\FlashMessages;
 use Arris\AppLogger;
 use Arris\Cache\Cache;
 use Arris\Cache\CacheInterface;
@@ -10,8 +9,8 @@ use Arris\Database\DBWrapper;
 use Arris\DelightAuth\Auth\Auth;
 use Arris\DelightAuth\Auth\Role;
 use Arris\Path;
+use Arris\Template\FlashMessages;
 use Arris\Template\Template;
-use Arris\Template\TemplateInterface;
 use Kuria\Error\ErrorHandler;
 use Kuria\Error\Screen\WebErrorScreen;
 use Kuria\Error\Screen\WebErrorScreenEvents;
@@ -119,12 +118,12 @@ class App extends \Arris\App
             ->setTemplateDir( config('path.web') . 'templates/' )
             ->setCompileDir( config('path.cache') )
             ->setForceCompile( config('smarty.force_compile') )
-            ->registerPlugin( TemplateInterface::PLUGIN_MODIFIER, 'dd', 'dd', false)
-            ->registerPlugin( TemplateInterface::PLUGIN_MODIFIER, 'size_format', 'size_format', false)
-            ->registerPlugin( TemplateInterface::PLUGIN_MODIFIER, "convertDateTime", [ \RPGCAtlas\Common::class, "convertDateTime" ])
+            ->registerPlugin( Template::PLUGIN_MODIFIER, 'dd', 'dd', false)
+            ->registerPlugin( Template::PLUGIN_MODIFIER, 'size_format', 'size_format', false)
+            ->registerPlugin( Template::PLUGIN_MODIFIER, "convertDateTime", [ \RPGCAtlas\Common::class, "convertDateTime" ])
 
             // {_env key='' default=100};
-            ->registerPlugin(TemplateInterface::PLUGIN_FUNCTION, "_env", static function($params)
+            ->registerPlugin(Template::PLUGIN_FUNCTION, "_env", static function($params)
             {
                 $default = (empty($params['default'])) ? '' : $params['default'];
                 if (empty($params['key'])) return $default;
@@ -133,12 +132,12 @@ class App extends \Arris\App
             }, false )
 
             // Вызывается как: `{config key='url.public'}`, ключ key может быть опущен
-            ->registerPlugin(TemplateInterface::PLUGIN_FUNCTION, "config", static function($params)
+            ->registerPlugin(Template::PLUGIN_FUNCTION, "config", static function($params)
             {
                 return empty($params['key']) ? config() : config($params['key']);
             }, false)
 
-            ->registerPlugin(TemplateInterface::PLUGIN_MODIFIER, 'getenv', 'getenv', false)
+            ->registerPlugin(Template::PLUGIN_MODIFIER, 'getenv', 'getenv', false)
             ->registerClass("Arris\AppRouter", "Arris\AppRouter")
             ;
 
@@ -194,15 +193,6 @@ class App extends \Arris\App
             'username'      =>  App::$auth->getUsername(),      // пользователь
             'email'         =>  App::$auth->getEmail(),
             'ipv4'          =>  \Arris\Helpers\Server::getIP(),                // IPv4
-
-            // основная роль пользователя
-            /*
-            'is_banned'     =>  App::$auth->hasRole(\AjurMedia\MediaBox\Role::BANNED),
-            'is_viewer'     =>  App::$auth->hasRole(\AjurMedia\MediaBox\Role::VIEWER),    // просмотр
-            'is_editor'     =>  App::$auth->hasRole(\AjurMedia\MediaBox\Role::EDITOR),      // загрузка и редактирование
-            'is_curator'    =>  App::$auth->hasRole(\AjurMedia\MediaBox\Role::CURATOR),     // куратор: статистика
-            'is_admin'      =>  App::$auth->hasRole(\AjurMedia\MediaBox\Role::ADMIN),       // админ
-            */
             'is_admin'      =>  App::$auth->hasRole(Role::ADMIN)
         ]);
     }
