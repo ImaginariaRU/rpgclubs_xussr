@@ -2,8 +2,12 @@
 
 namespace RPGCAtlas\Controllers;
 
+use Arris\Core\Curl;
 use Psr\Log\LoggerInterface;
+use RPGCAtlas\Common;
+use RPGCAtlas\Units\GeoCoderDadata;
 use RPGCAtlas\Units\POI;
+use stdClass;
 
 class AjaxController extends \RPGCAtlas\AbstractClass
 {
@@ -37,6 +41,43 @@ class AjaxController extends \RPGCAtlas\AbstractClass
         ]);
 
         $this->template->setTemplate("public/ajax_poi_list.tpl");
+    }
+
+    public function get_coords_by_address()
+    {
+        $address = input('poi_address');
+
+        $geocoder = new GeoCoderDadata();
+
+        $result = $geocoder->getCoordsByAddress($address);
+
+        $this->template->assignResult($result);
+    }
+
+    public function get_city_by_coords()
+    {
+        $lat = input('lat');
+        $lng = input('lng');
+
+        $result = (new GeoCoderDadata())->getCityByCoords($lat, $lng);
+
+        $this->template->assignResult($result);
+    }
+
+    public function get_vk_club_info()
+    {
+        $id = input('poi_id');
+
+    }
+
+    /**
+     * @return array
+     */
+    public function get_coords_by_ip()
+    {
+        $ip = input('ip');
+
+        return Common::getCoordsByIP($ip);
     }
 
 

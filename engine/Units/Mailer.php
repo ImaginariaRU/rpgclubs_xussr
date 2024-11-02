@@ -22,4 +22,16 @@ class Mailer extends AbstractClass
 
     }
 
+    public function _()
+    {
+        $mail = new Message;
+        $mail->setFrom('Autobot <admin@ролевыеклубы.рф>')
+            ->addTo($destination)
+            ->setSubject($subject)
+            ->setBody($text);
+
+        $mailer = new SendmailMailer;
+        $mailer->send($mail);
+    }
+
 }

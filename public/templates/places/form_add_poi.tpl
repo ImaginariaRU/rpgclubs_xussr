@@ -73,7 +73,7 @@
             <td>
                 <small>Пожалуйста, укажите здесь URL страницы вашего клуба в VKontakte. Если таковой нет - укажите просто сайт.
                     Остальные ссылки (дискорд, тг, итд) указывайте, пожалуйста, в <strong>описании</strong>.</small> <br>
-                <input type="text" value="" size="80" name="url_site"> <br>
+                <input type="text" value="" size="80" name="url_site"> <br><br>
                 {if $_auth.is_logged_in}
                     <button id="actor-resolve-vk-data" data-url="{Arris\AppRouter::getRouter('ajax.get_vk_club_info')}" data-source="url_site">Попробовать извлечь информацию о клубе из VKontakte</button>
                 {/if}
@@ -182,127 +182,6 @@
     </table>
 </form>
 
-<script>
-    $(function (){
-        $(`input[name='owner_email']`).focus();
-    }).on('click', '#actor-resolve-city', function(event) {
-
-        event.preventDefault();
-        event.stopPropagation();
-
-        let url = $(this).data('url');
-        let target = $(this).data('target');
-
-        $.get(url, {
-            lat: $("input[name='lat']").val(),
-            lng: $("input[name='lng']").val(),
-        }, function(answer){
-            if (answer.state != 'error') {
-                let data = answer.data;
-
-                $(`input[name="${ target }"]`).val( data['city'] );
-
-                $.jGrowl("Определили", { header: 'ВАЖНО', position: 'top-right', life: 3000, theme: 'success' });
-
-            } else {
-                $.jGrowl("Не удалось определить город по координатам", { header: 'ВАЖНО', position: 'top-right', life: 3000, theme: 'error' });
-            }
-
-
-        });
-
-    }).on('click', '#actor-resolve-vk-data', function(event){
-        event.preventDefault();
-        event.stopPropagation();
-
-        let request_url = $(this).data('url');
-        let src = $(this).data('source');
-        let club_url = $(`input[name="${ src }"]`).val();
-
-        if (club_url == '') {
-            $.jGrowl("Нечего анализировать", { header: 'ВАЖНО', position: 'top-right', life: 3000, theme: 'error' });
-            return false;
-        }
-        let club_url_parts = club_url.split('/');
-        let club_id = club_url_parts[club_url_parts.length-1];
-
-        $.getJSON(request_url, {
-            club_id: club_id,
-        }, function(answer){
-            if (answer.state != 'error') {
-                let data = answer.data;
-
-                $.jGrowl("Данные из сети ВКонтакте загружены", { header: 'ВАЖНО', position: 'top-right', life: 3000, theme: 'success' });
-                // раскладываем данные
-                $("input[name='title']").val( data['name'] );
-                $("input[name='address']").val(data['address']);
-                $("input[name='address_city']").val(data['city']);
-                $("textarea[name='description']").html(data['description']);
-                $("input[name='lat']").val(data['lat']);
-                $("input[name='lng']").val(data['lon']);
-                $("input[name='vk_banner']").val(data['picture']);
-                $("#set-coords-manually").hide();
-
-            } else {
-                $.jGrowl("Данные из ВКонтакте загрузить не удалось, скорее всего нет такой группы!", { header: 'ВАЖНО', position: 'top-right', life: 10000, theme: 'error', speed: 'slow' });
-            }
-        });
-    }).on('click', '#actor-parse-address', function(event){
-        event.preventDefault();
-        event.stopPropagation();
-
-        let url = $(this).data('url');
-        let address = $("input[name='address']").val();
-
-        $.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'json',
-            async: false,
-            data: {
-                poi_address: address
-            },
-            success: function (answer) {
-                let data = answer.data;
-                console.log(data);
-
-                if (answer['is_success']) {
-                    $.jGrowl("Нам удалось определить координаты по адресу", {
-                        header: 'ВАЖНО',
-                        position: 'top-right',
-                        life: 5000,
-                        theme: 'success',
-                        speed: 'slow'
-                    });
-                    $("input[name='lat']").val(data['lat']);
-                    $("input[name='lng']").val(data['lon']);
-
-                } else {
-                    $.jGrowl("Не удалось получить координаты по адресу.", {
-                        header: 'ВАЖНО',
-                        position: 'top-right',
-                        life: 5000,
-                        theme: 'error',
-                        speed: 'slow'
-                    });
-                }
-            },
-            error: function (answer) {
-                $.jGrowl(answer, {
-                    header: 'ОШИБКА',
-                    position: 'top-right',
-                    life: 5000,
-                    theme: 'error',
-                    speed: 'slow'
-                });
-            }
-        });
-
-
-
-    }).on('submit', '#form_add_poi', function(event){
-        return true;
-    })
-</script>
+<script src="/frontend/admin_edit.js"></script>
 
 </body>

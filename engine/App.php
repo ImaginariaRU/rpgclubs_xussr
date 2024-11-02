@@ -114,8 +114,8 @@ class App extends \Arris\App
             ->setCompileDir( config('path.cache') )
             ->setForceCompile( config('smarty.force_compile') )
             ->registerPlugin( Template::PLUGIN_MODIFIER, 'dd', 'dd', false)
-            ->registerPlugin( Template::PLUGIN_MODIFIER, 'size_format', 'size_format', false)
-            ->registerPlugin( Template::PLUGIN_MODIFIER, "convertDateTime", [ \RPGCAtlas\Common::class, "convertDateTime" ])
+            // ->registerPlugin( Template::PLUGIN_MODIFIER, 'size_format', 'size_format', false)
+            // ->registerPlugin( Template::PLUGIN_MODIFIER, "convertDateTime", [ \RPGCAtlas\Common::class, "convertDateTimeRU" ])
 
             // {_env key='' default=100};
             ->registerPlugin(Template::PLUGIN_FUNCTION, "_env", static function($params)
@@ -135,7 +135,6 @@ class App extends \Arris\App
             ->registerPlugin(Template::PLUGIN_MODIFIER, 'getenv', 'getenv', false)
             ->registerClass("Arris\AppRouter", "Arris\AppRouter")
             ;
-
 
         App::$template->setTemplate("_main.public.tpl");
 

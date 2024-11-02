@@ -57,6 +57,9 @@ try {
     AppRouter::post('/places/complain', [ \RPGCAtlas\Controllers\PlacesController::class, ''], 'коллбэк: подать жалобу или замечание'); // вместо EDIT
 
     // авторизация
+    AppRouter::get('/auth/', function () {
+        App::$template->setRedirect(AppRouter::getRouter('view.form.login'));
+    });
     AppRouter::get('/auth/login[/]', [ \RPGCAtlas\Controllers\AuthController::class, 'view_form_login'], 'view.form.login');
     AppRouter::post('/auth/login[/]', [ \RPGCAtlas\Controllers\AuthController::class, 'callback_login'], 'callback.form.login');
     AppRouter::get('/auth/logout[/]', [ \RPGCAtlas\Controllers\AuthController::class, 'callback_logout'], 'view.form.logout');
@@ -81,7 +84,9 @@ try {
             'prefix'    =>  '/admin'
         ], static function() {
 
-            AppRouter::get  ('', [ AdminController::class, 'view_admin_page_main'], 'view.admin.page.main'); // главная страница админки
+            AppRouter::get  ('', [ AdminController::class, 'view_admin_page_main'], 'view.admin.page.main');
+            // главная страница админки - нужна ли??
+            //
 
         });
 
@@ -91,38 +96,18 @@ try {
 
     // dd(AppRouter::getRouter('form.edit.poi', [ 'id' => 123 ]));
 
-
-    // AppRouter::get  ('/add', [ PublicFormController::class, 'view_form_poi_add'], 'view.form.add.poi'); // form_unauth_add_vk_club
-    // AppRouter::post ('/pend', [ PublicFormController::class, 'callback_club_add'], 'callback.form.add.poi'); // callback_unauth_add_vk_club
-
-    // аякс-методы, общие для добавления/удаления POI
-
-    //@todo
-
-    // Auth (login). Не закрываем
-
-    // функционал добавления букмарки на карту (клуба?)
-    // коллбэк добавления (
-
-
     /*AppRouter::group([
         'prefix'    =>  '/admin',
         'before'    =>  [ \RPGCAtlas\Middlewares\AuthMiddleware::class, 'check_is_logged_in'],
     ], static function() {
         AppRouter::get  ('/poi:types', [ AdminController::class, 'view_admin_page_types'], 'view.admin.page.types'); // типы POI
 
-        // форма добавления POI
-        // коллбэкп добавления POI
-
-        // форма редактирования
-        // коллбэк обновления
-        // коллбэк удаления
-
         // форма добавления типа POI
         // коллбэк добавления типа POI
         // форма редактирования типа POI
         // коллбэк обновления типа POI
         // коллбэк удаления типа POI
+
         // аякс запрос на получение списка POI для селекта
 
         // пользователи?
