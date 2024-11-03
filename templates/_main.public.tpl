@@ -60,8 +60,8 @@
             zoom: engine_options.zoom.default,
             city: '{$location.city}',
             state: 'Geolocation disabled',
-            city_lat: {$location.city_lat},
-            city_lng: {$location.city_lng}
+            city_lat: {$location.ip_lat},
+            city_lng: {$location.ip_lng}
         };
 
         var map_provider = {

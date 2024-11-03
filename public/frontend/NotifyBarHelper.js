@@ -1,3 +1,6 @@
+/**
+ * @version '2024-11-03'
+ */
 class NotifyBarHelper {
 
     /**
@@ -55,15 +58,15 @@ class NotifyBarHelper {
         $.each(messages, function (key, value) {
             switch (key) {
                 case 'success': {
-                    notifySuccess(value);
+                    NotifyBarHelper.notifySuccess(value);
                     break;
                 }
                 case 'error': {
-                    notifyError(value);
+                    NotifyBarHelper.notifyError(value);
                     break;
                 }
                 default: {
-                    notifyCustom(value)
+                    NotifyBarHelper.notifyCustom(value)
                     break;
                 }
             }

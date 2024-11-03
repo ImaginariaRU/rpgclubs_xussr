@@ -93,6 +93,9 @@ class Common
             'zoom'  =>  4,
             'city'  =>  NULL
         ];
+        if ($ip == '127.0.0.1') {
+            return $coords_not_resolved;
+        }
 
         $url = "http://ipinfo.io/{$ip}/geo";
 
@@ -111,12 +114,17 @@ class Common
             return $coords_not_resolved;
         }
 
-        $response = json_decode($response);
+        $response = json_decode($response, true);
 
-        $latlng = explode(',', $response->loc, 2);
+        if (!array_key_exists('loc', $response)) {
+            return $coords_not_resolved;
+        }
+
+        $latlng = explode(',', $response['loc'], 2);
         return [
             'lat'   =>  $latlng[0] ?? null,
             'lng'   =>  $latlng[1] ?? null,
+            'zoom'  =>  4,
             'city'  =>  $response->city ?? null
         ];
     }

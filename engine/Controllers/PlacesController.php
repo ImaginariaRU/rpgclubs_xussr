@@ -41,11 +41,26 @@ class PlacesController extends \RPGCAtlas\AbstractClass
 
     public function formAdd()
     {
+        if ($session = App::$flash->getMessage('json_session')) {
+            $this->template->assign("session", $session[0]);
+            App::$flash->clearMessage('json_session');
+        }
+
         $this->template->setTemplate('places/form_add_poi.tpl');
     }
 
     public function callbackAdd()
     {
+        if (!App::$auth->isLoggedIn()) {
+            if ($_REQUEST['captcha'] != $_SESSION['captcha_keystring']) {
+                App::$flash->addMessage('error', 'Капча введена неправильно!');
+                App::$flash->addMessage('json_session', json_encode($_REQUEST));
+                $this->template->setRedirect(AppRouter::getRouter('form.add.poi'));
+
+                return;
+            }
+        }
+
         // check kCaptcha (not for admins)
 
         $query = new Query(App::$pdo, includeTableAliasColumns: false);

@@ -6,18 +6,24 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Добавление клуба</title>
-    <link   href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" />
+    <link   href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
+    <link   href="/frontend/jquery/jquery.notifyBar.css" rel="stylesheet">
+    <link   href="/frontend/jquery/jquery.jgrowl.min.css" rel="stylesheet" />
     <script src="/frontend/jquery/jquery-3.2.1_min.js" type="text/javascript" ></script>
     <script src="/frontend/jquery/jquery.jgrowl.min.js" type="text/javascript"></script>
+    <script src="/frontend/jquery/jquery.notifyBar.js"></script>
+
+    <script src="/frontend/NotifyBarHelper.js"></script>
     <script src="/frontend/admin.js"></script>
     <script src="/frontend/jq_data_action.js"></script>
-    <link href="/frontend/jquery/jquery.jgrowl.min.css" rel="stylesheet" />
+
     <style>
-        input[required] {
+        *[required] {
             background-image: radial-gradient(#F00 15%, transparent 16%), radial-gradient(#F00 15%, transparent 16%);
             background-size: 1em 1em;
             background-position: right top;
             background-repeat: no-repeat;
+            border-color: orange;
         }
         button {
             font-size: large;
@@ -47,6 +53,17 @@
             display: none;
         }
     </style>
+    <script>
+        $(document).ready(function() {
+            const session_values = {$session|default:'{}'};
+            const flash_messages = {$flash_messages|default:'[]'};
+            NotifyBarHelper.notifyFlashMessages(flash_messages);
+            // заполняем инпуты значениями из flash-сессии
+            Object.keys(session_values).forEach(function (key) {
+                $(`[name='${ key }']`).val( session_values[key] );
+            });
+        });
+    </script>
 </head>
 <body>
 <h2>Добавление клуба</h2>
@@ -64,7 +81,7 @@
             <td>Кто вы</td>
             <td>
                 <small>Расскажите немного о себе. Кто вы? Кого вы представляете? Как с вами связаться кроме электронной почты?</small><br>
-                <input type="text" size="80" name="owner_about" />
+                <input type="text" size="80" name="owner_about" value=""/>
             </td>
         </tr>
 

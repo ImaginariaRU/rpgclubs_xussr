@@ -23,17 +23,17 @@ class TicketsController extends \RPGCAtlas\AbstractClass
      * @param $id
      * @return void
      */
-    public function formAdd($id = 0)
+    public function formAdd(mixed $id = 0): void
     {
         $this->template->assign("id_poi", $id);
-        $this->template->setTemplate("tickets/form_add.tpl");
+        $this->template->setTemplate("tickets/form_add_ticket.tpl");
     }
 
     /**
      * Коллбэк публичной формы подачи тикета
      * @return void
      */
-    public function callbackAdd()
+    public function callbackAdd(): void
     {
         // check kCaptcha
 
@@ -66,7 +66,7 @@ class TicketsController extends \RPGCAtlas\AbstractClass
      *
      * @return void
      */
-    public function viewList()
+    public function viewList(): void
     {
         $dataset = $this->getTicketsArray();
 
@@ -81,7 +81,7 @@ class TicketsController extends \RPGCAtlas\AbstractClass
     public function formView($id = 0)
     {
         $this->template->assign('item', $this->getTicketOne($id));
-        $this->template->setTemplate('tickets/form_edit.tpl');
+        $this->template->setTemplate('tickets/form_edit_ticket.tpl');
     }
 
     public function callbackUpdate()
@@ -129,14 +129,14 @@ class TicketsController extends \RPGCAtlas\AbstractClass
     /**
      * Возвращает один тикет
      *
-     * @param $id
+     * @param mixed $id
      * @return array
      */
-    private function getTicketOne($id = 0):array
+    private function getTicketOne(mixed $id = 0):array
     {
         $sth = $this->pdo->prepare("SELECT * FROM tickets WHERE id = :id");
         $sth->execute([
-            'id' => $id
+            'id' => (int)$id
         ]);
 
         return $sth->fetch() ?? [];
