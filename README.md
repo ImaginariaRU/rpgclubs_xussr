@@ -1,5 +1,7 @@
 # ролевыеклубы.рф
 
+https://github.com/ImaginariaRU/rpgclubs_xussr
+
 ## Сборка
 
 ```

@@ -23,7 +23,7 @@ CREATE TABLE `poi` (
      `ipv4_add` int unsigned DEFAULT '0',
      `ipv4_update` int unsigned DEFAULT '0',
      PRIMARY KEY (`id`),
-     KEY `type` (`type`) USING BTREE,
+     KEY `poi_type` (`poi_type`) USING BTREE,
      KEY `is_public` (`is_public`) USING BTREE,
      KEY `id_owner` (`id_owner`) USING BTREE,
      KEY `lat+lng` (`lat`,`lng`) USING BTREE

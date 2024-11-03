@@ -21,20 +21,20 @@ case "$1" in
         echo
 
         echo "Relinking favicon.ico"
-        rm -f ${PATH_PUBLIC}/favicons.ico
-        ln -s ${PATH_PUBLIC}/frontend/favicons/favicon.ico ${PATH_PUBLIC}/favicon.ico
+        rm --force ${PATH_PUBLIC}/favicons.ico
+        ln --symbolic --force ${PATH_PUBLIC}/frontend/favicons/favicon.ico ${PATH_PUBLIC}/favicon.ico
         echo "${ANSI_GREEN} Favicon symlink created. ${ANSI_RESET}"
 
         echo
 
         echo "Cleaning SMARTY Cache..."
         if [ -d "${PATH_CACHE_SMARTY}" ]; then
-            rm -f ${PATH_CACHE_SMARTY}/*
+            rm --force ${PATH_CACHE_SMARTY}/*
             echo "${ANSI_GREEN} Cleared. ${ANSI_RESET}"
         fi
 
         echo "Fixing access rights..."
-        chown -R www-data:www-data ${PATH_PROJECT}/*
+        chown --recursive www-data:www-data ${PATH_PROJECT}/*
         echo "${ANSI_GREEN} Ok. ${ANSI_RESET}"
 
         echo
