@@ -112,6 +112,11 @@
         <script src="/scripts.js"></script>
         <link   href="/styles.css" rel="stylesheet">
     {/if}
+
+    {if $features.yandex_metrika_enabled}
+    {include file="_includes/yandex_metrika_code.tpl" metrika_id=$features.yandex_metrika_id}
+    {/if}
+
 </head>
 <body>
 <div tabindex="0" class="leaflet-container leaflet-fade-anim leaflet-grab leaflet-touch-drag" id="map"></div>

@@ -14,10 +14,16 @@ PHP_VERSIONS=$(ps -e -o stat,command | grep -E '^Ss\s+php-fpm' | grep -E '[0-9]+
 
 case "$1" in
     configure)
+        echo "Creating config directory"
+        mkdir --parents /etc/arris/rpgclubs
+        echo "${ANSI_GREEN} Created. ${ANSI_RESET}"
+
+        echo
+
         echo "Relinking favicon.ico"
         rm -f ${PATH_PUBLIC}/favicons.ico
         ln -s ${PATH_PUBLIC}/frontend/favicons/favicon.ico ${PATH_PUBLIC}/favicon.ico
-        echo "${ANSI_YELLOW} Favicon symlink created. ${ANSI_RESET}"
+        echo "${ANSI_GREEN} Favicon symlink created. ${ANSI_RESET}"
 
         echo
 
@@ -32,12 +38,19 @@ case "$1" in
         echo "${ANSI_GREEN} Ok. ${ANSI_RESET}"
 
         echo
+
+        echo "Making link to backup config..."
+        ln --symbolic --force ${PATH_PROJECT}/admin.cron/rpgclubs.backup.conf /etc/arris/rpgclubs/backup.conf
+        echo "${ANSI_GREEN} Linked. ${ANSI_RESET}"
+
+        echo
+
         echo "Restarting all running php-fpm processes..."
         for version in $PHP_VERSIONS; do echo "Restarting ${ANSI_YELLOW}php${version}-fpm${ANSI_RESET} process..."; systemctl restart php${version}-fpm; done
         echo "${ANSI_GREEN}Finished.${ANSI_RESET}"
 
         echo
-        echo "${ANSI_YELLOW} ... post-install finished. ${ANSI_RESET}"
+        echo "${ANSI_GREEN} ... post-install finished. ${ANSI_RESET}"
         echo
 
     ;;

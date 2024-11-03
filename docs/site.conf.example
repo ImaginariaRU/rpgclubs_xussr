@@ -1,0 +1,59 @@
+# Place it file to /etc/arris/rpgclubs/site.conf
+
+ENV_STATE = dev
+
+# Paths
+PATH.INSTALL = /var/www/rpgclubs/
+PATH.LOGS    = ${PATH.INSTALL}logs/
+
+# Internal services
+
+## DB
+DB.DRIVER       = "mysql"
+DB.HOST         = "127.0.0.1"
+DB.PORT         = 3306
+DB.USERNAME     = ""
+DB.PASSWORD     = ""
+DB.NAME         = "rpgclubs"
+DB.SLOW_QUERY_THRESHOLD = 0.1
+
+## REDIS
+REDIS.ENABLED = 1
+REDIS.HOST = 'localhost'
+REDIS.PORT = 6379
+REDIS.PASSWORD = ''
+REDIS.DATABASE = 5
+
+# External services
+
+## IP Info
+IPINFO.TOKEN = ''
+
+## Geocoder
+GEOCODER.DADATA.TOKEN = ""
+GEOCODER.DADATA.SECRET = ""
+
+## VK ключи доступа
+VK.SECRET_KEY = ''
+VK.SERVICE_KEY = ''
+
+## Mailer
+MAILER.MODE = 'external' # internal|external
+MAILER.SMTP.USERNAME = ''
+MAILER.SMTP.PASSWORD = ''
+MAILER.ADMIN_MAIL = ''
+
+## USE MAP
+MAP.USE = DoubleGIS
+MAP.ZOOM = 19
+
+## Captcha settings
+# -
+
+# Auth
+AUTH.EXPIRE_TIME = 86400
+
+# FEATURES
+FRONTEND.ALLOW_DONATE = 0
+FRONTEND.METRIC.YANDEX = 0 # код яндекс-метрики
+

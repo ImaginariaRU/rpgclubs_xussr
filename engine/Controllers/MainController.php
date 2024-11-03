@@ -54,11 +54,11 @@ class MainController extends AbstractClass
             'zoom'          =>  getenv('MAP.ZOOM')
         ]);
 
-        /*
+
         $this->template->assign("features", [
-            'yandex_metrika_enabled'    =>  _env('FRONTEND.METRIC.YANDEX', 0)
+            'yandex_metrika_id'         =>  _env('FRONTEND.METRIC.YANDEX', 0),
+            'yandex_metrika_enabled'    =>  _env('FRONTEND.METRIC.YANDEX', 0) != 0,
         ]);
-        */
 
         $poi_dataset = (new POI())->getList();
 
