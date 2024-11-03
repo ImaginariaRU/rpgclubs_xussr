@@ -6,11 +6,17 @@
 - ~~реализовать комплейн~~
 - ~~подумать про страницу админки (нафига?)~~
 - подумать про типы POI (и разные иконки)
-- внедрить gulp и minify
-- сделать скрипт сборки
+- ~~внедрить gulp и minify~~
+- ~~сделать скрипт сборки~~
 - [>] подумать насчет механизма логгирования посещений или логгирования вообще (и мигрировать данные логов с 2018 года)
 - подумать про показ инфо в колорбоксе с мобилы
+- попробовать заменить notifyBar
+- попробовать другие маркеры
+- добавить открытие клуба при наличии хэша в строке адреса
 
+# Notify Bar
+
+- https://github.com/dknight/xz-notify - замена jQuery Notify
 
 # Markers
 
@@ -18,10 +24,6 @@
 - https://github.com/Leaflet/Leaflet.Icon.Glyph - ?
 - https://github.com/danwild/leaflet-fa-markers - fontAwesome markers (4 года) , https://www.npmjs.com/package/leaflet-fa-markers
 - https://github.com/rklfss/leaflet-fontawesome - 4 года, но сложное подключение
-- 
-
-
-
 
 # При загрузке карты в iframe (2018)
 

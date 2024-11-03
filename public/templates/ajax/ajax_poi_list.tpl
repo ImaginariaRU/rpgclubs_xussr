@@ -7,11 +7,21 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Список клубов</title>
 
-    <script src="/frontend/jquery/jquery-3.2.1_min.js"></script>
-    <script src="/frontend/jquery/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="/frontend/jquery/bootstrap.min.css">
-    <link rel="stylesheet" href="/frontend/jquery/dataTables.bootstrap.min.css">
-    <link rel="stylesheet" href="/frontend/jquery/jquery.dataTables.min.css">
+    {if getenv('ENV_STATE') == 'dev'}
+        <script src="/frontend/jquery/jquery-3.2.1_min.js"></script>
+        <script src="/frontend/jquery/jquery.dataTables.min.js"></script>
+
+        <link rel="stylesheet" href="/frontend/jquery/bootstrap.min.css">
+        <link rel="stylesheet" href="/frontend/jquery/dataTables.bootstrap.min.css">
+        <link rel="stylesheet" href="/frontend/jquery/jquery.dataTables.min.css">
+    {else}
+        <link   href="/styles.css" rel="stylesheet">
+        <link   href="/styles_tables.css" rel="stylesheet">
+        <script src="/jquery.min.js"></script>
+        <script src="/frontend/jquery/jquery.dataTables.min.js"></script>
+        <script src="/scripts.js"></script>
+    {/if}
+
     <style type="text/css">
         button {
             font-size: large;

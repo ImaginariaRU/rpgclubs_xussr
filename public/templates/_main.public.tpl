@@ -108,8 +108,9 @@
 
         <link href="/frontend/styles.css" rel="stylesheet">
     {else}
-        <link href="/styles.css" rel="stylesheet">
+        <script src="/jquery.min.js"></script>
         <script src="/scripts.js"></script>
+        <link   href="/styles.css" rel="stylesheet">
     {/if}
 </head>
 <body>

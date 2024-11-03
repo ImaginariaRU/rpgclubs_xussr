@@ -7,18 +7,21 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Список клубов</title>
 
-    <link href="/frontend/jquery/bootstrap.min.css" rel="stylesheet">
-    <link href="/frontend/jquery/dataTables.bootstrap.min.css" rel="stylesheet">
-    <link href="/frontend/jquery/jquery.dataTables.min.css" rel="stylesheet">
-
     {if getenv('ENV_STATE') == 'dev'}
         <script src="/frontend/jquery/jquery.min.js"></script>
         <script src="/frontend/jquery/jquery.notifyBar.js"></script>
+        <link   href="/frontend/jquery/jquery.notifyBar.css" rel="stylesheet">
         <script src="/frontend/helper.notifyBar.js"></script>
         <script src="/frontend/helper.dataActionRedirect.js"></script>
-        <link   href="/frontend/jquery/jquery.notifyBar.css" rel="stylesheet">
+
+        <link href="/frontend/jquery/bootstrap.min.css" rel="stylesheet">
+        <link href="/frontend/jquery/dataTables.bootstrap.min.css" rel="stylesheet">
+        <link href="/frontend/jquery/jquery.dataTables.min.css" rel="stylesheet">
     {else}
-        <link href="/styles.css" rel="stylesheet">
+        <link   href="/styles.css" rel="stylesheet">
+        <link   href="/styles_tables.css" rel="stylesheet">
+        <script src="/jquery.min.js"></script>
+        <script src="/frontend/jquery/jquery.dataTables.min.js"></script>
         <script src="/scripts.js"></script>
     {/if}
 

@@ -94,7 +94,7 @@ gulp.task('jquery', function () {
     return gulp.src(configuration.paths.jquery.src)
         .pipe(
             rename(function (path) {
-                path.basename = 'jquery';
+                path.basename = 'jquery.min';
             })
         )
         .pipe(gulp.dest(configuration.paths.jquery.dest))
