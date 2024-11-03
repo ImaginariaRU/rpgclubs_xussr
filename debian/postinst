@@ -1,19 +1,45 @@
 #! /bin/sh
 
 set -e
+ANSI_RED='\033[0;31m'
+ANSI_GREEN='\033[0;32m'
+ANSI_YELLOW='\033[1;33m'
+ANSI_RESET='\033[0m'
 
-WWW_ROOT=/var/www/rpgclubs/public
+PATH_PROJECT=/var/www/rpgclubs
+PATH_PUBLIC=${PATH_PROJECT}/public
+PATH_CACHE_SMARTY=${PATH_PROJECT}/cache
+
+PHP_VERSIONS=$(ps -e -o stat,command | grep -E '^Ss\s+php-fpm' | grep -E '[0-9]+\.[0-9]+' -o)
 
 case "$1" in
     configure)
+        echo "Relinking favicon.ico"
+        rm -f ${PATH_PUBLIC}/favicons.ico
+        ln -s ${PATH_PUBLIC}/frontend/favicons/favicon.ico ${PATH_PUBLIC}/favicon.ico
+        echo "${ANSI_YELLOW} Favicon symlink created. ${ANSI_RESET}"
 
-      if [ -d $WWW_ROOT ]; then
-        chown -R www-data:www-data $WWW_ROOT/*
-        exit 0
-      fi
+        echo
 
-      echo "postinst can't find path: $WWW_ROOT!" >&2
-      exit 1
+        echo "Cleaning SMARTY Cache..."
+        if [ -d "${PATH_CACHE_SMARTY}" ]; then
+            rm -f ${PATH_CACHE_SMARTY}/*
+            echo "${ANSI_GREEN} Cleared. ${ANSI_RESET}"
+        fi
+
+        echo "Fixing access rights..."
+        chown -R www-data:www-data ${PATH_PROJECT}/*
+        echo "${ANSI_GREEN} Ok. ${ANSI_RESET}"
+
+        echo
+        echo "Restarting all running php-fpm processes..."
+        for version in $PHP_VERSIONS; do echo "Restarting ${ANSI_YELLOW}php${version}-fpm${ANSI_RESET} process..."; systemctl restart php${version}-fpm; done
+        echo "${ANSI_GREEN}Finished.${ANSI_RESET}"
+
+        echo
+        echo "${ANSI_YELLOW} ... post-install finished. ${ANSI_RESET}"
+        echo
+
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

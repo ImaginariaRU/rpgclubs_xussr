@@ -70,7 +70,7 @@ try {
         ], static function() {
 
             AppRouter::group(['prefix' => '/admin'], static function(){
-                AppRouter::get('', [ \RPGCAtlas\Controllers\AdminController::class, 'view_admin_page_main'], 'view.admin.page.main');
+                AppRouter::get('[/]', [ \RPGCAtlas\Controllers\AdminController::class, 'view_admin_page_main'], 'view.admin.page.main');
 
                 // тикеты
                 AppRouter::get('/tickets', [ \RPGCAtlas\Controllers\TicketsController::class, 'viewList'], 'view.ticket.list'); // список
@@ -117,21 +117,6 @@ try {
     \RPGCAtlas\TemplateHelper::init();
     \RPGCAtlas\TemplateHelper::assignInnerButtons();
 
-    $render = App::$template->render();
-    if (!empty($render)) {
-        App::$template->headers->send();
-
-        $render = \preg_replace('/^\h*\v+/m', '', $render); // удаляем лишние переводы строк
-
-        echo $render;
-    }
-
-    Common::logSiteUsage( AppLogger::scope('site_usage') );
-
-    if (App::$template->isRedirect()) {
-        App::$template->makeRedirect();
-    }
-
 } catch (AccessDeniedException $e) {
 
     AppLogger::scope('access.denied')->notice($e->getMessage(), [ $_SERVER['REQUEST_URI'], config('auth.ipv4') ] );
@@ -143,5 +128,20 @@ try {
     d($_REQUEST);
     d($_SERVER['REQUEST_URI']);
     dd($e);
+}
+
+$render = App::$template->render();
+if (!empty($render)) {
+    App::$template->headers->send();
+
+    $render = \preg_replace('/^\h*\v+/m', '', $render); // удаляем лишние переводы строк
+
+    echo $render;
+}
+
+Common::logSiteUsage( AppLogger::scope('site_usage') );
+
+if (App::$template->isRedirect()) {
+    App::$template->makeRedirect();
 }
 

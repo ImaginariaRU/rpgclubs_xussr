@@ -3,16 +3,16 @@
 <head>
     <title>{$title}</title>
 
-    <link rel="stylesheet" href="/frontend/styles.css">
+    <link   rel="stylesheet" href="/frontend/styles.css">
     <script src="/frontend/jquery/jquery-3.2.1_min.js"></script>
 
     <script src="/frontend/colorbox/jquery.colorbox-min.js"></script>
-    <link href="/frontend/colorbox/colorbox.css" rel="stylesheet">
+    <link   href="/frontend/colorbox/colorbox.css" rel="stylesheet">
 
     <script src="/frontend/jquery/jquery.notifyBar.js"></script>
-    <link rel="stylesheet" href="/frontend/jquery/jquery.notifyBar.css">
-    <script src="/frontend/NotifyBarHelper.js"></script>
-    <script src="/frontend/helper_data_action_redirect.js"></script>
+    <link   rel="stylesheet" href="/frontend/jquery/jquery.notifyBar.css">
+    <script src="/frontend/helper.notifyBar.js"></script>
+    <script src="/frontend/helper.dataActionRedirect.js"></script>
 
     <script type="text/javascript">
         const flash_messages = {$flash_messages};

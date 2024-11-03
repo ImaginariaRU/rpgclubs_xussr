@@ -7,8 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <script src="/frontend/jquery/jquery.min.js"></script>
-    <script src="/frontend/NotifyBarHelper.js"></script>
-    <script src="/frontend/helper_data_action_redirect.js"></script>
+    <script src="/frontend/jquery/jquery.notifyBar.js"></script>
+    <script src="/frontend/helper.notifyBar.js"></script>
+    <script src="/frontend/helper.dataActionRedirect.js"></script>
     <title>Список тикетов</title>
     <script></script>
     <style>

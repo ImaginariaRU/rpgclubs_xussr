@@ -5,12 +5,14 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Добавление клуба</title>
+    <title>Редактирование точки интереса</title>
     <link   href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" />
     <script src="/frontend/jquery/jquery-3.2.1_min.js" type="text/javascript" ></script>
     <script src="/frontend/jquery/jquery.jgrowl.min.js" type="text/javascript"></script>
-    <script src="/frontend/helper_data_action_redirect.js"></script>
-    <link href="/frontend/jquery/jquery.jgrowl.min.css" rel="stylesheet" />
+    <link   href="/frontend/jquery/jquery.jgrowl.min.css" rel="stylesheet" />
+    <script src="/frontend/helper.notifyBar.js"></script>
+    <script src="/frontend/helper.dataActionRedirect.js"></script>
+
     <style>
         input[required] {
             background-image: radial-gradient(#F00 15%, transparent 16%), radial-gradient(#F00 15%, transparent 16%);

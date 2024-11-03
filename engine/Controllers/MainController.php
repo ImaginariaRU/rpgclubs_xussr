@@ -70,20 +70,4 @@ class MainController extends AbstractClass
         ]);
     }
 
-    /**
-     * @return void
-     */
-    public function view_poi_list()
-    {
-        $dataset = (new POI())->getList();
-
-        $this->template->assign('dataset', $dataset);
-        $this->template->assign('summary', [
-            'clubs_total'   =>  count($dataset),
-            'clubs_visible' =>  count(array_filter($dataset, function($data){ return !!$data['is_public']; }) )
-        ]);
-
-        $this->template->setTemplate("ajax/poi_list.tpl");
-    }
-
 }

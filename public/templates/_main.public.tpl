@@ -103,6 +103,9 @@
         <script src="/frontend/MapActions.js"></script>
         <script src="/frontend/index.js"></script>
 
+        <script src="/frontend/helper.notifyBar.js"></script>
+        <script src="/frontend/helper.dataActionRedirect.js"></script>
+
         <link href="/frontend/styles.css" rel="stylesheet">
     {else}
         <link href="/styles.css" rel="stylesheet">

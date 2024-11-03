@@ -7,14 +7,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Список клубов</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <link href="/frontend/jquery/bootstrap.min.css" rel="stylesheet">
+    <link href="/frontend/jquery/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="/frontend/jquery/jquery.dataTables.min.css" rel="stylesheet">
 
     {if getenv('ENV_STATE') == 'dev'}
         <script src="/frontend/jquery/jquery.min.js"></script>
-        <script src="/frontend/NotifyBarHelper.js"></script>
-        <script src="/frontend/helper_data_action_redirect.js"></script>
+        <script src="/frontend/jquery/jquery.notifyBar.js"></script>
+        <script src="/frontend/helper.notifyBar.js"></script>
+        <script src="/frontend/helper.dataActionRedirect.js"></script>
+        <link   href="/frontend/jquery/jquery.notifyBar.css" rel="stylesheet">
     {else}
         <link href="/styles.css" rel="stylesheet">
         <script src="/scripts.js"></script>

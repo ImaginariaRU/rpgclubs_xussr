@@ -14,8 +14,8 @@
     <script src="/frontend/jquery/jquery.jgrowl.min.js" type="text/javascript"></script>
     <script src="/frontend/jquery/jquery.notifyBar.js"></script>
 
-    <script src="/frontend/NotifyBarHelper.js"></script>
-    <script src="/frontend/helper_data_action_redirect.js"></script>
+    <script src="/frontend/helper.notifyBar.js"></script>
+    <script src="/frontend/helper.dataActionRedirect.js"></script>
 
     <style>
         *[required] {

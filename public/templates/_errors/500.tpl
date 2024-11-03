@@ -11,6 +11,7 @@
         text-align: left;
     }
 </style>
+<script src="/frontend/helper.dataActionRedirect.js"></script>
 <div class="content-center">
     <div>
         500 error <br> Внутренняя ошибка сервера

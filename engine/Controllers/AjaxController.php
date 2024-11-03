@@ -30,6 +30,11 @@ class AjaxController extends \RPGCAtlas\AbstractClass
         $this->template->setTemplate("ajax/ajax_poi_info.tpl");
     }
 
+    /**
+     * @route '/ajax/poi:list/'
+     *
+     * @return void
+     */
     public function ajax_view_poi_list()
     {
         $dataset = (new POI())->getList();

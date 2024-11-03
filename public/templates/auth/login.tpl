@@ -1,3 +1,4 @@
+    <script src="/frontend/helper.dataActionRedirect.js"></script>
     <div>
         {if $_config.auth.is_logged_in}
         Вы уже залогинены <br><br> <strong>{$_config.auth.username} ({$_config.auth.email})<strong> <br><br>

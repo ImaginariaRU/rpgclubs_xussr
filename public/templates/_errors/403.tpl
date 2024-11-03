@@ -12,6 +12,7 @@
         text-align: left;
     }
 </style>
+<script src="/frontend/helper.dataActionRedirect.js"></script>
 <div class="content-center">
     <div>
         Access Denied<br><br>

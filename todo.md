@@ -12,6 +12,16 @@
 - подумать про показ инфо в колорбоксе с мобилы
 
 
+# Markers
+
+- https://github.com/lennardv2/Leaflet.awesome-markers -- не обновлялся с 2017 года
+- https://github.com/Leaflet/Leaflet.Icon.Glyph - ?
+- https://github.com/danwild/leaflet-fa-markers - fontAwesome markers (4 года) , https://www.npmjs.com/package/leaflet-fa-markers
+- https://github.com/rklfss/leaflet-fontawesome - 4 года, но сложное подключение
+- 
+
+
+
 
 # При загрузке карты в iframe (2018)
 
