@@ -14,7 +14,6 @@
     {if getenv('ENV_STATE') == 'dev'}
         <script src="/frontend/jquery/jquery.min.js"></script>
         <script src="/frontend/NotifyBarHelper.js"></script>
-        <script src="/frontend/admin.js"></script>
         <script src="/frontend/helper_data_action_redirect.js"></script>
     {else}
         <link href="/styles.css" rel="stylesheet">

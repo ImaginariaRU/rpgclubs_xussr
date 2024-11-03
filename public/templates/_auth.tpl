@@ -10,7 +10,6 @@
     <script src="/frontend/jquery/jquery-3.2.1_min.js"></script>
     <script src="/frontend/jquery/jquery.notifyBar.js"></script>
     <script src="/frontend/NotifyBarHelper.js"></script>
-    <script src="/frontend/admin.js"></script>
 
     <style>
         .content-center {

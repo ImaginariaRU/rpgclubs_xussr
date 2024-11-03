@@ -11,9 +11,7 @@
 - [>] подумать насчет механизма логгирования посещений или логгирования вообще (и мигрировать данные логов с 2018 года)
 - подумать про показ инфо в колорбоксе с мобилы
 
-Geographer is a PHP library that knows how any country, state or city is called in any language.
 
-https://packagist.org/packages/menarasolutions/geographer
 
 # При загрузке карты в iframe (2018)
 
@@ -28,26 +26,6 @@ https://packagist.org/packages/menarasolutions/geographer
 
 # Планы 2018 года:
 
-Роуты
-
-- / - главная
-- /getJS - датасет объектов
-- /getInfo/ID - HTML информация по объекту
-- /stat/recordEvent/ID - сбор статистики от людей
-- /search?query=XXX - поиск по подстроке
-- ??? - список для всплывающего бокса
-
-Неавторизованные:
-
-- ??? - форма добавления клуба
-- ??? - коллбэк добавления
-- ??? - аякс: попытаться определить координаты по адресу (геокодер)
-- ??? - определить по координатам город
-
-Авторизация:
-
-- логин, логаут
-
 ? Нужно ли добавившему клуб создавать аккаунт?
 ? Создание нового пользователя из админки, доступ через "восстановить пароль"
 
@@ -55,5 +33,8 @@ https://packagist.org/packages/menarasolutions/geographer
 - admin
 - curator (куратор группы)
 
+
+Geographer is a PHP library that knows how any country, state or city is called in any language.
+https://packagist.org/packages/menarasolutions/geographer
 
 

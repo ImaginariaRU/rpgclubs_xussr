@@ -15,7 +15,6 @@
     <script src="/frontend/jquery/jquery.notifyBar.js"></script>
 
     <script src="/frontend/NotifyBarHelper.js"></script>
-    <script src="/frontend/admin.js"></script>
     <script src="/frontend/helper_data_action_redirect.js"></script>
 
     <style>
@@ -140,7 +139,7 @@
                     <br>
                     <small>
                         Где найти координаты? Например, на <a href="https://yandex.ru/maps/" target="_blank">яндекс-карте</a> (откроется в новой вкладке).<br>
-                        <img src="/frontend/coord_at_yandex_map_new.png"><br>
+                        <img src="/frontend/images/coord_at_yandex_map_new.png"><br>
                         Найдите свой клуб, кликните на здание с клубом, а потом скопируйте координаты в это поле:<br>
                     </small>
                     <br>
@@ -200,6 +199,6 @@
     </table>
 </form>
 
-<script src="/frontend/admin_edit.js"></script>
+<script src="/frontend/edit.js"></script>
 
 </body>

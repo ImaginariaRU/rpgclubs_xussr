@@ -17,7 +17,6 @@
     <script type="text/javascript">
         const flash_messages = {$flash_messages};
     </script>
-    <script src="/frontend/admin.js"></script>
     <style>
         #global_wrapper {
             display: flex;

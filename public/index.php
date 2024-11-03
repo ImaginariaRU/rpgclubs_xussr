@@ -9,7 +9,7 @@ use RPGCAtlas\Exceptions\AccessDeniedException;
 
 define('PATH_ROOT', dirname(__DIR__, 1));
 define('ENGINE_START_TIME', microtime(true));
-define('PATH_ENV', '/etc/arris/rpgclubs/');
+const PATH_ENV = '/etc/arris/rpgclubs/';
 
 if (!session_id()) @session_start();
 

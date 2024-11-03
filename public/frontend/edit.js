@@ -1,3 +1,6 @@
+/*
+Обвязка для добавления/редактирования POI
+ */
 $(function (){
     $(`input[name='owner_email']`).focus();
 }).on('click', '#actor-resolve-city', function(event) {
