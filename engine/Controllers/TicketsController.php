@@ -25,6 +25,11 @@ class TicketsController extends \RPGCAtlas\AbstractClass
      */
     public function formAdd(mixed $id = 0): void
     {
+        if ($session = App::$flash->getMessage('json_session')) {
+            $this->template->assign("session", $session[0]);
+            App::$flash->clearMessage('json_session');
+        }
+
         $this->template->assign("id_poi", $id);
         $this->template->setTemplate("tickets/form_add_ticket.tpl");
     }
@@ -35,7 +40,15 @@ class TicketsController extends \RPGCAtlas\AbstractClass
      */
     public function callbackAdd(): void
     {
-        // check kCaptcha
+        if (!App::$auth->isLoggedIn()) {
+            if ($_REQUEST['captcha'] != $_SESSION['captcha_keystring']) {
+                unset($_REQUEST['captcha']); // иначе значение капчи окажется сохранено в flash-message
+                App::$flash->addMessage('error', 'Капча введена неправильно!');
+                App::$flash->addMessage('json_session', json_encode($_REQUEST));
+                $this->template->setRedirect(AppRouter::getRouter('form.add.ticket', [ 'id' => $_REQUEST['id_poi'] ]));
+                return;
+            }
+        }
 
         $query = new Query(App::$pdo, includeTableAliasColumns: false);
         $dataset = [
@@ -86,16 +99,6 @@ class TicketsController extends \RPGCAtlas\AbstractClass
 
     public function callbackUpdate()
     {
-        if (!App::$auth->isLoggedIn()) {
-            if ($_REQUEST['captcha'] != $_SESSION['captcha_keystring']) {
-                unset($_REQUEST['captcha']); // иначе значение капчи окажется сохранено в flash-message
-                App::$flash->addMessage('error', 'Капча введена неправильно!');
-                App::$flash->addMessage('json_session', json_encode($_REQUEST));
-                $this->template->setRedirect(AppRouter::getRouter('form.add.ticket'));
-                return;
-            }
-        }
-
         $query = new Query(App::$pdo, includeTableAliasColumns: false);
 
         $dataset = [

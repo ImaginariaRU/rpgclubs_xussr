@@ -8,7 +8,7 @@
     <title>Объект удалён</title>
     <link   href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet" />
     <script src="/frontend/jquery/jquery-3.2.1_min.js" type="text/javascript" ></script>
-    <script src="/frontend/jq_data_action.js"></script>
+    <script src="/frontend/helper_data_action_redirect.js"></script>
     <style>
         .content-center {
             display: flex;

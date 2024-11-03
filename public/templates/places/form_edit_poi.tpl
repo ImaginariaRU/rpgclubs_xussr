@@ -10,7 +10,7 @@
     <script src="/frontend/jquery/jquery-3.2.1_min.js" type="text/javascript" ></script>
     <script src="/frontend/jquery/jquery.jgrowl.min.js" type="text/javascript"></script>
     <script src="/frontend/admin.js"></script>
-    <script src="/frontend/jq_data_action.js"></script>
+    <script src="/frontend/helper_data_action_redirect.js"></script>
     <link href="/frontend/jquery/jquery.jgrowl.min.css" rel="stylesheet" />
     <style>
         input[required] {

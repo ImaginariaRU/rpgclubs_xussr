@@ -13,7 +13,7 @@
 
     <script src="/frontend/NotifyBarHelper.js"></script>
     <script src="/frontend/admin.js"></script>
-    <script src="/frontend/jq_data_action.js"></script>
+    <script src="/frontend/helper_data_action_redirect.js"></script>
 
     <style>
         *[required] {

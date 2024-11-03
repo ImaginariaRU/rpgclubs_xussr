@@ -12,7 +12,7 @@
     <script src="/frontend/jquery/jquery.notifyBar.js"></script>
     <link rel="stylesheet" href="/frontend/jquery/jquery.notifyBar.css">
     <script src="/frontend/NotifyBarHelper.js"></script>
-    <script src="/frontend/jq_data_action.js"></script>
+    <script src="/frontend/helper_data_action_redirect.js"></script>
 
     <script type="text/javascript">
         const flash_messages = {$flash_messages};

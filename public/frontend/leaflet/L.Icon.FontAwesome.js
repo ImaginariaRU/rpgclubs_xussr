@@ -1,13 +1,11 @@
 L.Icon.FontAwesome = L.Icon.extend({
-
 	options: {
 		popupAnchor: [0, -50]
 	},
 
 	createIcon: function () {
-
-		var div = document.createElement('div');
-		var options = this.options;
+		let div = document.createElement('div');
+		let options = this.options;
 
 		if(options.iconClasses) {
 			div.appendChild(this._createIcon());
