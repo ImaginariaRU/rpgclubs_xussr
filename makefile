@@ -36,7 +36,7 @@ update:		##@build Update project from GIT
 
 build:	##@build Build DEB-package with gulp
 	@dh_clean
-#	@./node_modules/.bin/gulp build --production
+	@./node_modules/.bin/gulp build --production
 	export COMPOSER_HOME=/tmp/ && dpkg-buildpackage -rfakeroot -uc -us --compression-level=9 --diff-ignore=node_modules --tar-ignore=node_modules
 	@dh_clean
 

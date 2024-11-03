@@ -32,7 +32,6 @@
 
         "ajur-media/kcaptcha": "^1.1",
         "hflabs/dadata": "^22.3",
-        "riverside/php-nominatim": "^1.2",
         "ajur-media/fluentpdo": "^1.99"
 
     },
