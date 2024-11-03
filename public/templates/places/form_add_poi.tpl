@@ -7,8 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Добавление клуба</title>
     <link   href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
-    <link   href="/frontend/jquery/jquery.notifyBar.css" rel="stylesheet">
-    <link   href="/frontend/jquery/jquery.jgrowl.min.css" rel="stylesheet" />
+    <link href="/frontend/jquery/jquery.notifyBar.css" rel="stylesheet">
+    <link href="/frontend/jquery/jquery.jgrowl.min.css" rel="stylesheet" />
     <script src="/frontend/jquery/jquery-3.2.1_min.js" type="text/javascript" ></script>
     <script src="/frontend/jquery/jquery.jgrowl.min.js" type="text/javascript"></script>
     <script src="/frontend/jquery/jquery.notifyBar.js"></script>

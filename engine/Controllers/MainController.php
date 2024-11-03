@@ -21,27 +21,14 @@ class MainController extends AbstractClass
     public function view_main_page()
     {
         // detect location by IP
-        $ip_location = [
-            'lat'   =>  56.769540,
-            'lng'   =>  60.334709,
-        ];
-        $city_location = [
-            'city_lat'  =>  0,
-            'city_lng'  =>  0,
-            'zoom'  =>  4
-        ];
         $ip_location = Common::getCoordsByIP(Server::getIP());
 
         $this->template->assign("location", [
             'ip_lat'    =>  $ip_location['lat'],
             'ip_lng'    =>  $ip_location['lng'],
-            'zoom'      =>  4 /*$city_location['zoom']*/,
+            'zoom'      =>  4 ,
 
             'city'     =>   $ip_location['city'],
-
-            // 'city'      =>  $city_location['city']  ?? 'Center',
-            /*'city_lat'  =>  $city_location['city_lat'],
-            'city_lng'  =>  $city_location['city_lng']*/
         ]);
 
         $this->template->assign('publish_options', [

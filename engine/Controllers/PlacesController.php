@@ -53,15 +53,13 @@ class PlacesController extends \RPGCAtlas\AbstractClass
     {
         if (!App::$auth->isLoggedIn()) {
             if ($_REQUEST['captcha'] != $_SESSION['captcha_keystring']) {
+                unset($_REQUEST['captcha']); // иначе значение капчи окажется сохранено в flash-message
                 App::$flash->addMessage('error', 'Капча введена неправильно!');
                 App::$flash->addMessage('json_session', json_encode($_REQUEST));
                 $this->template->setRedirect(AppRouter::getRouter('form.add.poi'));
-
                 return;
             }
         }
-
-        // check kCaptcha (not for admins)
 
         $query = new Query(App::$pdo, includeTableAliasColumns: false);
         $geocoder = new GeoCoderDadata();

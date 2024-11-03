@@ -103,7 +103,7 @@ class App extends \Arris\App
         self::factory();
 
         config('smarty', [
-            'path_template'     =>  config('path.install') . 'templates/',
+            'path_template'     =>  config('path.public') . 'templates/',
             'path_cache'        =>  config('path.cache'),
             'force_compile'     =>  _env('DEBUG.SMARTY_FORCE_COMPILE', false, 'bool')
         ]);

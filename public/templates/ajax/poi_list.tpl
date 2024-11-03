@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Список клубов</title>
-    <script src="/public/frontend/jquery/jquery-3.2.1_min.js" type="text/javascript"></script>
-    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js" type="text/javascript"></script>
+    <script src="/frontend/jquery/jquery-3.2.1_min.js" type="text/javascript"></script>
+    <script src="/frontend/jquery/jquery.dataTables.min.js" type="text/javascript"></script>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="/frontend/jquery/bootstrap.min.css">
+    <link rel="stylesheet" href="/frontend/jquery/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="/frontend/jquery/jquery.dataTables.min.css">
     <style type="text/css">
         button {
             font-size: large;

@@ -39,7 +39,7 @@
                             <br>
                             Что написано на картинке? (<a href="javascript:void(0);" onclick="$('#captcha').attr('src', '/kcaptcha.php?sid={$sid}&r='+Math.random()); return false;" title="Обновить изображение">обновить</a>)
                             <br>
-                            <a href="javascript:void(0);" onclick="$('#captcha').attr('src', '/kcaptcha.php?sid={$sid}&r='+Math.random()); return false;" title="Обновить изображение"><img src="/public/kcaptcha.php?sid={$sid}" id="captcha" alt="captcha" ></a>
+                            <a href="javascript:void(0);" onclick="$('#captcha').attr('src', '/kcaptcha.php?sid={$sid}&r='+Math.random()); return false;" title="Обновить изображение"><img src="/kcaptcha.php?sid={$sid}" id="captcha" alt="captcha" ></a>
                             <br>
                             <input type="text" name="captcha" class="small" id="captcha" tabindex="5" style="width: 120px; display: inline-block;" >
                         </td>
