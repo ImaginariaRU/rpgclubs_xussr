@@ -1,3 +1,11 @@
+rpgclubs (1.1.22) stable; urgency=medium
+
+  * - новая форма редактирования клуба (покрасивше и попроще)
+  * - экранирования там где надо
+  * - форма клуба показывает описание и адрес-хинт
+
+ -- Karel Wintersky <karel.wintersky@yandex.ru>  Tue, 05 Nov 2024 18:05:20 +0300
+
 rpgclubs (1.1.21) stable; urgency=medium
 
   * [R] Release Candidate of 1.2 version

@@ -8,12 +8,12 @@
 
 <div id="section-infobox-content" class="section-infobox-content">
     {if $dataset.banner_horizontal}
-        <img src="{$dataset.banner_horizontal}" data-width="100%">
+        <img src="{$dataset.banner_horizontal}" data-width="100%" alt="VK banner">
     {/if}
 
 
     <div class="infobox-desc">
-        {$dataset.desc}
+        {$dataset.description}
     </div>
 
     <br/>
@@ -22,7 +22,12 @@
         <strong>Адрес:</strong><br/> <span style="color: #3388ff">{$dataset.address}</span>
     </div>
 
-    <br/>
+    {if $dataset.address_hint}
+        <strong>Как добраться?</strong><br><br>
+        {$dataset.address_hint}
+    {/if}
+
+    <br>
 
     <div class="infobox-site">
         <a href="{$dataset.url_site}" target="_blank">{$dataset.url_site}</a>

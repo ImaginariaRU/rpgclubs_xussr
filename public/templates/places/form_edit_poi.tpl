@@ -47,140 +47,195 @@
         .invisible {
             display: none;
         }
+
+        .flex-container {
+            display: flex;
+            justify-content: space-between; /* Устанавливает равномерное расстояние между кнопками */
+            padding: 10px; /* Отступ от краев контейнера */
+            margin: 0 auto; /* Центрирует контейнер, если его ширина меньше 100% */
+            max-width: 800px; /* Максимальная ширина контейнера */
+        }
+        .flex-button {
+            flex: 1; /* Задает кнопкам равные размеры */
+            margin: 0 15px; /* Отступ между кнопками */
+            padding: 10px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 <h2>Редактирование клуба</h2>
 <form method="post" action="{Arris\AppRouter::getRouter('callback.edit.poi')}" id="form_add_poi">
     <input type="hidden" name="id" value="{$item.id}">
-    <table border="1" width="100%">
-
+    <table border="0" width="100%">
         <tr>
-            <td>E-Mail отправителя заявки</td>
             <td>
-                <input type="email" size="80" name="owner_email" value="{$item.email}" required>
+                Об отправителе
+            </td>
+            <td>
+                <label>
+                    E-Mail:<br>
+                    <input type="email" size="80" name="owner_email" value="{$item.email|escape}" required><br><br>
+                </label>
+                <label>
+                    Информация:<br>
+                    <input type="text" size="80" name="owner_about" value="{$item.owner_about}"><br><br>
+                </label>
+
             </td>
         </tr>
 
         <tr>
-            <td>Информация об отправителе</td>
-            <td>
-                <input type="text" size="80" name="owner_about" value="{$item.owner_about}">
+            <td valign="top">
+                URL сайта/группы клуба
             </td>
-        </tr>
-
-        <tr>
-            <td>URL сайта/группы клуба</td>
             <td>
-                <input type="text" value="{$item.url_site}" size="80" name="url_site"> <br><br>
+                <label>
+                    <input type="text" value="{$item.url_site}" size="80" name="url_site">
+                </label> <br><br>
                 <button id="actor-resolve-vk-data" data-url="{Arris\AppRouter::getRouter('ajax.get_vk_club_info')}" data-source="url_site">Попробовать извлечь информацию о клубе из VKontakte</button>
+                <br><br>
             </td>
         </tr>
 
         <tr>
-            <td>Название клуба</td>
-            <td><input type="text" value="{$item.title}" size="80" name="title" required></td>
-        </tr>
-
-        <tr>
-            <td>Описание клуба</td>
+            <td valign="top">Название клуба</td>
             <td>
-                <textarea cols="70" rows="7" name="description" id="textarea_club_description" required>{$item.description}</textarea>
+                <label>
+                    <input type="text" value="{$item.title|escape}" size="80" name="title" required><br><br>
+                </label>
             </td>
         </tr>
 
         <tr>
-            <td>Тип объекта</td>
+            <td valign="top">Описание клуба</td>
             <td>
-                <select name="poi_type">
-                    <option value="club">Клуб</option>
-                    <option value="market">Магазин</option>
-                </select>
+                <label for="textarea_club_description"></label><textarea cols="70" rows="7" name="description" id="textarea_club_description" required>{$item.description}</textarea>
+                <br><br>
+            </td>
+        </tr>
+        <tr>
+            <td valign="top">
+                Контакты:
+            </td>
+            <td>
+                - емейл, телефон, телеграм, дискорд, VK, сайт
             </td>
         </tr>
 
         <tr>
-            <td>Адрес:</td>
+            <td valign="top">
+                Координаты:
+            </td>
             <td>
-                <input type="text" value="{$item.address}" size="70" name="address"><br>
-                Особенности адреса: <br>
-                <textarea cols="70" rows="7" name="address_hint">{$item.address_hint}</textarea>
+                <label>
+                    <strong>Адрес:</strong><br>
+                    <input type="text" value="{$item.address|escape}" size="70" name="address"><br>
+                </label>
                 <br>
-                <button id="actor-parse-address" data-url="{Arris\AppRouter::getRouter('ajax.get_coords_by_address')}">Попытаться определить координаты и город по адресу</button>
-            </td>
-        </tr>
+                <button id="actor-parse-address" data-url="{Arris\AppRouter::getRouter('ajax.get_coords_by_address')}">Попытаться определить координаты (и город) по адресу</button>
 
-        <tr>
-            <td>Координаты</td>
-            <td>
+                <br><br>
+                <label>
+                    Lat:
+                    <input type="text" value="{$item.lat|escape}" size="20" name="lat">
+                </label>
+                <label>
+                    Lng:
+                    <input type="text" value="{$item.lng|escape}" size="20" name="lng">
+                </label>
+                <label>
+                    <strong>Город:</strong>
+                    <input type="text" value="{$item.address_city|escape}" size="40" name="address_city">
+                </label>
+
+                <br><br>
+
+                <label>
+                    Особенности адреса: <br>
+                    <textarea cols="70" rows="7" name="address_hint">{$item.address_hint|escape}</textarea>
+                </label>
                 <br>
-                Lat: <input type="text" value="{$item.lat}" size="20" name="lat">
-                /
-                Lng: <input type="text" value="{$item.lng}" size="20" name="lng">
-                /
-                <strong>Город:</strong> <input type="text" value="{$item.address_city}" size="40" name="address_city">
-                <div id="set-coords-manually">
-                    <br>
-                    <small>
+
+                <h4>Указать координаты вручную?</h4>
+
+                <label>
+                    Найдите свой клуб, кликните на здание с клубом, а потом скопируйте координаты в это поле:<br>
+                    <input type="text" size="20" value="{$item.lat}, {$item.lng}" name="latlng">
+                </label>
+                <br><br>
+                <small>
                         Где найти координаты? Например, на <a href="https://yandex.ru/maps/" target="_blank">яндекс-карте</a> (откроется в новой вкладке).<br>
-                        <img src="/frontend/images/coord_at_yandex_map_new.png"><br>
-                        Найдите свой клуб, кликните на здание с клубом, а потом скопируйте координаты в это поле:<br>
-                    </small>
-                    <br>
-                    <strong>Координаты:</strong> <input type="text" size="20" value="{$item.lat}, {$item.lng}" name="latlng"> <br><br>
+                        <img src="/frontend/images/coord_at_yandex_map_new.png" alt="yandex map example"><br>
+                </small>
 
-                    <button id="actor-resolve-city" data-url="{Arris\AppRouter::getRouter('ajax.get_city_by_coords')}" data-target="address_city">Определить по координатам город</button><br>
-                </div>
+                {*<button id="actor-resolve-city" data-url="{Arris\AppRouter::getRouter('ajax.get_city_by_coords')}" data-target="address_city">Определить по координатам город</button><br>*}
+
+
             </td>
         </tr>
 
         <tr>
-            <td>VK-banner</td>
+            <td valign="top">VK-banner</td>
             <td>
-                <small>Горизонтальный баннер 400×134 пикселей, обычно из группы ВКонтакте (<a href="https://vk.com/cherniy_les" target="_blank">пример</a>)<br>
-                    Если вы не знаете как указать ссылку на эту картинку - просто напишите сюда: "надо взять из группы ВК"</small><br>
-                <input type="text" value="{$item.banner_url}" size="80" name="vk_banner"> <br>
+                {*<small>Горизонтальный баннер 400×134 пикселей, обычно из группы ВКонтакте (<a href="https://vk.com/cherniy_les" target="_blank">пример</a>)<br>
+                    Если вы не знаете как указать ссылку на эту картинку - просто напишите сюда: "надо взять из группы ВК"</small><br>*}
+                <label>
+                    <input type="text" value="{$item.banner_url}" size="80" name="vk_banner">
+                </label> <br>
             </td>
         </tr>
         <tr>
             <td>
-                Опубликовать?
+                Управление
             </td>
-            <td>
-                <div style="font-size: x-large">
+            <td style="display: flex;">
+                <fieldset>
+                    <legend>
+                        Публичность:
+                    </legend>
                     <label>
-                        <input type="radio" name="is_public" value="Y" style="transform: scale(1.3)" {if $item.is_public eq 1}checked{/if}> Да
+                        <input type="radio" name="is_public" value="N"  style="transform: scale(1.3)" {if $item.is_public eq 0}checked{/if}> Скрыть
                     </label>
                     &nbsp;&nbsp;|&nbsp;&nbsp;
                     <label>
-                        <input type="radio" name="is_public" value="N"  style="transform: scale(1.3)" {if $item.is_public eq 0}checked{/if}> Нет
+                        <input type="radio" name="is_public" value="Y" style="transform: scale(1.3)" {if $item.is_public eq 1}checked{/if}> Показать
                     </label>
-                </div>
-
-                <div style="float: right">
-                    <button type="button"
-                            data-action="redirect"
-                            data-confirm-message="Точно удалить?"
-                            data-url="{Arris\AppRouter::getRouter('callback.delete.poi', [ 'id' => $item.id ])}"
-                    >Удалить</button>
-                </div>
-
+                </fieldset>
+                <fieldset>
+                    <legend>
+                        Тип объекта:
+                    </legend>
+                    <label>
+                        <select name="poi_type">
+                            <option value="club">Клуб</option>
+                            <option value="market">Магазин</option>
+                        </select>
+                    </label>
+                </fieldset>
             </td>
         </tr>
     </table>
     <br>
-    <table width="100%">
-        <tr>
-            <td width="50%" style="text-align: center">
-                <button type="button" data-action="redirect" data-url="{Arris\AppRouter::getRouter('view.poi.list')}">НАЗАД,<br>К СПИСКУ</button>
-            </td>
-            <td width="50%" style="text-align: center">
-                <button type="submit" tabindex="8">СОХРАНИТЬ</button>
-            </td>
-        </tr>
-    </table>
+    <hr>
+
+    <div class="flex-container">
+        <button class="flex-button" type="button" data-action="redirect" data-url="{Arris\AppRouter::getRouter('view.poi.list')}">НАЗАД,<br>К СПИСКУ</button>
+        <button class="flex-button"
+                type="button"
+                data-action="redirect"
+                data-confirm-message="Точно удалить?"
+                data-url="{Arris\AppRouter::getRouter('callback.delete.poi', [ 'id' => $item.id ])}"
+        >Удалить</button>
+        <button class="flex-button" type="submit" tabindex="8">СОХРАНИТЬ</button>
+    </div>
 </form>
 
 <script src="/frontend/edit.js"></script>
+
+<div style="float: right">
+
+</div>
+
 
 </body>

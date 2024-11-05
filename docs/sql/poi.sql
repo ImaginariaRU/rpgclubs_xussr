@@ -14,7 +14,7 @@ CREATE TABLE `poi` (
      `banner_type` enum('h','v') DEFAULT 'h',
      `banner_url` varchar(255) DEFAULT '',
      `infobox_layout` enum('VK','Other') DEFAULT 'VK' COMMENT 'лэйаут инфобокса',
-     `url_site` varchar(255) DEFAULT '',
+     `url_site` varchar(255) DEFAULT 'Основной сайт (обычно, ВК)',
      `dt_create` datetime DEFAULT CURRENT_TIMESTAMP,
      `dt_update` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
      `poi_type` varchar(100) DEFAULT '' COMMENT 'тип POI, технически - enum',
@@ -23,9 +23,15 @@ CREATE TABLE `poi` (
      `ipv4_add` int unsigned DEFAULT '0',
      `ipv4_update` int unsigned DEFAULT '0',
      PRIMARY KEY (`id`),
-     KEY `poi_type` (`poi_type`) USING BTREE,
+     KEY `poi_type` (`poi_type`) USING HASH,
      KEY `is_public` (`is_public`) USING BTREE,
      KEY `id_owner` (`id_owner`) USING BTREE,
      KEY `lat+lng` (`lat`,`lng`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+
+ALTER TABLE poi ADD contact_email varchar(100) NULL COMMENT 'EMail';
+ALTER TABLE poi ADD contact_telegram varchar(100) NULL COMMENT 'telegram';
+ALTER TABLE poi ADD contact_discord varchar(100) NULL COMMENT 'discord';
+ALTER TABLE poi ADD contact_site varchar(100) NULL COMMENT 'сайт';
+ALTER TABLE poi ADD contact_phone varchar(100) NULL COMMENT 'телефон';
