@@ -165,8 +165,8 @@ gulp.task("download:font:google", () => {
 });
 
 // алиасы для комплексных задач
-gulp.task('build', gulp.series('js', 'jquery', 'csstables','scss', /*'html'*/));
+gulp.task('build', gulp.series('js', 'jquery', 'csstables','scss'));
 
-gulp.task('test', gulp.series('html'));
+// gulp.task('test', gulp.series('html'));
 
 
