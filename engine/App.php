@@ -96,6 +96,10 @@ class App extends \Arris\App
         AppLogger::addScope('auth', [
             [ '__auth.log', AppLogger\Monolog\Logger::NOTICE ]
         ]);
+
+        AppLogger::addScope('site_usage', [
+            [ '__site_usage.log', AppLogger\Monolog\Logger::NOTICE]
+        ]);
     }
 
     /**

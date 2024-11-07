@@ -1,3 +1,9 @@
+rpgclubs (1.2.1) stable; urgency=medium
+
+  * fix logging
+
+ -- Karel Wintersky <karel.wintersky@yandex.ru>  Fri, 08 Nov 2024 02:28:30 +0300
+
 rpgclubs (1.2.0) stable; urgency=medium
 
   * [R] Release
