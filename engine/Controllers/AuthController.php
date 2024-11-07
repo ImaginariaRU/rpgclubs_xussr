@@ -59,7 +59,7 @@ class AuthController extends \RPGCAtlas\AbstractClass
         }
 
         $ip = config('auth.ipv4');
-        AppLogger::scope('main')->debug("Logged in user {$_REQUEST['email']} from {$ip}");
+        AppLogger::scope('auth')->notice("Logged in user {$_REQUEST['email']} from {$ip}");
 
         App::$flash->addMessage("success", "Успешно залогинились");
 
@@ -83,7 +83,7 @@ class AuthController extends \RPGCAtlas\AbstractClass
 
         App::$auth->logOut();
 
-        AppLogger::scope('main')->debug("Logged out user {$u_id} ($u_email)");
+        AppLogger::scope('auth')->notice("Logged out user {$u_id} ($u_email)");
 
         App::$flash->addMessage("success", "Успешно вышли из системы");
 

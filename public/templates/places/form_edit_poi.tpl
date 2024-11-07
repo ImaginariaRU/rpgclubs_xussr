@@ -118,10 +118,34 @@
 
         <tr>
             <td valign="top">
-                Контакты:
+                Контакты клуба:
             </td>
             <td>
-                - емейл, телефон, телеграм, дискорд, VK, сайт
+                <label>
+                    E-Mail:<br>
+                    <input type="text" name="contact_email" value="{$item.contact_email}" size="80" placeholder="E-Mail клуба">
+                </label><br>
+
+                <label>
+                    Телеграм:<br>
+                    <input type="text" name="contact_telegram" value="{$item.contact_telegram}" size="80" placeholder="Telegram">
+                </label><br>
+
+                <label>
+                    Дискорд:<br>
+                    <input type="text" name="contact_discord" value="{$item.contact_discord}" size="80" placeholder="Discord">
+                </label><br>
+
+                <label>
+                    Сайт:<br>
+                    <input type="text" name="contact_site" value="{$item.contact_site}" size="80" placeholder="Сайт">
+                </label><br>
+
+                <label>
+                    Телефон:<br>
+                    <input type="text" name="contact_phone" value="{$item.contact_phone}" size="80" placeholder="Телефон">
+                </label><br>
+                <br>
             </td>
         </tr>
 

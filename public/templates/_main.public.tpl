@@ -133,12 +133,13 @@
         <button id="actor-about-toggle" class="section-about-button-toggle" data-content="section-about-content" data-content-is-visible="false">&nbsp;?&nbsp;</button>
     </div>
     <div id="section-about-content" class="invisible section-about-content">
-        <h2>Ролевые клубы на карте России</h2>
+        <h2>Ролевые клубы на карте мира</h2>
         <div>
-            <strong>Здравствуйте!</strong><br/><br/>
-            На этой карте можно найти <a href="{Arris\AppRouter::getRouter('view.poi.list')}">ролевые клубы</a> России. Нажав на иконку на карте, вы узнаете, где этот клуб находится и
-            что предлагают его создатели. Ссылка на сайт клуба или группу ВКонтакте прилагается.
-            <br/><br/>
+            <strong>Здравствуйте!</strong><br><br>
+            На этой карте можно найти <a href="{Arris\AppRouter::getRouter('view.poi.list')}">ролевые клубы</a> России и ближайшего зарубежья.
+            Кликнув на маркер на карте, вы узнаете, где этот клуб находится и что предлагают его создатели.
+            Ссылка на сайт клуба или группу ВКонтакте прилагается.
+            <br><br>
             Это совершенно некоммерческий проект и создатель не извлекает из него абсолютно никакой прибыли.
         </div>
         <div>
@@ -154,7 +155,7 @@
             </div>
         {/if}*}
         <span style="font-size: small">
-            <a href="{Arris\AppRouter::getRouter('view.form.login')}" style="text-decoration: none; color: black;">©</a> Копирайты: Leaflet, OpenSteetMaps, Yandex Geocoder, ООО Психотроника
+            <a href="{Arris\AppRouter::getRouter('view.form.login')}" style="text-decoration: none; color: black;">©</a> Используемые технологии: Leaflet, 2ГИС, Дадата. Сделано в ООО &laquo;Психотроника&raquo;
         </span>
     </div>
 </section>

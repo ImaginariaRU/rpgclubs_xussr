@@ -108,6 +108,12 @@ class PlacesController extends \RPGCAtlas\AbstractClass
             "banner_url"    =>  input('vk_banner'),
             "url_site"      =>  input('url_site'),
 
+            'contact_email'     =>  input('contact_email'),
+            'contact_telegram'  =>  input('contact_telegram'),
+            'contact_discord'   =>  input('contact_discord'),
+            'contact_site'      =>  input('contact_site'),
+            'contact_phone'     =>  input('contact_phone'),
+
             "poi_type"      =>  'club',
 
             "owner_email"   =>  input('owner_email'),
@@ -167,6 +173,12 @@ class PlacesController extends \RPGCAtlas\AbstractClass
             "address_city"  =>  input('address_city'),
             "banner_url"    =>  input('vk_banner'),
             "url_site"      =>  input('url_site'),
+
+            'contact_email'     =>  input('contact_email'),
+            'contact_telegram'  =>  input('contact_telegram'),
+            'contact_discord'   =>  input('contact_discord'),
+            'contact_site'      =>  input('contact_site'),
+            'contact_phone'     =>  input('contact_phone'),
 
             "poi_type"      =>  input('poi_type'),
 

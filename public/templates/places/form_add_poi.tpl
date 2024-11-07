@@ -66,15 +66,24 @@
             padding: 10px;
             text-align: center;
         }
+        #form_add_poi input {
+            margin-bottom: 0.5em;
+        }
     </style>
     <script>
         $(document).ready(function() {
-            const session_values = {$session|default:'{}'};
             const flash_messages = {$flash_messages|default:'[]'};
             NotifyBarHelper.notifyFlashMessages(flash_messages);
+
             // заполняем инпуты значениями из flash-сессии
+            const session_values = {$session|default:'{}'};
             Object.keys(session_values).forEach(function (key) {
-                $(`[name='${ key }']`).val( session_values[key] );
+                let element = document.querySelector(`[name='${ key }']`);
+                if (element) {
+                    if (element.tagName.toLowerCase() === 'textarea' || element.tagName.toLowerCase() === 'input') {
+                        element.value = session_values[key];
+                    }
+                }
             });
         });
     </script>
@@ -137,10 +146,35 @@
 
         <tr>
             <td valign="top">
-                Контакты:
+                Контакты клуба:
             </td>
             <td>
-                - емейл, телефон, телеграм, дискорд, VK, сайт
+                <label>
+                    E-Mail:<br>
+                    <input type="text" name="contact_email" value="" size="80">
+                </label><br>
+
+                <label>
+                    Телеграм:<br>
+                    <input type="text" name="contact_telegram" value="" size="80" placeholder="Telegram">
+                </label><br>
+
+                <label>
+                    Дискорд:<br>
+                    <input type="text" name="contact_discord" value="" size="80" placeholder="Discord">
+                </label><br>
+
+                <label>
+                    Сайт:<br>
+                    <input type="text" name="contact_site" value="" size="80" placeholder="Сайт">
+                </label><br>
+
+                <label>
+                    Телефон:<br>
+                    <input type="text" name="contact_phone" value="" size="80" placeholder="Телефон">
+                </label><br>
+
+                <br>
             </td>
         </tr>
 
@@ -154,6 +188,7 @@
                 </label>
                 <br>
                 <small>Если у вас нет баннера для группы ВК - укажите хоть какой-нибудь. Мы подумаем, как его показать.</small>
+                <br><br>
             </td>
         </tr>
 
@@ -168,18 +203,20 @@
                 </label>
                 <br>
                 {if $_auth.is_logged_in}
-                <button id="actor-parse-address" data-url="{Arris\AppRouter::getRouter('ajax.get_coords_by_address')}">Попытаться определить координаты (и город) по адресу</button>
+                    <br>
+                    <button id="actor-parse-address" data-url="{Arris\AppRouter::getRouter('ajax.get_coords_by_address')}">Попытаться определить координаты (и город) по адресу</button>
                 {/if}
 
-                <br><br>
                 <label>
                     Lat:
                     <input type="text" value="" size="20" name="lat">
                 </label>
+                |
                 <label>
                     Lng:
                     <input type="text" value="" size="20" name="lng">
                 </label>
+                |
                 <label>
                     <strong>Город:</strong>
                     <input type="text" value="" size="40" name="address_city">
@@ -220,9 +257,10 @@
                     Капча
                 </td>
                 <td>
-                    <img src="/kcaptcha.php" id="captcha" alt="captcha" onclick="$('#captcha').attr('src', '/kcaptcha.php?r='+Math.random()); return false;" ><br>
+                    <img src="/kcaptcha.php" id="captcha" alt="captcha" onclick="$('#captcha').attr('src', '/kcaptcha.php?r='+Math.random()); return false;" title="кликните по картинке для обновления капчи" ><br>
+                    <span style="font-size: small">кликните по картинке для обновления</span><br>
                     <label for="captcha">
-                        <input type="text" name="captcha" class="small" id="captcha" tabindex="8" style="width: 120px; display: inline-block;" >
+                        <input type="text" name="captcha" class="small" id="captcha" tabindex="8" style="width: 120px; display: inline-block;">
                     </label>
                 </td>
             </tr>
@@ -244,9 +282,9 @@
         <button class="flex-button" type="button" data-action="redirect" data-url="{Arris\AppRouter::getRouter('view.poi.list')}">НАЗАД,<br>К СПИСКУ</button>
 
         {if $_auth.is_logged_in}
-            <button type="submit" tabindex="8">СОХРАНИТЬ</button>
+            <button class="flex-button" type="submit" tabindex="8">СОХРАНИТЬ</button>
         {else}
-            <button type="submit" tabindex="8">ПОДАТЬ ЗАЯВКУ<br> НА РАССМОТРЕНИЕ</button>
+            <button class="flex-button" type="submit" tabindex="8">ПОДАТЬ ЗАЯВКУ<br> НА РАССМОТРЕНИЕ</button>
         {/if}
     </div>
 </form>

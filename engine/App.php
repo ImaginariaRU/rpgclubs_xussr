@@ -80,7 +80,6 @@ class App extends \Arris\App
             ],
         ]);
 
-
     }
 
     /**
@@ -90,9 +89,13 @@ class App extends \Arris\App
     {
         AppLogger::init("rpgClubs", bin2hex(random_bytes(4)), [
             'default_logfile_path'      =>  config('path.monolog'),
-            'default_logfile_prefix'    =>  date_format(date_create(), 'Y-m-d') . '__'
+            'default_logfile_prefix'    =>  date_format(date_create(), 'Y-m') . '__'
         ]);
         AppLogger::addScope('main');
+
+        AppLogger::addScope('auth', [
+            [ '__auth.log', AppLogger\Monolog\Logger::NOTICE ]
+        ]);
     }
 
     /**
@@ -252,7 +255,7 @@ class App extends \Arris\App
             'port'      =>  getenv('REDIS.PORT'),
             'password'  =>  getenv('REDIS.PASSWORD'),
             'database'  =>  getenv('REDIS.DATABASE')
-        ], [ ], App::$pdo, AppLogger::scope('redis'));
+        ], [ ], App::$pdo);
 
         Cache::addRule('poi_types', [
             'source'    =>  CacheInterface::RULE_SOURCE_CALLBACK,
