@@ -1,3 +1,11 @@
+rpgclubs (1.1.23) stable; urgency=medium
+
+  * [R] RC
+  * [*] fix poi add/edit forms - more pretty
+  * [*] fix poi list
+
+ -- Karel Wintersky <karel.wintersky@yandex.ru>  Thu, 07 Nov 2024 10:41:17 +0300
+
 rpgclubs (1.1.22) stable; urgency=medium
 
   * - новая форма редактирования клуба (покрасивше и попроще)

@@ -92,7 +92,8 @@
             <td>
                 <label>
                     <input type="text" value="{$item.url_site}" size="80" name="url_site">
-                </label> <br><br>
+                </label>
+                <br><br>
                 <button id="actor-resolve-vk-data" data-url="{Arris\AppRouter::getRouter('ajax.get_vk_club_info')}" data-source="url_site">Попробовать извлечь информацию о клубе из VKontakte</button>
                 <br><br>
             </td>
@@ -114,6 +115,7 @@
                 <br><br>
             </td>
         </tr>
+
         <tr>
             <td valign="top">
                 Контакты:
@@ -232,10 +234,5 @@
 </form>
 
 <script src="/frontend/edit.js"></script>
-
-<div style="float: right">
-
-</div>
-
 
 </body>

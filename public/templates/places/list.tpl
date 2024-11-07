@@ -37,6 +37,19 @@
             width: 95%;
             margin-left: 1px;
         }
+        .flex-container {
+            display: flex;
+            justify-content: space-between; /* Устанавливает равномерное расстояние между кнопками */
+            padding: 10px; /* Отступ от краев контейнера */
+            margin: 0 auto; /* Центрирует контейнер, если его ширина меньше 100% */
+            max-width: 800px; /* Максимальная ширина контейнера */
+        }
+        .flex-button {
+            flex: 1; /* Задает кнопкам равные размеры */
+            margin: 0 15px; /* Отступ между кнопками */
+            padding: 10px;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -108,8 +121,10 @@
         {/foreach}
 
         </tbody>
-
     </table>
+</div>
+<div class="flex-container">
+    <button class="flex-button" type="button" data-action="redirect" data-url="{Arris\AppRouter::getRouter('view.main.page')}">К КАРТЕ</button>
 </div>
 
 </body>
