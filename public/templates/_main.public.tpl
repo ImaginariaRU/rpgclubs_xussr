@@ -155,7 +155,7 @@
             </div>
         {/if}*}
         <span style="font-size: small">
-            <a href="{Arris\AppRouter::getRouter('view.form.login')}" style="text-decoration: none; color: black;">©</a> Используемые технологии: Leaflet, 2ГИС, Дадата. Сделано в ООО &laquo;Психотроника&raquo;
+            <a href="{Arris\AppRouter::getRouter('view.admin.page.main')}" style="text-decoration: none; color: black;">©</a> Используемые технологии: Leaflet, 2ГИС, Дадата. Сделано в ООО &laquo;Психотроника&raquo;
         </span>
     </div>
 </section>

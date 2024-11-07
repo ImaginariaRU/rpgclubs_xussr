@@ -34,11 +34,6 @@
         textarea {
             resize: vertical;
         }
-        .g-recaptcha.error {
-            border: solid 2px #c64848;
-            padding: .2em;
-            width: 19em;
-        }
         .jGrowl .error {
             background-color: #FFF1C2;
             color: red;
@@ -52,7 +47,6 @@
         .invisible {
             display: none;
         }
-
         .flex-container {
             display: flex;
             justify-content: space-between; /* Устанавливает равномерное расстояние между кнопками */
@@ -246,8 +240,6 @@
                 {if $_auth.is_logged_in}
                     <button id="actor-parse-address" data-url="{Arris\AppRouter::getRouter('ajax.get_coords_by_address')}">Попытаться определить координаты и город по адресу</button>
                 {/if}
-                {*<button id="actor-resolve-city" data-url="{Arris\AppRouter::getRouter('ajax.get_city_by_coords')}" data-target="address_city">Определить по координатам город</button><br>*}
-
             </td>
         </tr>
 

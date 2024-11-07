@@ -1,3 +1,13 @@
+rpgclubs (1.1.25) stable; urgency=medium
+
+  * [R] RC
+  * [*] дополнено админ-меню
+  * [*] немного изменена карта ссылок
+  * [*] теперь при получении координат по адресу не заполняем город, если он известен
+  * [+] добавлены поля контактов (CRUD)
+
+ -- Karel Wintersky <karel.wintersky@yandex.ru>  Thu, 07 Nov 2024 17:49:59 +0300
+
 rpgclubs (1.1.23) stable; urgency=medium
 
   * [R] RC

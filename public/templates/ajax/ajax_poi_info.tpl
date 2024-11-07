@@ -33,4 +33,5 @@
         <a href="{$dataset.url_site}" target="_blank">{$dataset.url_site}</a>
     </div>
 </div>
+<span style="font-size: xx-small; float: left"><a href="{Arris\AppRouter::getRouter('form.add.ticket', [ 'id' => $dataset.id ])}" onclick="window.location.hash=''; return true;">Complain</a></span>
 <span style="font-size: xx-small; float: right">Escape - закрыть это окно</span>

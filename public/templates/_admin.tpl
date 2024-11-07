@@ -75,17 +75,21 @@
                 {if $inner_buttons}
                     {*рендер блока внутренних кнопок, заданных через хэлпер TemplateHelper*}
                     {foreach $inner_buttons as $button}
-                        <li>
-                            <button
-                                    type="button"
-                                    title="{$button.url}"
-                                    data-action="redirect"
-                                    data-url="{$button.url}"
-                                    {if $button.class}class="{$button.class}"{/if}
-                                    {if $button.disabled eq 'true'}disabled{/if}
-                            >{$button.text}
-                            </button>
-                        </li>
+                        {if empty($button)}
+                            <hr>
+                        {else}
+                            <li>
+                                <button
+                                        type="button"
+                                        title="{$button.url}"
+                                        data-action="redirect"
+                                        data-url="{$button.url}"
+                                        {if $button.class}class="{$button.class}"{/if}
+                                        {if $button.disabled eq 'true'}disabled{/if}
+                                >{$button.text}
+                                </button>
+                            </li>
+                        {/if}
                     {/foreach}
                 {/if}
             </ul>

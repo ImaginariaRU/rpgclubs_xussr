@@ -74,6 +74,7 @@ $(function (){
         }
     });
 }).on('click', '#actor-parse-address', function(event){
+    // Попытаться определить координаты и город по адресу. Но после загрузки данных из ВК заполнять город не нужно.
     // ajax.get_coords_by_address
     event.preventDefault();
     event.stopPropagation();
@@ -102,7 +103,6 @@ $(function (){
         },
         success: function (answer) {
             let data = answer.data;
-            console.log(data);
 
             if (answer['is_success']) {
                 $.jGrowl("Нам удалось определить координаты по адресу", {
@@ -114,7 +114,13 @@ $(function (){
                 });
                 $(`input[name="lat"]`).val(data['lat']);
                 $(`input[name="lng"]`).val(data['lng']);
-                $(`input[name="address_city"]`).val(data['city']);
+
+                let $address_city = $(`input[name="address_city"]`);
+
+                if ( $address_city.val().length == 0 ) {
+                    $address_city.val(data['city']);
+                }
+
                 $(`input[name="latlng"]`).val(`${ data['lat']}, ${ data['lng']}`);
 
             } else {
@@ -138,8 +144,7 @@ $(function (){
         }
     });
 
-
-
 }).on('submit', '#form_add_poi', function(event){
+    // тут можно было бы сделать проверки заполненности полей, но это потом
     return true;
 })
