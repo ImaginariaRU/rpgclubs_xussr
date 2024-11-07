@@ -1,3 +1,12 @@
+rpgclubs (1.2.0) stable; urgency=medium
+
+  * [R] Release
+  * [*] другая сортировка в списках POI
+  * [+] OpenGraph теги
+  * [+] показываем информационный блок при открытом window.location.hash
+
+ -- Karel Wintersky <karel.wintersky@yandex.ru>  Fri, 08 Nov 2024 02:19:34 +0300
+
 rpgclubs (1.1.25) stable; urgency=medium
 
   * [R] RC
