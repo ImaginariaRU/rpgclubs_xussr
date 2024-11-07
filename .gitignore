@@ -1,15 +1,12 @@
 .idea
-_old
-.config
-.config/config.ini
-.config/db.ini
-.config/phpauth.ini
-.config/*
 composer.lock
 public/scripts.js
 public/styles.css
+public/styles_tables.css
+public/jquery.min.js
 cache
 vendor
 node_modules
 ../credentials.md
+public/_version
 

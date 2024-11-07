@@ -23,10 +23,13 @@ class AjaxController extends \RPGCAtlas\AbstractClass
     public function view_poi_page($id)
     {
         $poi = (new POI())->getItem($id);
+        $is_colorbox = array_key_exists('mode', $_REQUEST) ? $_REQUEST['mode'] : 'infobox';
 
         $poi['title'] = htmlspecialchars($poi['title'], ENT_QUOTES | ENT_HTML5);
 
-        $this->template->assign('dataset', $poi);
+        $this->template->assign('poi', $poi);
+
+        // для $is_colorbox = 'colorbox' используем другой шаблон!
         $this->template->setTemplate("ajax/ajax_poi_info.tpl");
     }
 

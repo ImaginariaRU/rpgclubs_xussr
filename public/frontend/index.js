@@ -70,6 +70,15 @@
             window.location.hash = "#poi=" + data.id;
         });
 
+        let wlh = MapActions.wlhParseAction();
+        if (wlh) {
+            let id_region = wlh.id_region;
+            /*let bounds = poi_list[id_region].getBounds();
+            map.setView( bounds.getCenter(), map._zoom, { animate: true, duration: 1, noMoveStart: true} );*/
+            window.location.hash = '';
+            window.location.hash = "#poi=" + id_region;
+        }
+
         // openPlaceCardByWLH(map, items_list); // ONLOAD-анализ window.location.hash и показ модалки при необходимости
     }).on('click', 'a', function () {
         // все ссылки, ведущие вовне открывать в новой вкладке
@@ -90,7 +99,6 @@
 
         $("#section-infobox").hide();
         history.pushState('', document.title, window.location.pathname + window.location.search);
-        // document.title = `${__frontpage_title} ${__frontpage_title_mdash} ${__frontpage_title_sub}`;
         is_infobox_visible = 0;
 
     }).on('click', '#actor-infobox-close', function() {
@@ -98,7 +106,6 @@
         $("#section-infobox").hide();
         history.pushState('', document.title, window.location.pathname + window.location.search);
         is_infobox_visible = 0;
-        // document.title = `${__frontpage_title} ${__frontpage_title_mdash} ${__frontpage_title_sub}`;
 
     }).on('click', '#actor-list-popup', function () {
         let url = $(this).data('actor-url');
@@ -133,8 +140,10 @@
                 // map.addControl( new L.Control.AddInfoBox() );
             }
 
+            //@todo: подумать про показ инфо в колорбоксе с мобилы - меняется здесь. Это поведение нужно включать отдельной опцией
             // load POI content
-            MapActions.poiShowContent(id);
+            MapActions.poiShowContentInfobox(id);
+            // MapActions.poiShowContentColorbox(id);
 
             // focus
             map.setView([lat, lng], window.engine_options.zoom.close, { animate: true });

@@ -68,6 +68,18 @@ class MainController extends AbstractClass
             'total'     =>  count($poi_dataset),
             'visible'   =>  count( array_filter($poi_dataset, static function($row) { return !!$row['is_public']; }) )
         ]);
+
+        $this->template->assign("og", [
+            'url'           =>  "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/",
+            'type'          =>  'website',
+            'title'         =>  "РолевыеКлубы.рф",
+            'description'   =>  "Ролевые клубы на карте России и ближайшего зарубежья",
+            'image'         =>  "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/frontend/images/og_image.png",
+            'logo'          =>  "{$_SERVER['REQUEST_SCHEME']}://{$_SERVER['HTTP_HOST']}/frontend/images/og_image.png",
+            'site_name'     =>  "Ролевые клубы на карте России и ближайшего зарубежья",
+
+            'domain'        =>  $_SERVER['HTTP_HOST'],
+        ]);
     }
 
 }

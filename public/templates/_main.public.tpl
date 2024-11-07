@@ -14,9 +14,10 @@
     <meta name="copyright" content="{config key='application.meta.copyright'}">
     <meta name="language" content="RU">
     <meta name="robots" content="index,follow">
-    <meta name="revised" content="%%application_meta_revised%%">
+    {*<meta name="revised" content="%%application_meta_revised%%">*}
     <meta name="author" content="{config key='application.meta.author'}">
-    <meta name="url" content="">
+
+    {include file="_includes/opengraph.tpl"}
 
     <link href="https://fonts.googleapis.com/css?family=PT+Serif" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=PT+Sans" rel="stylesheet">
@@ -38,7 +39,8 @@
                 main: "{config key='application.meta.title'}",
                 sub: "{config key='application.meta.title_sub'}",
                 mdash: "—"
-            }
+            },
+            is_mobile: "{if $_config.features.is_mobile.device}1{else}0{/if}"
         };
 
         var poi_list = {
@@ -54,7 +56,7 @@
 {/foreach}
         };
 
-        var user_location = {
+        let user_location = {
             lat: {$location.ip_lat},
             lng: {$location.ip_lng},
             zoom: engine_options.zoom.default,
@@ -64,13 +66,13 @@
             city_lng: {$location.ip_lng}
         };
 
-        var map_provider = {
+        const map_provider = {
             "use": "{$map_provider.use}",
-            "href" : '{$map_provider.href}',
+            "href": '{$map_provider.href}',
             "attribution": '{$map_provider.attribution}',
-            "max_zoom" : "{$map_provider.zoom}",
+            "max_zoom": "{$map_provider.zoom}",
         };
-        var urls = {
+        window.urls = {
             'poi.get': '{Arris\AppRouter::getRouter('ajax.view.poi.info')}',
             'poi.list': '{Arris\AppRouter::getRouter('ajax.view.poi.list')}'
         };

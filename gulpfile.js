@@ -20,7 +20,8 @@ const gutil = require('gulp-util');
 const path = require("path");
 const fs = require("fs");
 const uglify = require("gulp-uglify"); //@todo: ВМЕСТО 'gulp-minify', который может не работать почему-то с какими-то файлами
-const cssmin = require('gulp-cssmin'); // https://www.npmjs.com/package/gulp-cssmin для минификации CSS, есть альтернатива - https://www.npmjs.com/package/gulp-clean-css (неясно отличие)
+const cssmin = require('gulp-cssmin');
+const replace = require("gulp-replace"); // https://www.npmjs.com/package/gulp-cssmin для минификации CSS, есть альтернатива - https://www.npmjs.com/package/gulp-clean-css (неясно отличие)
 
 const argv = require('minimist')(process.argv.slice(2));
 
@@ -75,6 +76,18 @@ const configuration = {
         },
     },
 };
+
+/*
+gulp.task('html', function () {
+    let content = fs.readFileSync("./public/_version", "utf8").split('\n');
+    let version = `Version ${content[1]}+${content[0]} (${content[2]})`;
+    console.log(version);
+
+    return gulp.src('./public/templates/_main.public.tpl')
+        .pipe(replace(/%%application_meta_revised%%/g, version))
+        .pipe(gulp.dest('./public/templates/_main.public.tpl'));
+});
+*/
 
 gulp.task('js', function () {
     return gulp.src(configuration.paths.js.src, { removeBOM: true, allowEmpty: true })
@@ -152,6 +165,8 @@ gulp.task("download:font:google", () => {
 });
 
 // алиасы для комплексных задач
-gulp.task('build', gulp.series('js', 'jquery', 'csstables','scss'));
+gulp.task('build', gulp.series('js', 'jquery', 'csstables','scss', /*'html'*/));
+
+gulp.task('test', gulp.series('html'));
 
 

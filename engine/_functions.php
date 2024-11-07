@@ -68,5 +68,5 @@ function input(string $key = '', string $default = ''):mixed
         return $_REQUEST;
     }
 
-    return $_REQUEST[$key] ?: $default;
+    return array_key_exists($key, $_REQUEST) ? $_REQUEST[$key] : $default;
 }

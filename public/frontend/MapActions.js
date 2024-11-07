@@ -1,6 +1,12 @@
 class MapActions {
 
-    static poiShowContent(id, target = "section-infobox") {
+    /**
+     * Open infobox content
+     *
+     * @param id
+     * @param target
+     */
+    static poiShowContentInfobox(id, target = "section-infobox") {
         let $target = $(`#${target}`);
         let url = window.urls['poi.get'] + id;
 
@@ -19,10 +25,24 @@ class MapActions {
         });
     }
 
+    /**
+     * Open colorbox
+     * @param id
+     */
+    static poiShowContentColorbox(id) {
+        let url = `${window.urls['poi.get']}${id}?mode=colorbox`;
+
+        $.colorbox({
+            href: url,
+            width: '60%',
+            height: '60%',
+        });
+    }
+
     static getUserGeoLocation() {
         if (document.location.protocol === 'https' && navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position){
-                let message = "Latitude: " + position.coords.latitude + " Longitude: " + position.coords.longitude;
+                let message = `Latitude: ${position.coords.latitude} Longitude: ${position.coords.longitude}`;
             });
         }
     }
@@ -176,4 +196,6 @@ class MapActions {
             window.location.hash = '';
         }
     }
+
+
 }
