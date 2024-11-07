@@ -30,6 +30,7 @@
             display: flex;
             flex-direction: column;
             border-right: 3px solid black;
+            margin-left: 12px;
         }
 
         #right-column {
@@ -75,8 +76,12 @@
                 {if $inner_buttons}
                     {*рендер блока внутренних кнопок, заданных через хэлпер TemplateHelper*}
                     {foreach $inner_buttons as $button}
-                        {if empty($button)}
-                            <hr>
+                        {if $button.type == 'hr' or empty($button)}
+                        <hr>
+                        {elseif $button.type == 'space'}
+                            <li>
+                                <button type="button" style="background-color:white; border:none; text-decoration: none" disabled>&nbsp;</button>
+                            </li>
                         {else}
                             <li>
                                 <button
@@ -85,11 +90,13 @@
                                         data-action="redirect"
                                         data-url="{$button.url}"
                                         {if $button.class}class="{$button.class}"{/if}
+                                        {if $button.style}style="{$button.style}"{/if}
                                         {if $button.disabled eq 'true'}disabled{/if}
                                 >{$button.text}
                                 </button>
                             </li>
                         {/if}
+
                     {/foreach}
                 {/if}
             </ul>

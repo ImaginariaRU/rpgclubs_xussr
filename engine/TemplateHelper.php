@@ -12,13 +12,6 @@ class TemplateHelper
     {
         self::$inner_buttons = [
             [
-                'text'      =>  'На карту',
-                'url'       =>  AppRouter::getRouter('view.main.page'),
-                'class'     =>  '',
-                'disabled'  =>  false
-            ],
-            [], // empty means separator
-            [
                 'text'      =>  'POI List',
                 'url'       =>  AppRouter::getRouter('view.poi.list'),
                 'class'     =>  '',
@@ -35,7 +28,18 @@ class TemplateHelper
                 'url'       =>  AppRouter::getRouter('view.ticket.list'),
                 'class'     =>  '',
                 'disabled'  =>  false
-            ]
+            ],
+            [
+                'style'     =>  "background-color:white; border:none; text-decoration: none",
+                'disabled'  =>  true
+            ],
+            [],
+            [
+                'text'      =>  'На карту',
+                'url'       =>  AppRouter::getRouter('view.main.page'),
+                'class'     =>  '',
+                'disabled'  =>  false
+            ],
         ];
     }
 

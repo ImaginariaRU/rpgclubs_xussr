@@ -124,6 +124,9 @@
     </table>
 </div>
 <div class="flex-container">
+    {if $_auth.is_logged_in}
+        <button class="flex-button" type="button" data-action="redirect" data-url="{Arris\AppRouter::getRouter('view.admin.page.main')}">В АДМИНКУ</button>
+    {/if}
     <button class="flex-button" type="button" data-action="redirect" data-url="{Arris\AppRouter::getRouter('view.main.page')}">К КАРТЕ</button>
 </div>
 

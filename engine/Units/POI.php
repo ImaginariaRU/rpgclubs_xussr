@@ -15,11 +15,14 @@ class POI extends AbstractClass
     /**
      * Возвращает массив точек интереса
      *
+     * @param bool $is_logged_in
+     *
      * @return array
      */
-    public function getList(bool $is_public = false)
+    public function getList(bool $is_logged_in = false): array
     {
-        $sub_query_public = $is_public ? "" : "AND is_public = 1";
+        $sub_query_public   = $is_logged_in ? "AND is_public = 1" : "";
+        $sub_query_order    = $is_logged_in ? "is_public DESC, dt_create DESC" : "address_city, title";
 
         $query = "
 SELECT * 
@@ -28,16 +31,13 @@ WHERE
       lat IS NOT NULL 
   AND lng IS NOT NULL
   {$sub_query_public}
-ORDER BY is_public DESC, address_city, title 
+ORDER BY {$sub_query_order} 
 ";
+
         $dataset = [];
 
         foreach ($this->pdo->query($query)->fetchAll() as &$row) {
             $row['coords'] = "{$row['lat']} / {$row['lng']}";
-
-            // еще нужно определить реального владельца по айди (id_owner)
-            //@todo: реальный владелец (для админа показывает логин владельца, для владельца - "Я"
-
             $dataset[ $row['id'] ] = $row;
         }
 
