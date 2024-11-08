@@ -40,7 +40,7 @@
 
 # jGrowl -> native JS
 
-
+https://notiflix.github.io/notify (и тоже как-то непонятно работает...)
 
 # Markers
 
