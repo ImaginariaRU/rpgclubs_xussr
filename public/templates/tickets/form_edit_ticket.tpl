@@ -72,13 +72,17 @@
         <tr>
             <td>POI id</td>
             <td>
-                <input type="text" value="{$item.id_poi}" name="id_poi">
+                <label>
+                    <input type="text" value="{$item.id_poi}" name="id_poi">
+                </label>
             </td>
         </tr>
         <tr>
             <td>Whoami</td>
             <td>
-                <input type="text" value="{$item.sender}" name="sender">
+                <label>
+                    <input type="text" value="{$item.sender}" name="sender">
+                </label>
             </td>
         </tr>
         <tr>
@@ -86,7 +90,9 @@
                 EMail
             </td>
             <td>
-                <input type="text" value="{$item.email}" name="email">
+                <label>
+                    <input type="text" value="{$item.email}" name="email">
+                </label>
             </td>
         </tr>
         <tr>
@@ -94,7 +100,9 @@
                 Info:
             </td>
             <td>
-                <textarea name="content" id="" cols="30" rows="10">{$item.content}</textarea>
+                <label>
+                    <textarea name="content" id="" cols="30" rows="10">{$item.content}</textarea>
+                </label>
             </td>
         </tr>
         <tr>

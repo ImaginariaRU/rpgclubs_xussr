@@ -52,10 +52,10 @@
     </style>
     <script>
         $(document).ready(function() {
-            const session_values = {$session|default:'{}'};
             const flash_messages = {$flash_messages|default:'[]'};
             NotifyBarHelper.notifyFlashMessages(flash_messages);
 
+            const session_values = {$session|default:'{}'};
             Object.keys(session_values).forEach(function (key) {
                 $(`[name='${ key }']`).val( session_values[key] );
             });
@@ -70,13 +70,17 @@
         <tr>
             <td>POI id</td>
             <td>
-                <input type="text" value="{$id_poi}" name="id_poi">
+                <label>
+                    <input type="text" value="{$id_poi}" name="id_poi">
+                </label>
             </td>
         </tr>
         <tr>
             <td>Whoami</td>
             <td>
-                <input type="text" value="" name="sender" required>
+                <label>
+                    <input type="text" value="" name="sender" required>
+                </label>
             </td>
         </tr>
         <tr>
@@ -84,7 +88,9 @@
                 EMail
             </td>
             <td>
-                <input type="text" value="" name="email" required>
+                <label>
+                    <input type="text" value="" name="email" required>
+                </label>
             </td>
         </tr>
         <tr>
@@ -92,7 +98,9 @@
                 Info:
             </td>
             <td>
-                <textarea name="content" id="" cols="30" rows="10" required></textarea>
+                <label>
+                    <textarea name="content" id="" cols="30" rows="10" required></textarea>
+                </label>
             </td>
         </tr>
 
@@ -102,8 +110,8 @@
                     Капча
                 </td>
                 <td>
-                    <img src="/kcaptcha.php" id="captcha" alt="captcha" onclick="$('#captcha').attr('src', '/kcaptcha.php?r='+Math.random()); return false;" ><br>
-                    <input type="text" name="captcha" class="small" id="captcha" tabindex="8" style="width: 120px; display: inline-block;" >
+                    <img width="120" height="60" src="/kcaptcha.php" id="captcha" alt="captcha" onclick="$('#captcha').attr('src', '/kcaptcha.php?r='+Math.random()); return false;" ><br>
+                    <label for="captcha"></label><input type="text" name="captcha" class="small" id="captcha" tabindex="8" style="width: 120px; display: inline-block;" >
                 </td>
             </tr>
             <tr>

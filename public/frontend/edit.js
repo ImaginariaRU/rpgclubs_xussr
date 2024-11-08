@@ -4,7 +4,7 @@
 $(function (){
     $(`input[name='owner_email']`).focus();
 }).on('click', '#actor-resolve-city', function(event) {
-    // определить по координатам город
+    // определить по координатам город (не используем)
 
     event.preventDefault();
     event.stopPropagation();
@@ -112,6 +112,7 @@ $(function (){
                     theme: 'success',
                     speed: 'slow'
                 });
+
                 $(`input[name="lat"]`).val(data['lat']);
                 $(`input[name="lng"]`).val(data['lng']);
 
