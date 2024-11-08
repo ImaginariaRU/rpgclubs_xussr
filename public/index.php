@@ -2,6 +2,7 @@
 
 use Arris\AppLogger;
 use Arris\AppRouter;
+use Arris\Exceptions\AppRouterNotFoundException;
 use Dotenv\Dotenv;
 use RPGCAtlas\App;
 use RPGCAtlas\Common;
@@ -16,7 +17,11 @@ if (!session_id()) @session_start();
 error_reporting(E_ERROR & ~E_NOTICE & ~E_DEPRECATED);
 
 try {
+    if (!is_file(__DIR__ . '/../vendor/autoload.php')) {
+        throw new RuntimeException("[FATAL ERROR] No 3rd-party libraries installed.");
+    }
     require_once __DIR__ . '/../vendor/autoload.php';
+
     Dotenv::createUnsafeImmutable(PATH_ENV, ['site.conf'])->load();
 
     App::factory();
@@ -123,11 +128,30 @@ try {
     App::$template->assign('message', $e->getMessage());
     App::$template->setTemplate("_errors/403.tpl");
 
-} catch (\RuntimeException|\Exception $e) {
-    \Arris\Util\Debug::dump($e);
-    d($_REQUEST);
-    d($_SERVER['REQUEST_URI']);
-    dd($e);
+} catch (AppRouterNotFoundException $e) {
+
+    AppLogger::scope('main')->notice("AppRouter::NotFound", [$e->getMessage(), $e->getInfo()]);
+    http_response_code(404);
+
+    App::$template->setTemplate("_errors/404.tpl");
+    App::$template->assign("message", $e->getMessage());
+
+}catch (\RuntimeException|\Exception $e) {
+    AppLogger::scope('main')->notice("Runtime Error", [ $e->getMessage() ] );
+    http_response_code(500);
+    App::$template->setTemplate("_errors/500.tpl");
+    App::$template->assign("message", $e->getMessage());
+
+    if (getenv('IS.PRODUCTION') == 0) {
+        echo "<h1>(RUNTIME) EXCEPTION</h1>";
+        echo "<h3>_REQUEST</h3>";
+        d($_REQUEST);
+        echo "<h3>REQUEST_URI</h3>";
+        d($_SERVER['REQUEST_URI']);
+        echo "<h3>EXCEPTION DUMP</h3>";
+        \Arris\Util\Debug::ddt($e->getTrace());
+        dd($e);
+    }
 }
 
 $render = App::$template->render();
@@ -145,3 +169,4 @@ if (App::$template->isRedirect()) {
     App::$template->makeRedirect();
 }
 
+# -eof- #

@@ -62,8 +62,7 @@
             layer_ows.addLayer(marker);
         });
 
-        // по onClick меняем window.location.hash
-        // его изменение ловится ниже
+        // по onClick меняем window.location.hash -- его изменение ловится ниже
         layer_ows.on('click', function (owner) {
             let data = owner.layer.options.data;
 
@@ -73,8 +72,8 @@
         let wlh = MapActions.wlhParseAction();
         if (wlh) {
             let id_region = wlh.id_region;
-            /*let bounds = poi_list[id_region].getBounds();
-            map.setView( bounds.getCenter(), map._zoom, { animate: true, duration: 1, noMoveStart: true} );*/
+            // писать код открытия окна - долго и муторно, мы просто сбрасываем WLH и ставим обратно,
+            // инициируя событие, которое ловит код ниже
             window.location.hash = '';
             window.location.hash = "#poi=" + id_region;
         }
@@ -142,6 +141,7 @@
 
             //@todo: подумать про показ инфо в колорбоксе с мобилы - меняется здесь. Это поведение нужно включать отдельной опцией
             // load POI content
+
             MapActions.poiShowContentInfobox(id);
             // MapActions.poiShowContentColorbox(id);
 

@@ -94,11 +94,11 @@ class App extends \Arris\App
         AppLogger::addScope('main');
 
         AppLogger::addScope('auth', [
-            [ '__auth.log', AppLogger\Monolog\Logger::NOTICE ]
+            [ 'auth.log', AppLogger\Monolog\Logger::NOTICE ]
         ]);
 
         AppLogger::addScope('site_usage', [
-            [ '__site_usage.log', AppLogger\Monolog\Logger::NOTICE]
+            [ 'site_usage.log', AppLogger\Monolog\Logger::NOTICE]
         ]);
     }
 
@@ -121,8 +121,7 @@ class App extends \Arris\App
             ->setCompileDir( config('smarty.path_cache') )
             ->setForceCompile( config('smarty.force_compile') )
             ->registerPlugin( Template::PLUGIN_MODIFIER, 'dd', 'dd', false)
-            // ->registerPlugin( Template::PLUGIN_MODIFIER, 'size_format', 'size_format', false)
-            // ->registerPlugin( Template::PLUGIN_MODIFIER, "convertDateTime", [ \RPGCAtlas\Common::class, "convertDateTimeRU" ])
+            ->registerPlugin( Template::PLUGIN_MODIFIER, "convertDateTime", [ \RPGCAtlas\Common::class, "convertDateTimeRU" ])
 
             // {_env key='' default=100};
             ->registerPlugin(Template::PLUGIN_FUNCTION, "_env", static function($params)
@@ -162,8 +161,8 @@ class App extends \Arris\App
             'username'          =>  getenv('DB.USERNAME'),
             'password'          =>  getenv('DB.PASSWORD'),
             'port'              =>  getenv('DB.PORT'),
-            'charset'           =>  'utf8',
-            'charset_collate'   =>  'utf8_general_ci',
+            'charset'           =>  getenv('DB.CHARSET'),
+            'charset_collate'   =>  getenv('DB.COLLATE'),
             'slow_query_threshold'  => 1
         ];
         config('db_credentials', $db_credentials);
