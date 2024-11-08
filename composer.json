@@ -12,6 +12,7 @@
         "php": "^8",
         "ext-pdo": "*",
         "ext-json": "*",
+        "ext-intl": "*",
         "karelwintersky/arris": "^2.12",
         "karelwintersky/arris.helpers": "^0.6.0",
         "karelwintersky/arris.logger": "^1.99",

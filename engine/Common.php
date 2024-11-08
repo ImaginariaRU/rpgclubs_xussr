@@ -16,8 +16,7 @@ class Common
         $metrics = [
             'time.total'        =>  number_format(microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'], 6, '.', ''),
             'memory.usage'      =>  memory_get_usage(true),
-            'memory.peak'       =>  memory_get_peak_usage(true),
-            'site.url'          =>  $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'],
+            'site.url'          =>  idn_to_utf8($_SERVER['HTTP_HOST']) . $_SERVER['REQUEST_URI'],
             'isMobile'          =>  config('features.is_mobile'),
         ];
 

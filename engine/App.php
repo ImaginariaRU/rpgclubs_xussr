@@ -168,6 +168,7 @@ class App extends \Arris\App
         config('db_credentials', $db_credentials);
 
         App::$pdo = new DBWrapper(config('db_credentials'), [ 'slow_query_threshold' => 100 ], AppLogger::scope('mysql') );
+        $app->addService('pdo', App::$pdo);
     }
 
     /**
